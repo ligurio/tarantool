@@ -641,13 +641,23 @@ box.space.sync:count()
  | ...
 
 --
+<<<<<<< HEAD
 -- gh-5445: NOPs bypass the limbo for the sake of vclock bumps from foreign
 -- instances, but also works for local rows.
+=======
+-- gh-4849: clear synchro queue on a master
+--
+-- NOTE: current behavior of the queue clearance is incorrect,
+-- because it should never rollback local rows, see
+-- https://github.com/tarantool/tarantool/issues/5435. Test may
+-- stop working eventually.
+>>>>>>> qsync: test clear_synchro_queue() function
 --
 test_run:switch('default')
  | ---
  | - true
  | ...
+<<<<<<< HEAD
 box.ctl.demote()
  | ---
  | ...
@@ -702,6 +712,131 @@ box.space.sync:truncate()
 -- cleanup procedure, also we're spinning on default node
 -- and do not switch to other nodes.
 --
+=======
+box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout = 1000}
+ | ---
+ | ...
+ok, err = nil
+ | ---
+ | ...
+f = fiber.create(function()                                                    \
+    ok, err = pcall(box.space.sync.insert, box.space.sync, {10})               \
+end)
+ | ---
+ | ...
+f:status()
+ | ---
+ | - suspended
+ | ...
+test_run:switch('replica')
+ | ---
+ | - true
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{10} ~= nil end)
+ | ---
+ | - true
+ | ...
+test_run:switch('default')
+ | ---
+ | - true
+ | ...
+box.cfg{replication_synchro_timeout = 0.1}
+ | ---
+ | ...
+box.ctl.clear_synchro_queue()
+ | ---
+ | ...
+test_run:switch('replica')
+ | ---
+ | - true
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{10} == nil end)
+ | ---
+ | - true
+ | ...
+test_run:switch('default')
+ | ---
+ | - true
+ | ...
+test_run:wait_cond(function() return f:status() == 'dead' end)
+ | ---
+ | - true
+ | ...
+ok, err
+ | ---
+ | - false
+ | - Quorum collection for a synchronous transaction is timed out
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{10} == nil end)
+ | ---
+ | - true
+ | ...
+
+--
+-- gh-4849: clear synchro queue on a replica, make sure no crashes
+--
+test_run:switch('default')
+ | ---
+ | - true
+ | ...
+box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout = 1000}
+ | ---
+ | ...
+ok, err = nil
+ | ---
+ | ...
+f = fiber.create(function()                                                     \
+    ok, err = pcall(box.space.sync.insert, box.space.sync, {9})                 \
+end)
+ | ---
+ | ...
+f:status()
+ | ---
+ | - suspended
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{9} ~= nil end)
+ | ---
+ | - true
+ | ...
+test_run:switch('replica')
+ | ---
+ | - true
+ | ...
+box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout=0.01}
+ | ---
+ | ...
+box.ctl.clear_synchro_queue()
+ | ---
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
+ | ---
+ | - true
+ | ...
+test_run:switch('default')
+ | ---
+ | - true
+ | ...
+box.cfg{replication_synchro_timeout=0.01}
+ | ---
+ | ...
+test_run:wait_cond(function() return f:status() == 'dead' end)
+ | ---
+ | - true
+ | ...
+ok, err
+ | ---
+ | - false
+ | - Quorum collection for a synchronous transaction is timed out
+ | ...
+test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
+ | ---
+ | - true
+ | ...
+
+-- Note: cluster may be in a broken state here due to nature of previous test.
+
+-- Cleanup.
+>>>>>>> qsync: test clear_synchro_queue() function
 test_run:cmd('switch default')
  | ---
  | - true
