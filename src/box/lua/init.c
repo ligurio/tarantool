@@ -432,8 +432,10 @@ luamp_decode_extension_box(struct lua_State *L, const char **data)
 	uint32_t len = mp_decode_extl(data, &ext_type);
 
 	if (ext_type != MP_ERROR) {
-		luaL_error(L, "Unsupported MsgPack extension type: %d",
-			   ext_type);
+		assert(len != 0);
+		const char *str = *data;
+		*data += len;
+		lua_pushlstring(L, str, len);
 		return;
 	}
 
