@@ -3,7 +3,13 @@ local fiber = require('fiber')
 local tap = require('tap')
 local test = tap.test("cfg")
 
-test:plan(11)
+test:plan(12)
+
+--
+-- gh-4849: clear synchro queue is null with unconfigured box
+--
+local ok, err = pcall(box.ctl.clear_synchro_queue(), nil)
+test:isnil(ok, 'execute clear_synchro_queue with unconfigured box')
 
 --
 -- gh-4282: box.cfg should not allow nor just ignore nil UUID.
