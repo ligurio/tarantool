@@ -43,7 +43,7 @@ math.randomseed(os.time())
  | ...
 function random(excluded_num, total)                                           \
     local r = math.random(1, total)                                            \
-    if (r == excluded_num) then                                                \
+    if r == excluded_num then                                                  \
         return random(excluded_num, total)                                     \
     end                                                                        \
     return r                                                                   \
@@ -104,12 +104,10 @@ for i=1,30 do                                                                  \
         "box.cfg{replication_synchro_quorum=3, replication_synchro_timeout=0.01}") \
     test_run:eval(SERVERS[new_leader_id], "box.ctl.clear_synchro_queue()")     \
     c:close()                                                                  \
+    test_run:wait_cond(function() return test_run:eval(SERVERS[new_leader_id], \
+                       string.format("box.space.sync:get{%d}", i))[1] ~= nil end)  \
     replica = random(new_leader_id, #SERVERS)                                  \
-    test_run:wait_cond(function() return test_run:eval(SERVERS[replica],       \
-                       string.format("box.space.sync:get{%d}", i))[1] ~= nil end)  \
-    test_run:wait_cond(function() return test_run:eval(SERVERS[current_leader_id], \
-                       string.format("box.space.sync:get{%d}", i))[1] ~= nil end)  \
-    new_leader_id = random(current_leader_id, #SERVERS)                        \
+    test_run:wait_lsn(SERVERS[replica], SERVERS[new_leader_id])                \
     current_leader_id = new_leader_id                                          \
 end
  | ---

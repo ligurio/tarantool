@@ -25,6 +25,7 @@ box.cfg({
     replication_synchro_timeout = 1000,
     replication_synchro_quorum = 5,
     read_only = false,
+    memtx_use_mvcc_engine = true,
 })
 
 box.once("bootstrap", function()

@@ -2,15 +2,9 @@ env = require('test_run')
 test_run = env.new()
 engine = test_run:get_cfg('engine')
 fiber = require('fiber')
-math = require('math')
 
 orig_synchro_quorum = box.cfg.replication_synchro_quorum
 orig_synchro_timeout = box.cfg.replication_synchro_timeout
-
-math.randomseed(os.time())
-function random_boolean()                                                      \
-    return math.random(1, 10) > 5                                              \
-end
 
 box.schema.user.grant('guest', 'replication')
 
@@ -23,16 +17,14 @@ test_run:cmd('start server replica with wait=True, wait_load=True')
 -- Testcase setup.
 _ = box.schema.space.create('sync', {is_sync=true, engine=engine})
 _ = box.space.sync:create_index('pk')
-box.cfg{replication_synchro_quorum=2, replication_synchro_timeout=1000}
 
 -- Testcase body.
 for i = 1,100 do                                                               \
-    box.space.sync:alter{is_sync=random_boolean()}                             \
-    box.space.sync:insert{i}                                                   \
-    test_run:switch('replica')                                                 \
-    test_run:wait_cond(function() return box.space.sync:get{i} ~= nil end)     \
-    test_run:switch('default')                                                 \
-    test_run:wait_cond(function() return box.space.sync:get{i} ~= nil end)     \
+    box.cfg{replication_synchro_quorum=3, replication_synchro_timeout=1000}    \
+    fiber.create(function() box.space.sync:insert{i} end)                      \
+    mode = not box.space.sync.is_sync                                          \
+    fiber.create(function() box.space.sync:alter{is_sync=mode} end)            \
+    box.cfg{replication_synchro_quorum=2, replication_synchro_timeout=0.1}     \
 end
 box.space.sync:count() -- 100
 
