@@ -19,12 +19,15 @@ _ = box.schema.space.create('sync', {is_sync=true, engine=engine})
 _ = box.space.sync:create_index('pk')
 
 -- Testcase body.
+--box.ctl.promote()
 for i = 1,100 do                                                               \
     box.cfg{replication_synchro_quorum=3, replication_synchro_timeout=1000}    \
-    fiber.create(function() box.space.sync:insert{i} end)                      \
+    f1 = fiber.create(function() box.space.sync:insert{i} end)                 \
     mode = not box.space.sync.is_sync                                          \
-    fiber.create(function() box.space.sync:alter{is_sync=mode} end)            \
-    box.cfg{replication_synchro_quorum=2, replication_synchro_timeout=0.1}     \
+    f2 = fiber.create(function() box.space.sync:alter{is_sync=mode} end)       \
+    box.cfg{replication_synchro_quorum=2, replication_synchro_timeout=0.01}    \
+    test_run:wait_cond(function() return f1:status() == 'dead' end)            \
+    test_run:wait_cond(function() return f2:status() == 'dead' end)            \
 end
 box.space.sync:count() -- 100
 

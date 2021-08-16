@@ -288,7 +288,7 @@ box.space.sync:truncate()
 -- https://github.com/tarantool/tarantool/issues/5435. Test may
 -- stop working eventually.
 --
---[[
+
 test_run:switch('default')
 box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout = 1000}
 ok, err = nil
@@ -300,7 +300,7 @@ test_run:switch('replica')
 test_run:wait_cond(function() return box.space.sync:get{10} ~= nil end)
 test_run:switch('default')
 box.cfg{replication_synchro_timeout = 0.1}
-box.ctl.clear_synchro_queue()
+box.ctl.promote()
 test_run:switch('replica')
 test_run:wait_cond(function() return box.space.sync:get{10} == nil end)
 test_run:switch('default')
@@ -321,7 +321,7 @@ f:status()
 test_run:wait_cond(function() return box.space.sync:get{9} ~= nil end)
 test_run:switch('replica')
 box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout=0.01}
-box.ctl.clear_synchro_queue()
+box.ctl.promote()
 test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
 test_run:switch('default')
 box.cfg{replication_synchro_timeout=0.01}
@@ -330,7 +330,6 @@ ok, err
 test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
 
 -- Note: cluster may be in a broken state here due to nature of previous test.
-]]
 
 -- Cleanup.
 test_run:cmd('switch default')

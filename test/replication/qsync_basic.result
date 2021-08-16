@@ -641,23 +641,13 @@ box.space.sync:count()
  | ...
 
 --
-<<<<<<< HEAD
 -- gh-5445: NOPs bypass the limbo for the sake of vclock bumps from foreign
 -- instances, but also works for local rows.
-=======
--- gh-4849: clear synchro queue on a master
---
--- NOTE: current behavior of the queue clearance is incorrect,
--- because it should never rollback local rows, see
--- https://github.com/tarantool/tarantool/issues/5435. Test may
--- stop working eventually.
->>>>>>> qsync: test clear_synchro_queue() function
 --
 test_run:switch('default')
  | ---
  | - true
  | ...
-<<<<<<< HEAD
 box.ctl.demote()
  | ---
  | ...
@@ -712,7 +702,19 @@ box.space.sync:truncate()
 -- cleanup procedure, also we're spinning on default node
 -- and do not switch to other nodes.
 --
-=======
+
+-- gh-4849: clear synchro queue on a master
+--
+-- NOTE: current behavior of the queue clearance is incorrect,
+-- because it should never rollback local rows, see
+-- https://github.com/tarantool/tarantool/issues/5435. Test may
+-- stop working eventually.
+--
+
+test_run:switch('default')
+ | ---
+ | - true
+ | ...
 box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout = 1000}
  | ---
  | ...
@@ -743,7 +745,7 @@ test_run:switch('default')
 box.cfg{replication_synchro_timeout = 0.1}
  | ---
  | ...
-box.ctl.clear_synchro_queue()
+box.ctl.promote()
  | ---
  | ...
 test_run:switch('replica')
@@ -805,12 +807,13 @@ test_run:switch('replica')
 box.cfg{replication_synchro_quorum = 3, replication_synchro_timeout=0.01}
  | ---
  | ...
-box.ctl.clear_synchro_queue()
+box.ctl.promote()
  | ---
+ | - error: 'Couldn''t wait for quorum 3: timeout after 0.01 seconds, collected 1 acks'
  | ...
 test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
  | ---
- | - true
+ | - false
  | ...
 test_run:switch('default')
  | ---
@@ -836,7 +839,6 @@ test_run:wait_cond(function() return box.space.sync:get{9} == nil end)
 -- Note: cluster may be in a broken state here due to nature of previous test.
 
 -- Cleanup.
->>>>>>> qsync: test clear_synchro_queue() function
 test_run:cmd('switch default')
  | ---
  | - true
