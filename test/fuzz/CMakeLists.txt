@@ -53,10 +53,19 @@ target_link_libraries(datetime_strptime_fuzzer PUBLIC core fuzzer_config)
 add_executable(mp_datetime_fuzzer mp_datetime_fuzzer.c)
 target_link_libraries(mp_datetime_fuzzer PUBLIC core fuzzer_config)
 
+add_subdirectory(lua51)
+set(LUA51_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/test/fuzz/lua51)
+set(LUA51_LIBRARIES ${PROJECT_BINARY_DIR}/test/fuzz/lua51/libliblua51.so)
+add_executable(luaL_loadbuffer_fuzzer luaL_loadbuffer.c)
+target_link_libraries(luaL_loadbuffer_fuzzer PUBLIC ${LUAJIT_LIBRARIES} ${LUA51_LIBRARIES} fuzzer_config)
+target_include_directories(luaL_loadbuffer_fuzzer PUBLIC ${LUAJIT_INCLUDE_DIRS} ${LUA51_INCLUDE_DIR})
+add_dependencies(luaL_loadbuffer_fuzzer libluajit liblua51)
+
 set(fuzzing_binaries csv_fuzzer
                      datetime_parse_full_fuzzer
                      datetime_strptime_fuzzer
                      http_parser_fuzzer
+                     luaL_loadbuffer_fuzzer
                      mp_datetime_fuzzer
                      swim_proto_member_fuzzer
                      swim_proto_meta_fuzzer
