@@ -173,6 +173,9 @@ extern char session_lua[],
 	metrics_tarantool_lua[],
 	metrics_utils_lua[],
 	metrics_version_lua[],
+#if ENABLE_CONF_SOURCE_ETCD
+	conf_source_etcd_lua[],
+#endif
 	conf_source_yaml_file_lua[],
 	conf_source_env_lua[],
 	conf_section_config_lua[],
@@ -356,6 +359,10 @@ static const char *lua_sources[] = {
 	"conf.source.env", conf_source_env_lua,
 	"lua/conf/conf/source/yaml_file",
 	"conf.source.yaml_file", conf_source_yaml_file_lua,
+#if ENABLE_CONF_SOURCE_ETCD
+	"lua/conf_source_etcd",
+	"conf.source.etcd", conf_source_etcd_lua,
+#endif
 	"lua/conf/conf/mainloop",
 	"conf.mainloop", conf_mainloop_lua,
 	"lua/conf/init",

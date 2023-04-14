@@ -103,6 +103,10 @@ lua_source(lua_sources lua/conf/conf/mainloop.lua conf_mainloop_lua)
 lua_source(lua_sources lua/conf/conf/utils/schema.lua conf_utils_schema_lua)
 lua_source(lua_sources lua/conf/conf/source/env.lua conf_source_env_lua)
 lua_source(lua_sources lua/conf/conf/source/yaml_file.lua conf_source_yaml_file_lua)
+if(ENABLE_CONF_SOURCE_ETCD)
+    lua_source(lua_sources ${CONF_SOURCE_ETCD_LUA_SOURCE} conf_source_etcd_lua)
+endif()
+
 # 3rd party lua sources
 lua_source(lua_sources ../third_party/luafun/fun.lua fun_lua)
 lua_source(lua_sources ../third_party/lua/luadebug.lua luadebug_lua)
