@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local ffi      = require('ffi')
 local fio      = require('fio')

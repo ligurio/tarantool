@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local tap = require('tap')
 local test = tap.test("fail_main")
@@ -15,7 +15,7 @@ local function run_script(code)
     script:write(code)
     script:close()
     local output_file = fio.pathjoin(fio.cwd(), 'out.txt')
-    local cmd = [[/bin/sh -c 'cd "%s" && "%s" ./script.lua 0> %s 2> %s']]
+    local cmd = [[/bin/sh -c 'cd "%s" && "%s" --script ./script.lua 0> %s 2> %s']]
     local code = os.execute(
         string.format(cmd, dir, tarantool_bin, output_file, output_file)
     )

@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local process_timeout = require('process_timeout')
 local ffi = require('ffi')

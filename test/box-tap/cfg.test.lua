@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local tap = require('tap')
 local test = tap.test('cfg')
@@ -170,7 +170,7 @@ local function run_script(code)
     script:write(code)
     script:write("\nos.exit(0)")
     script:close()
-    local cmd = [[/bin/sh -c 'cd "%s" && "%s" ./script.lua 2> /dev/null']]
+    local cmd = [[/bin/sh -c 'cd "%s" && "%s" --script ./script.lua 2> /dev/null']]
     local res = os.execute(string.format(cmd, dir, tarantool_bin))
     fio.rmtree(dir)
     return res

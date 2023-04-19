@@ -61,7 +61,7 @@ g.test_initializing = function(g)
     local scripts = {'override/socket.lua', 'main.lua'}
     local replacements = {module_name = 'socket'}
     local dir = treegen.prepare_directory(g, scripts, replacements)
-    local res = justrun.tarantool(dir, {}, {'main.lua'})
+    local res = justrun.tarantool(dir, {}, {'--script', 'main.lua'})
     local exp = expected_output('socket')
     t.assert_equals(res, exp)
 end

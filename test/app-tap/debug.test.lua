@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local TNTBIN = 'tarantool'
 
@@ -74,7 +74,7 @@ if not dirstat then
 end
 assert(dirstat:is_dir(), dirname..' must be a directory')
 
-local cmd = TNTBIN..' '..filename
+local cmd = TNTBIN..' --script '..filename
 print('======================================')
 print('When running lua code from script file')
 print('======================================')

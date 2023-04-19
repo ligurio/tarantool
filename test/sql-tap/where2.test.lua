@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local test = require("sqltester")
 local ffi = require("ffi")
 test:plan(64)

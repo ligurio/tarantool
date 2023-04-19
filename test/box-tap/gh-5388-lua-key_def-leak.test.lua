@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 -- The issue (gh-5388) is about a leak of the tuple, serialized
 -- from a given key in the key_def:compare_with_key(tuple, key)

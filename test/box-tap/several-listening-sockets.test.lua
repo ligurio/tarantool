@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local tap = require('tap')
 local net_box = require('net.box')
 local os = require('os')

@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 --
 -- Test suite for The Test Anything Protocol module implemented

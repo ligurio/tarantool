@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local fio = require('fio')
 
 -- Execute errinj_set_with_enviroment_vars_script.lua
@@ -21,7 +21,7 @@ local path_to_test_file = fio.pathjoin(
         os.getenv('PWD'),
         'box-tap',
         'errinj_set_with_enviroment_vars_script.lua')
-local shell_command = ('%s %s %s'):format(
+local shell_command = ('%s %s --script %s'):format(
                 set_env_str,
                 TARANTOOL_PATH,
                 path_to_test_file)

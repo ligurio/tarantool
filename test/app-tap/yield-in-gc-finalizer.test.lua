@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 if #arg == 0 then
   local tap = require('tap')
@@ -8,7 +8,7 @@ if #arg == 0 then
 
   -- XXX: Shell argument <test> is necessary to differ test case
   -- from the test runner.
-  local cmd = string.gsub('<LUABIN> 2>/dev/null <SCRIPT> test', '%<(%w+)>', {
+  local cmd = string.gsub('<LUABIN> 2>/dev/null --script <SCRIPT> test', '%<(%w+)>', {
     LUABIN = arg[-1],
     SCRIPT = arg[0],
   })

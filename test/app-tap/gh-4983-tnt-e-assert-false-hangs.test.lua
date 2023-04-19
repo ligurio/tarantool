@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 -- Using io.popen and self written module process_timeout
 -- in presence of the 'popen' built-in module because the

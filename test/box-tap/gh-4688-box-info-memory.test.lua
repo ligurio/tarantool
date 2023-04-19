@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 --
 -- gh-4688: box.info:memory() displayed full content of box.info

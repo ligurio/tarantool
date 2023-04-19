@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 --
 -- gh-5632, gh-6050, gh-6259: Lua code should not use any global buffers or

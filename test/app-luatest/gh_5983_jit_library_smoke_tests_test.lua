@@ -26,7 +26,7 @@ g.before_each(function()
 end)
 
 g.test_jit_dump = function()
-    local result = justrun(rundir, {},  {'script.lua'}, {nojson = true})
+    local result = justrun(rundir, {},  {'--script', 'script.lua'}, {nojson = true})
     local needle = table.concat({
         '---- TRACE 1 start',
         '---- TRACE 1 IR',

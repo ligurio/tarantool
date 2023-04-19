@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local test = require('tap').test('gh-5130')
 local log = require('log')

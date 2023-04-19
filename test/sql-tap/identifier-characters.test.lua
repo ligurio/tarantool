@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local test = require("sqltester")
 local identifier = require("identifier")
 test:plan(9)

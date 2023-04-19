@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 -- vim: set ft=lua :
 
 -- see https://github.com/tarantool/tarantool/issues/583

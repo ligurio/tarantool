@@ -87,7 +87,7 @@ for _, case in ipairs({
         -- If we would run tarantool from inside the application
         -- directory, the module would be found just because it is
         -- in the current directory.
-        local res = justrun.tarantool('/', {}, {main_script})
+        local res = justrun.tarantool('/', {}, {'--script', main_script})
         local exp = expected_output(module_relpath, module_name)
         t.assert_equals(res, exp)
     end

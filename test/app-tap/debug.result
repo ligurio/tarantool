@@ -41,7 +41,7 @@ Exec: tarantool -e "print(loadstring('local res = debug.sourcedir(); return res'
 ======================================
 When running lua code from script file
 ======================================
-Exec: tarantool debug/test.lua
+Exec: tarantool --script debug/test.lua
 ==============================
 Source: print(debug.sourcefile())
 debug/test.lua

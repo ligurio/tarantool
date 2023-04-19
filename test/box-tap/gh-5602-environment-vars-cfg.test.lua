@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local os = require('os')
 local fio = require('fio')
@@ -17,7 +17,7 @@ local path_to_script = fio.pathjoin(
 -- Generate a shell command like
 -- `FOO=x BAR=y /path/to/tarantool /path/to/script.lua 42`.
 local function shell_command(case, i)
-    return ('%s %s %s %d'):format(
+    return ('%s %s --script %s %d'):format(
         case,
         TARANTOOL_PATH,
         path_to_script,

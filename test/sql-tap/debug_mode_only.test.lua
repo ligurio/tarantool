@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 -- This file contains testcases which can only be valudated in debug mode.
 local test = require("sqltester")
 test:plan(30)

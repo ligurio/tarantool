@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local test = require("sqltester")
 test:plan(21157)
 -- it is bad idea to store 20k positive test results in git

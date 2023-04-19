@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local tarantool = require('tarantool')
 local test = require('tap').test("info")

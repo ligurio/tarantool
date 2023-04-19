@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 --
 -- pr-3204: expose space_mt, index_mt into box.schema.
 --

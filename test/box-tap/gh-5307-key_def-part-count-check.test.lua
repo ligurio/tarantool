@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local tap = require('tap')
 local mytest = tap.test('key_def part count tests')

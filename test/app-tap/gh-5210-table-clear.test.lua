@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 
 local tap = require('tap')
 local test = tap.test('gh-5210-table-clear')

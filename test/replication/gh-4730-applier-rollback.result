@@ -1,5 +1,5 @@
 -- test-run result file version 2
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
  | ---
  | ...
 --

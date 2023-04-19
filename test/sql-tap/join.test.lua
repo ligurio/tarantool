@@ -1,4 +1,4 @@
-#!/usr/bin/env tarantool
+#!/usr/bin/env -S tarantool --script
 local test = require("sqltester")
 local NULL = require('msgpack').NULL
 test:plan(92)

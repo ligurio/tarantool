@@ -29,7 +29,7 @@ g.test_newmodule_panic = function(g)
     ]])
     treegen.write_script(dir, 'main.lua', '')
     local opts = {nojson = true, stderr = true}
-    local res = justrun.tarantool(dir, {}, {'main.lua'}, opts)
+    local res = justrun.tarantool(dir, {}, {'--script', 'main.lua'}, opts)
     t.assert_equals(res, {
         exit_code = 1,
         stderr = 'luaT_newmodule(box): the module is already registered',
