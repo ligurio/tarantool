@@ -659,9 +659,10 @@ main(int argc, char **argv)
 	static struct option longopts[] = {
 		{"help", no_argument, 0, 'h'},
 		{"version", no_argument, 0, 'v'},
+		{"script", required_argument, 0, 's'},
 		{NULL, 0, 0, 0},
 	};
-	static const char *opts = "+hVvb::ij:e:l:d";
+	static const char *opts = "+hVvb::ij:e:l:d:s::";
 
 	int ch;
 	bool lj_arg = false;
@@ -674,6 +675,19 @@ main(int argc, char **argv)
 		case 'h':
 			print_help(basename(argv[0]));
 			return 0;
+		case 's':
+			if (optarg == NULL) {
+				printf("script path is required\n");
+				return -1;
+			}
+			if (strcmp(optarg, "-") &&
+			    access(optarg, R_OK) != 0) {
+				printf("script file '%s' is not accessible\n", optarg);
+				return -1;
+			}
+			script = strdup(optarg);
+			optind--;
+			break;
 		case 'i':
 			/* Force interactive mode */
 			opt_mask |= O_INTERACTIVE;
