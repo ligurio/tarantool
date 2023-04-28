@@ -618,12 +618,13 @@ print_help(const char *program)
 {
 	puts("Tarantool - a Lua application server");
 	puts("");
-	printf("Usage: %s script.lua [OPTIONS] [SCRIPT [ARGS]]\n", program);
+	printf("Usage: %s [OPTIONS] [--script SCRIPT [ARGS]]\n", program);
 	puts("");
 	puts("All command line options are passed to the interpreted script.");
 	puts("When no script name is provided, the server responds to:");
 	puts("  -h, --help\t\t\tdisplay this help and exit");
 	puts("  -v, --version\t\t\tprint program version and exit");
+	puts("  -s, --script <path>\t\tset a path to a Lua script file");
 	puts("  -e EXPR\t\t\texecute string 'EXPR'");
 	puts("  -l NAME\t\t\trequire library 'NAME'");
 	puts("  -j cmd\t\t\tperform LuaJIT control command");
@@ -737,26 +738,6 @@ main(int argc, char **argv)
 	argc = 1 + (argc - optind);
 	for (int i = 1; i < argc; i++)
 		argv[i] = argv[optind + i - 1];
-	/*
-	 * The corresponding check is omitted for `O_BYTECODE`
-	 * since it is present in `bcsave.lua` module, which
-	 * performs the bytecode dump.
-	 */
-	if (!(opt_mask & O_BYTECODE) && argc > 1 &&
-	    strcmp(argv[1], "-") && access(argv[1], R_OK) != 0) {
-		/*
-		 * Somebody made a mistake in the file
-		 * name. Be nice: open the file to set
-		 * errno.
-		 */
-		int fd = open(argv[1], O_RDONLY);
-		int save_errno = errno;
-		if (fd >= 0)
-			close(fd);
-		printf("Can't open script %s: %s\n",
-		       argv[1], tt_strerror(save_errno));
-		return save_errno;
-	}
 
 	argv = title_init(argc, argv);
 	/*
@@ -773,12 +754,8 @@ main(int argc, char **argv)
 	const char *tarantool_bin = find_path(argv[0]);
 	if (!tarantool_bin)
 		tarantool_bin = argv[0];
-	if (argc > 1) {
-		argv++;
-		argc--;
-		script = argv[0];
+	if (script)
 		title_set_script_name(argv[0]);
-	}
 	strlcpy(tarantool_path, tarantool_bin, sizeof(tarantool_path));
 	if (strlen(tarantool_path) < strlen(tarantool_bin))
 		panic("executable path is trimmed");

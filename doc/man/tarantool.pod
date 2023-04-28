@@ -63,6 +63,10 @@ Display the help screen and exit.
 
 Print the program version and exit.
 
+=item -s, --script
+
+Set a path to a Lua script file.
+
 =item -e EXRP
 
 Execute the string 'EXPR'.
