@@ -75,6 +75,10 @@ Require the library 'NAME'.
 
 Enter the interactive mode after executing 'SCRIPT'.
 
+=item -r
+
+Enter the interactive mode after executing 'SCRIPT'.
+
 =item --
 
 Stop handling options.

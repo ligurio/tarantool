@@ -630,6 +630,7 @@ print_help(const char *program)
 	puts("  -b ...\t\t\tsave or list bytecode");
 	puts("  -d\t\t\t\tactivate debugging session for 'SCRIPT'");
 	puts("  -i\t\t\t\tenter interactive mode after executing 'SCRIPT'");
+	puts("  -r, --repl\t\t\tenter interactive mode after executing 'SCRIPT'");
 	puts("  --\t\t\t\tstop handling options");
 	puts("  -\t\t\t\texecute stdin and stop handling options");
 	puts("");
@@ -660,9 +661,10 @@ main(int argc, char **argv)
 		{"help", no_argument, 0, 'h'},
 		{"version", no_argument, 0, 'v'},
 		{"script", required_argument, 0, 's'},
+		{"repl", required_argument, 0, 'r'},
 		{NULL, 0, 0, 0},
 	};
-	static const char *opts = "+hVvb::ij:e:l:d:s::";
+	static const char *opts = "+hVvb::rij:e:l:d:s::";
 
 	int ch;
 	bool lj_arg = false;
@@ -688,6 +690,7 @@ main(int argc, char **argv)
 			script = strdup(optarg);
 			optind--;
 			break;
+		case 'r':
 		case 'i':
 			/* Force interactive mode */
 			opt_mask |= O_INTERACTIVE;
