@@ -4,6 +4,7 @@
  * Copyright 2022, Tarantool AUTHORS, please see AUTHORS file.
  */
 #include "serializer.h"
+#include <random>
 
 static inline std::string
 RemoveLeadingNumbers(const std::string &s)
@@ -47,11 +48,14 @@ clamp(double number, double upper, double lower)
 static inline std::string
 ConvertToStringDefault(const std::string &s)
 {
+	// auto rnd = std::rand() % 100;
 	std::string ident = RemoveLeadingNumbers(s);
 	ident = clamp(ClearNonIdentifierSymbols(ident));
 	if (ident.empty())
 		return std::string(kDefaultIdent);
+		//return std::string(kDefaultIdent) + std::to_string(rnd);
 	return ident;
+	//return ident + std::to_string(rnd);
 }
 
 PROTO_TOSTRING(Block, block)
@@ -335,6 +339,7 @@ PROTO_TOSTRING(Function, func)
 NESTED_PROTO_TOSTRING(FuncName, funcname, Function)
 {
 	std::string funcname_str = NameToString(funcname.firstname());
+	// TODO: don't duplicate funcname's, otherwise it will be a recursive call.
 
 	for (int i = 0; i < funcname.names_size(); ++i)
 		funcname_str += "." + NameToString(funcname.names(i));
@@ -391,6 +396,9 @@ NESTED_PROTO_TOSTRING(ParList, parlist, FuncBody)
  */
 PROTO_TOSTRING(LocalFunc, localfunc)
 {
+	// TODO: create a mapping FuncName and a number of it's usages.
+	// Use existed FuncName's when number of usages are equal to zero.
+	// Otherwise create a new one.
 	std::string localfunc_str = "local function " + NameToString(
 		localfunc.name());
 	localfunc_str += " " + FuncBodyToString(localfunc.funcbody());
@@ -696,5 +704,8 @@ PROTO_TOSTRING(UnaryOperator, op)
 PROTO_TOSTRING(Name, name)
 {
 	std::string ident = ConvertToStringDefault(name.name());
-	return ident + std::to_string(name.num() % kMaxIdentifiers);
+	//  TODO:
+	//return ident + std::to_string(name.num() % kMaxIdentifiers);
+	auto rnd = std::rand() % 100;
+	return ident + std::to_string(rnd);
 }

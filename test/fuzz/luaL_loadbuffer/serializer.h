@@ -30,7 +30,7 @@ using namespace lua_grammar;
 constexpr double kMaxNumber = 1000.0;
 constexpr double kMinNumber = -1000.0;
 constexpr size_t kMaxStrLength = 20;
-constexpr size_t kMaxIdentifiers = 10;
+constexpr size_t kMaxIdentifiers = 100;
 constexpr char kDefaultIdent[] = "Name";
 
 PROTO_TOSTRING(Block, block);
