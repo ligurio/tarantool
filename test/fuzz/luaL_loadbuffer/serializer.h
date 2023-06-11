@@ -19,6 +19,10 @@ using namespace lua_grammar;
 
 /**
  * Fuzzing parameters:
+ * kMaxCounterValue - value used in the condition `if counter > kMaxCounterValue
+ * then break end` or, in functions, `if counter > kMaxCounterValue then
+ * return end`. It is used to prevent serealized code from encountering infinite
+ * recursions and cycles.
  * kMaxNumber - upper bound for all generated numbers.
  * kMinNumber - lower bound for all generated numbers.
  * kMaxStrLength - upper bound for generating string literals and identifiers.
@@ -27,11 +31,15 @@ using namespace lua_grammar;
  * Default values were chosen arbitrary but not too big for better readability
  * of generated code samples.
  */
+constexpr std::size_t kMaxCounterValue = 5;
 constexpr double kMaxNumber = 1000.0;
 constexpr double kMinNumber = -1000.0;
 constexpr size_t kMaxStrLength = 20;
 constexpr size_t kMaxIdentifiers = 10;
 constexpr char kDefaultIdent[] = "Name";
+
+std::string
+MainBlockToString(const Block &block);
 
 PROTO_TOSTRING(Block, block);
 PROTO_TOSTRING(Chunk, chunk);
