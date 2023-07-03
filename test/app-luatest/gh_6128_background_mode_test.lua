@@ -22,6 +22,7 @@ local function check_err_msg(file, msg)
     local f = fio.open(file, {'O_RDONLY', 'O_NONBLOCK'})
     t.assert_not_equals(f, nil)
     local content = f:read(2048)
+    print(content)
     f:close()
     return (string.match(content, msg) and true) or false
 end
@@ -91,6 +92,7 @@ g.before_test("test_background_mode_env_vars", function()
         env = env,
     })
     t.assert_is_not(g.ph, nil)
+    print("XXXXXXXXXXXXXXXXXXXX", g.log_path)
     t.helpers.retrying({timeout = 2, delay = 0.01}, function(path)
         assert(fio.path.exists(path) == true)
     end, g.log_path)
