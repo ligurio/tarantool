@@ -12,6 +12,25 @@ extern "C"
 #include <libprotobuf-mutator/src/libfuzzer/libfuzzer_macro.h>
 
 /**
+ * LibFuzzer uses an option rss_limit_mb for setting a maximum limit of RSS.
+ * Default value is 2048 Mb.
+ */
+#define LIBFUZZER_RSS_LIMIT 2147483648
+/**
+ * Number of simultaneous worker processes to run the jobs.
+ * If zero, `min(jobs, NumberOfCpuCores() / 2) is used.
+ */
+#define LIBFUZZER_WORKERS 10
+#define LIBFUZZER_JOBS 10
+
+/* Struct with a Lua and Lua allocator states. */
+typedef struct {
+	lua_State *L;
+	lua_Alloc old_alloc;
+	void *state;
+} alloc_state;
+
+/**
  * Get an error message from the stack, and report it to std::cerr.
  * Remove the message from the stack.
  */
@@ -26,6 +45,25 @@ report_error(lua_State *L, const std::string &prefix)
 	/* Pop error message from stack. */
 	lua_pop(L, 1);
 	std::cerr << prefix << " error: " << err_str << std::endl;
+}
+
+void *
+l_alloc(void *ud, void *ptr, size_t osize, size_t nsize) {
+	alloc_state *as = (alloc_state *)ud;
+	int heap_size_kb = lua_gc(as->L, LUA_GCCOUNT, 0);
+	/* We are interested in a new allocations only. */
+	if (nsize > osize && heap_size_kb >= 0) {
+		size_t new_mem_size = nsize - osize;
+		size_t heap_size = heap_size_kb * 1024;
+		int rss_per_worker = LIBFUZZER_RSS_LIMIT / LIBFUZZER_WORKERS;
+		if (heap_size + new_mem_size >= (size_t)rss_per_worker) {
+			printf("ALLOC: heap_size + new_mem_size %lu >= %d\n", heap_size + new_mem_size, rss_per_worker);
+			return NULL;
+		}
+	}
+
+	lua_Alloc old_alloc = as->old_alloc;
+	return old_alloc(as->state, ptr, osize, nsize);
 }
 
 DEFINE_PROTO_FUZZER(const lua_grammar::Block &message)
