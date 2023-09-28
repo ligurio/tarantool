@@ -111,6 +111,10 @@ DEFINE_PROTO_FUZZER(const lua_grammar::Block &message)
 	if (!L)
 		return;
 
+	struct luam_Sysprof_Options opt = {};
+	opt.mode = LUAM_SYSPROF_DEFAULT;
+	opt.interval = 25;
+
 	std::string code = luajit_fuzzer::MainBlockToString(message);
 
 	if (::getenv("LPM_DUMP_NATIVE_INPUT") && code.size() != 0) {
@@ -133,6 +137,10 @@ DEFINE_PROTO_FUZZER(const lua_grammar::Block &message)
 		goto end;
 	}
 
+	/* Profiler staring. */
+	int status = luaM_sysprof_start(L, &opt);
+	assert(status == PROFILE_SUCCESS);
+
 	/*
 	 * Using lua_pcall (protected call) to catch errors due to
 	 * wrong semantics of some generated code chunks.
@@ -142,6 +150,10 @@ DEFINE_PROTO_FUZZER(const lua_grammar::Block &message)
 	 */
 	if (lua_pcall(L, 0, 0, 0) != LUA_OK)
 		report_error(L, "lua_pcall()");
+
+	/* Profiler stopping. */
+	status = luaM_sysprof_stop(L);
+	assert(status == PROFILE_SUCCESS);
 
 end:
 	metrics.total_num++;
