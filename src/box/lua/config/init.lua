@@ -739,7 +739,7 @@ function methods._reload_noexc(self, opts)
     end
     if self._status == 'startup_in_progress' or
         self._status == 'reload_in_progress' then
-        return false, 'config:reload(): instance configuration is already in '..
+        return false, 'config:reload(): instance configuration is already in ' ..
             'progress'
     end
     self._status = 'reload_in_progress'

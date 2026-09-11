@@ -1047,8 +1047,8 @@ local function sync_credentials_worker()
         config._aboard:set({
             type = 'warn',
             message = 'credentials: the database schema has an old version ' ..
-                      'and users/roles/privileges cannot be applied. '..
-                      'Consider executing box.schema.upgrade() to perform an '..
+                'and users/roles/privileges cannot be applied. ' ..
+                'Consider executing box.schema.upgrade() to perform an ' ..
                 'upgrade.'
         }, {key = not_upgraded_alert_key})
 

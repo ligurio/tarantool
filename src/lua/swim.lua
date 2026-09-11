@@ -171,7 +171,7 @@ local function swim_check_uri(value, func_name)
     if type(value) == 'number' then
         return tostring(value)
     end
-    return error(func_name..': expected string URI or port number')
+    return error(func_name .. ': expected string URI or port number')
 end
 
 --
@@ -192,7 +192,7 @@ local function swim_check_timeout(value, func_name, param_name)
         return -1
     end
     if type(value) ~= 'number' then
-        return error(func_name..': expected number '..param_name)
+        return error(func_name .. ': expected number ' .. param_name)
     end
     return value
 end
@@ -215,7 +215,7 @@ local function swim_check_gc_mode(value, func_name)
     elseif value == 'off' then
         return capi.SWIM_GC_OFF
     else
-        return error(func_name..': unknown gc_mode')
+        return error(func_name .. ': unknown gc_mode')
     end
 end
 
@@ -236,11 +236,11 @@ local function swim_check_uuid(value, func_name)
         if ffi.istype('struct tt_uuid', value) then
             return value
         end
-        return error(func_name..': expected string UUID or struct tt_uuid')
+        return error(func_name .. ': expected string UUID or struct tt_uuid')
     end
     value = uuid.fromstr(value)
     if not value then
-        return error(func_name..': invalid UUID')
+        return error(func_name .. ': invalid UUID')
     end
     return value
 end
@@ -261,11 +261,11 @@ end
 --
 local function swim_check_const_char(value, size, func_name, param_name)
     if size ~= nil and type(size) ~= 'number' then
-        return error(func_name..': expected number '..param_name..' size')
+        return error(func_name .. ': expected number ' .. param_name .. ' size')
     end
     if type(value) == 'cdata' then
         if not size then
-            return error(func_name..': size is mandatory for cdata '..
+            return error(func_name .. ': size is mandatory for cdata ' ..
                 param_name)
         end
         value = ffi.cast('const char *', value)
@@ -273,12 +273,12 @@ local function swim_check_const_char(value, size, func_name, param_name)
         if not size then
             size = value:len()
         elseif size > value:len() then
-            return error(func_name..': explicit '..param_name..
+            return error(func_name .. ': explicit ' .. param_name ..
                 ' size > string length')
         end
     elseif value == nil then
         if size then
-            return error(func_name..': size can not be set without '..
+            return error(func_name .. ': size can not be set without ' ..
                 param_name)
         end
         size = 0
@@ -305,7 +305,7 @@ local function swim_check_instance(s, func_name)
             return ptr
         end
     end
-    return error(func_name..': first argument is not a SWIM instance')
+    return error(func_name .. ': first argument is not a SWIM instance')
 end
 
 --
@@ -318,7 +318,7 @@ local function swim_check_member(m, func_name)
             return ptr
         end
     end
-    return error(func_name..': first argument is not a SWIM member')
+    return error(func_name .. ': first argument is not a SWIM member')
 end
 
 local function swim_check_event(event, func_name)
@@ -328,7 +328,7 @@ local function swim_check_event(event, func_name)
             return value
         end
     end
-    return error(func_name..': first argument is not a SWIM event')
+    return error(func_name .. ': first argument is not a SWIM event')
 end
 
 --
@@ -577,7 +577,7 @@ local function swim_add_member(s, cfg)
     local func_name = 'swim:add_member'
     local ptr = swim_check_instance(s, func_name)
     if type(cfg) ~= 'table' then
-        return error(func_name..': expected table member definition')
+        return error(func_name .. ': expected table member definition')
     end
     local uri = swim_check_uri(cfg.uri, func_name)
     local uuid = swim_check_uuid(cfg.uuid, func_name)
@@ -615,7 +615,7 @@ local function swim_broadcast(s, port)
             port = tonumber(port)
         end
         if type(port) ~= 'number' then
-            return error(func_name..': expected number port')
+            return error(func_name .. ': expected number port')
         end
     end
     if capi.swim_broadcast(ptr, port) ~= 0 then
@@ -691,11 +691,11 @@ local function swim_set_codec(s, cfg)
     local func_name = 'swim:set_codec'
     local ptr = swim_check_instance(s, func_name)
     if type(cfg) ~= 'table' then
-        error(func_name..': expected table codec configuration')
+        error(func_name .. ': expected table codec configuration')
     end
     local algo = crypto.cipher_algo[cfg.algo]
     if algo == nil then
-        error(func_name..': unknown crypto algorithm')
+        error(func_name .. ': unknown crypto algorithm')
     end
     local mode = cfg.mode
     if mode == nil then
@@ -703,7 +703,7 @@ local function swim_set_codec(s, cfg)
     else
         mode = crypto.cipher_mode[mode]
         if mode == nil then
-            error(func_name..': unknown crypto algorithm mode')
+            error(func_name .. ': unknown crypto algorithm mode')
         end
     end
     local key, key_size =
@@ -905,11 +905,11 @@ local function swim_cfg_call(c, s, cfg)
     local func_name = 'swim:cfg'
     local ptr = swim_check_instance(s, func_name)
     if type(cfg) ~= 'table' then
-        return error(func_name..': expected table configuration')
+        return error(func_name .. ': expected table configuration')
     end
     for k in pairs(cfg) do
         if not swim_cfg_options[k] then
-            return error(func_name..': unknown option '..k)
+            return error(func_name .. ': unknown option ' .. k)
         end
     end
     local uri = swim_check_uri(cfg.uri, func_name)

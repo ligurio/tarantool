@@ -104,7 +104,7 @@ end
 -- be recovered normally.
 local function get_snapshot_version(snap_dir)
     local snap_pattern = fio.pathjoin(snap_dir,
-                                      string.rep('[0-9]', 20)..'.snap')
+        string.rep('[0-9]', 20) .. '.snap')
     local snap_list = fio.glob(snap_pattern)
     table.sort(snap_list)
     local snap = snap_list[#snap_list]
@@ -119,7 +119,7 @@ local function get_snapshot_version(snap_dir)
             if tuple and tuple[1] == 'version' then
                 version = box.internal.version_from_tuple(tuple)
                 if not version then
-                    log.error("Corrupted version tuple in space '_schema' "..
+                    log.error("Corrupted version tuple in space '_schema' " ..
                         "in snapshot '%s': %s ", snap, tuple)
                 end
                 break
@@ -1237,14 +1237,14 @@ local function function_access()
         local func = _func.index['name']:get(name)
         if func ~= nil and func.setuid ~= 0 then
             local id = func[1]
-            log.info('remove old function "'..name..'"')
+            log.info('remove old function "' .. name .. '"')
             _priv:delete({2, 'function', id})
             _func:delete({id})
-            log.info('create function "'..name..'" with unset setuid')
+            log.info('create function "' .. name .. '" with unset setuid')
             local new_func = func:update({{'=', 4, 0}, {'=', 18, datetime},
                 {'=', 19, datetime}})
             _func:replace(new_func)
-            log.info('grant execute on function "'..name..'" to public')
+            log.info('grant execute on function "' .. name .. '" to public')
             _priv:replace{ADMIN, PUBLIC, 'function', id, box.priv.X}
         end
     end
@@ -1616,7 +1616,7 @@ local function schema_trig_last(_, tuple)
     if tuple and tuple[1] == 'version' then
         local version = box.internal.version_from_tuple(tuple)
         if version then
-            log.info("Recovery trigger: recovered schema version %s. "..
+            log.info("Recovery trigger: recovered schema version %s. " ..
                 "Removing outdated recovery triggers.", version)
             box.internal.clear_recovery_triggers(version)
             trig_oldest_version = version
@@ -1633,7 +1633,7 @@ local function on_init_set_recovery_triggers()
         if trig_tbl.version > trig_oldest_version then
             for space, trig in pairs(trig_tbl.tbl) do
                 box.space[space]:before_replace(trig)
-                log.info("Set recovery trigger on space '%s' to comply with "..
+                log.info("Set recovery trigger on space '%s' to comply with " ..
                     "version %s format", space, trig_tbl.version)
             end
         end

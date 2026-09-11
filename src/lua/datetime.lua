@@ -374,7 +374,7 @@ local function interval_decode_args(obj)
     local count_usec = bool2int(nsec ~= nil) + bool2int(usec ~= nil) +
         bool2int(msec ~= nil)
     if count_usec > 1 then
-        error('only one of nsec, usec or msecs may be defined '..
+        error('only one of nsec, usec or msecs may be defined ' ..
             'simultaneously', 3)
     end
     nsec = (msec or 0) * 1e6 + (usec or 0) * 1e3 + (nsec or 0)
@@ -564,7 +564,7 @@ local function extract_obj_nsec(obj)
         bool2int(msec ~= nil)
     if count_usec > 0 then
         if count_usec > 1 then
-            error('only one of nsec, usec or msecs may be defined '..
+            error('only one of nsec, usec or msecs may be defined ' ..
                 'simultaneously', 3)
         end
         if usec ~= nil then
@@ -619,7 +619,7 @@ local function extract_obj_epoch_and_update_nsec(obj, ymd, hms, nsec, from_set)
     if nsec == nil then
         nsec = fraction * 1e9
     elseif fraction ~= 0 then
-        error('only integer values allowed in timestamp '..
+        error('only integer values allowed in timestamp ' ..
             'if nsec, usec, or msecs provided', 3)
     end
 
@@ -1203,7 +1203,7 @@ ffi.metatype(datetime_t, {
 
 local function interval_totable(self)
     if not is_interval(self) then
-        return error(("interval.totable(): expected interval, but received "..
+        return error(("interval.totable(): expected interval, but received " ..
             type(self)), 2)
     end
     local adjust = {'excess', 'none', 'last'}

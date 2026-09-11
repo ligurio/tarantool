@@ -515,7 +515,7 @@ end
 local function check_call_args(args)
     if args ~= nil and type(args) ~= 'table' and
         not msgpack.is_object(args) then
-        error("Use remote:call(func_name, {arg1, arg2, ...}, opts) "..
+        error("Use remote:call(func_name, {arg1, arg2, ...}, opts) " ..
             "instead of remote:call(func_name, arg1, arg2, ...)")
     end
 end
@@ -523,7 +523,7 @@ end
 local function check_eval_args(args)
     if args ~= nil and type(args) ~= 'table' and
         not msgpack.is_object(args) then
-        error("Use remote:eval(expression, {arg1, arg2, ...}, opts) "..
+        error("Use remote:eval(expression, {arg1, arg2, ...}, opts) " ..
             "instead of remote:eval(expression, arg1, arg2, ...)")
     end
 end

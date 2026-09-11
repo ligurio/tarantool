@@ -79,7 +79,7 @@ local function vshard_since_apply_default_if(_data, w)
     if not ok then
         return false
     end
-    return not expression.eval('v < '..w.schema.vshard_since,
+    return not expression.eval('v < ' .. w.schema.vshard_since,
         {v = vshard.consts.VERSION})
 end
 
@@ -151,7 +151,7 @@ local function find_password(self, iconfig, username)
     -- Find a user definition in the config.
     local user_def = self:get(iconfig, 'credentials.users.' .. username)
     if user_def == nil then
-        error(('Cannot find user %s in the config to use its password in a '..
+        error(('Cannot find user %s in the config to use its password in a ' ..
             'replication peer URI'):format(username), 0)
     end
 

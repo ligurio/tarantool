@@ -29,8 +29,8 @@ local function tutorial_call(self, action)
     elseif type(action) == 'number' and action % 1 == 0 then
         screen_id = tonumber(action)
     elseif action ~= nil then
-        error('Usage: tutorial("start" | "next" | "prev" | 1 .. '..
-            #doc.tutorial..')')
+        error('Usage: tutorial("start" | "next" | "prev" | 1 .. ' ..
+            #doc.tutorial .. ')')
     end
     if screen_id < 1 then
         screen_id = 1

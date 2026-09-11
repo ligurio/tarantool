@@ -72,7 +72,7 @@ local function fail(test, message, extra)
 end
 
 local function skip(test, message, extra)
-    ok(test, true, message.." # skip", extra)
+    ok(test, true, message .. " # skip", extra)
 end
 
 local function cmpdeeply(got, expected, extra)

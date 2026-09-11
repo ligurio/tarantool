@@ -713,7 +713,7 @@ local function validate_failover_config(instances, failover_config)
 
     local function verify_instance_in_replicaset(instance_name, replicaset_name)
         if instances[instance_name] == nil then
-            error(('instance %s from replicaset %s specified in the '..
+            error(('instance %s from replicaset %s specified in the ' ..
                     'failover.replicasets section doesn\'t exist')
                 :format(instance_name, replicaset_name), 0)
         end
@@ -730,7 +730,7 @@ local function validate_failover_config(instances, failover_config)
 
     for replicaset_name, replicaset in pairs(failover_config.replicasets) do
         if replicasets[replicaset_name] == nil then
-            error(('replicaset %s specified in the failover configuration '..
+            error(('replicaset %s specified in the failover configuration ' ..
                 'doesn\'t exist'):format(replicaset_name), 0)
         end
 
@@ -1113,8 +1113,8 @@ local function new(iconfig, cconfig, instance_name)
     local bootstrap_leader = found.replicaset.bootstrap_leader
     if bootstrap_strategy ~= 'config' then
         if bootstrap_leader ~= nil then
-            error(('The "bootstrap_leader" option cannot be set for '..
-                   'replicaset %q because "bootstrap_strategy" for instance '..
+            error(('The "bootstrap_leader" option cannot be set for ' ..
+                'replicaset %q because "bootstrap_strategy" for instance ' ..
                 '%q is not "config"'):format(found.replicaset_name,
                 instance_name), 0)
         end
@@ -1125,7 +1125,7 @@ local function new(iconfig, cconfig, instance_name)
     else
         if peers[bootstrap_leader] == nil then
             error(('"bootstrap_leader" = %q option is set for replicaset %q ' ..
-                   'of group %q, but instance %q is not found in this '..
+                'of group %q, but instance %q is not found in this ' ..
                 'replicaset'):format(bootstrap_leader, found.replicaset_name,
                 found.group_name, bootstrap_leader), 0)
         end

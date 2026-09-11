@@ -600,7 +600,7 @@ box.schema.space.alter = function(space_id, options)
     utils.box_check_configured(2)
     local space = box.space[space_id]
     if not space then
-        box.error(box.error.NO_SUCH_SPACE, '#'..tostring(space_id), 2)
+        box.error(box.error.NO_SUCH_SPACE, '#' .. tostring(space_id), 2)
     end
     check_param_table(options, alter_space_template, 2)
 
@@ -1276,7 +1276,7 @@ box.schema.index.create = atomic_wrapper(function(space_id, name, options)
     check_param_table(options, create_index_template, 2)
     local space = box.space[space_id]
     if not space then
-        box.error(box.error.NO_SUCH_SPACE, '#'..tostring(space_id), 2)
+        box.error(box.error.NO_SUCH_SPACE, '#' .. tostring(space_id), 2)
     end
     local format = space:format()
 
@@ -1371,7 +1371,7 @@ box.schema.index.create = atomic_wrapper(function(space_id, name, options)
         local field_type = part.type:lower()
         part.type = field_type_aliases[field_type] or field_type
         if field_type == 'num' then
-            log.warn("field type '%s' is deprecated since Tarantool 1.7, "..
+            log.warn("field type '%s' is deprecated since Tarantool 1.7, " ..
                 "please use '%s' instead", field_type, part.type)
         end
     end
@@ -1445,7 +1445,7 @@ end
 box.schema.index.alter = atomic_wrapper(function(space_id, index_id, options)
     local space = box.space[space_id]
     if space == nil then
-        box.error(box.error.NO_SUCH_SPACE, '#'..tostring(space_id), 2)
+        box.error(box.error.NO_SUCH_SPACE, '#' .. tostring(space_id), 2)
     end
     if space.index[index_id] == nil then
         box.error(box.error.NO_SUCH_INDEX_ID, index_id, space.name, 2)

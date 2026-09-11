@@ -448,7 +448,7 @@ fio.copytree = function(from, to)
             end
             _, reason = fio.symlink(link_to, fto)
             if reason ~= nil then
-                return false, "can't create symlink in place of existing file "..fto
+                return false, "can't create symlink in place of existing file " .. fto
             end
         end
     end

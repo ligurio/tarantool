@@ -81,7 +81,7 @@ local function iconv_new(to, from)
     end
     local iconv = ffi.C.tnt_iconv_open(to, from)
     if iconv == conv_rv_error then
-        error('iconv: '..errno.strerror())
+        error('iconv: ' .. errno.strerror())
     end
     ffi.gc(iconv, ffi.C.tnt_iconv_close)
     return iconv;

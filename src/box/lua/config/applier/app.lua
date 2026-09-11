@@ -74,7 +74,7 @@ local function run(config, opts)
         end
 
         local fn = assert(loadfile(path))
-        log.verbose('app.run: loading '..file)
+        log.verbose('app.run: loading ' .. file)
         fn(file)
 
         if metadata['early_load'] and app_state.early_loaded == nil then
@@ -118,7 +118,7 @@ local function run(config, opts)
             return
         end
 
-        log.verbose('app.run: loading '..module)
+        log.verbose('app.run: loading ' .. module)
         require(module)
 
         if metadata['early_load'] and app_state.early_loaded == nil then

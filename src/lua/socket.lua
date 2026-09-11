@@ -1583,9 +1583,9 @@ local function lsocket_tcp_receive(self, pattern, prefix)
             return nil, socket_error(self)
         elseif #data < pattern then
             -- eof
-            return nil, 'closed', prefix..data
+            return nil, 'closed', prefix .. data
         else
-            return prefix..data
+            return prefix .. data
         end
     elseif pattern == "*l" or pattern == nil then
         data = read(self, LIMIT_INFINITY, timeout, check_delimiter, {"\n"})
@@ -1593,10 +1593,10 @@ local function lsocket_tcp_receive(self, pattern, prefix)
             return nil, socket_error(self)
         elseif #data > 0 and data:byte(#data) == 10 then
             -- remove '\n'
-            return prefix..data:sub(1, #data - 1)
+            return prefix .. data:sub(1, #data - 1)
         else
             -- eof
-            return nil, 'closed', prefix..data
+            return nil, 'closed', prefix .. data
         end
     elseif pattern == "*a" then
         local result = {prefix}

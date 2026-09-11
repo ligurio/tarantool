@@ -249,7 +249,7 @@ end
 
 -- Just a syntactic sugar over say routine.
 local function say_closure(self, lvl)
-    return function (fmt, ...)
+    return function(fmt, ...)
         say(self, lvl, fmt, ...)
     end
 end

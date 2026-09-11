@@ -334,7 +334,7 @@ for class, digest in pairs(digests) do
     }, {
         __call = function(self, str)
             if type(str) ~= 'string' then
-                error("Usage: digest."..class.."(string)")
+                error("Usage: digest." .. class .. "(string)")
             end
             local ctx = digest_new(digest)
             ctx:update(str)
@@ -357,7 +357,7 @@ for class, digest in pairs(hmacs) do
     }, {
         __call = function(self, key, str)
             if type(str) ~= 'string' then
-                error("Usage: hmac."..class.."(key, string)")
+                error("Usage: hmac." .. class .. "(key, string)")
             end
             local ctx = hmac_new(class, digest, key)
             ctx:update(str)
@@ -368,7 +368,7 @@ for class, digest in pairs(hmacs) do
     })
     hmac_api[class .. '_hex'] = function(key, str)
         if type(str) ~= 'string' then
-            error("Usage: hmac."..class.."_hex(key, string)")
+            error("Usage: hmac." .. class .. "_hex(key, string)")
         end
         return string.hex(hmac_api[class](key, str))
     end

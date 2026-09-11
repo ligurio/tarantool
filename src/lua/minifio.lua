@@ -25,7 +25,7 @@ function minifio.pathjoin(...)
     while i <= len do
         local sp = select(i, ...)
         if sp == nil then
-            error("fio.pathjoin(): undefined path part "..i, 0)
+            error("fio.pathjoin(): undefined path part " .. i, 0)
         end
 
         sp = tostring(sp)
@@ -45,7 +45,7 @@ function minifio.pathjoin(...)
     while i <= len do
         local sp = select(i, ...)
         if sp == nil then
-            error("fio.pathjoin(): undefined path part "..i, 0)
+            error("fio.pathjoin(): undefined path part " .. i, 0)
         end
 
         sp = tostring(sp)

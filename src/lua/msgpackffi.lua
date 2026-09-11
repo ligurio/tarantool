@@ -348,12 +348,12 @@ local function encode_r(buf, obj, level, trace_level)
             fun(buf, obj)
         else
             box.error(box.error.PROC_LUA,
-                      "can not encode FFI type: '"..ffi.typeof(obj).."'",
+                "can not encode FFI type: '" .. ffi.typeof(obj) .. "'",
                 trace_level and trace_level + 1)
         end
     else
         box.error(box.error.PROC_LUA,
-                  "can not encode Lua type: '"..type(obj).."'",
+            "can not encode Lua type: '" .. type(obj) .. "'",
             trace_level and trace_level + 1)
     end
 end
@@ -730,7 +730,7 @@ local function decode_unchecked(str, offset)
         local r = decode_r(bufp)
         return r, ffi.cast(ffi.typeof(str), bufp[0])
     else
-        error("msgpackffi.decode_unchecked(str, offset) -> res, new_offset | "..
+        error("msgpackffi.decode_unchecked(str, offset) -> res, new_offset | " ..
             "msgpackffi.decode_unchecked([const] char *buf) -> res, new_buf")
     end
 end

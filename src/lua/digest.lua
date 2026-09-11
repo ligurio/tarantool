@@ -296,7 +296,7 @@ for digest, _ in pairs(digest_shortcuts) do
     m[digest .. '_hex'] = function(str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.'..digest..'_hex(string)', 2)
+                'Usage: digest.' .. digest .. '_hex(string)', 2)
         end
         return string.hex(crypto.digest[digest](str))
     end

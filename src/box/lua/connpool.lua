@@ -548,7 +548,7 @@ local function filter(opts)
             elseif sharding_role ~= 'storage' and
                 sharding_role ~= 'router' then
                 local msg = 'Unknown sharding role \"%s\" in ' ..
-                           'connpool.filter() call. Expected one of the '..
+                    'connpool.filter() call. Expected one of the ' ..
                     '\"storage\", \"router\"'
                 error(msg:format(sharding_role), 0)
             end

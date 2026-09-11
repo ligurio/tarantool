@@ -7,7 +7,7 @@ local ROCKS_LUA_PATH = '.rocks/share/tarantool'
 local LIB_TEMPLATES = {'?.' .. soext}
 local LUA_TEMPLATES = {'?.lua', '?/init.lua'}
 local ROCKS_LIB_TEMPLATES = {
-    ROCKS_LIB_PATH .. '/?.'..soext,
+    ROCKS_LIB_PATH .. '/?.' .. soext,
 }
 local ROCKS_LUA_TEMPLATES = {
     ROCKS_LUA_PATH .. '/?.lua',
