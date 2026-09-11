@@ -11,7 +11,7 @@ local mt = {}
 
 mt.__declared = {}
 
-local function what ()
+local function what()
     local d = getinfo(3, "S")
     return d and d.what or "C"
 end
