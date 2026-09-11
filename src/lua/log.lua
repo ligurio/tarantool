@@ -440,7 +440,7 @@ local compat_v16 = {
             log_warn('logger_pid() is deprecated, please use pid() instead')
         end
         return log_pid()
-    end;
+    end,
 }
 
 -- Log registry. It stores loggers, created by log_new, each of them having a
@@ -502,7 +502,7 @@ setmetatable(log_main, {
         res.box_api = nil
         return setmetatable(res, {})
     end,
-    __index = compat_v16;
+    __index = compat_v16,
 })
 
 return log_main

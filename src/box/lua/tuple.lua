@@ -377,8 +377,8 @@ end
 ffi.metatype(tuple_t, {
     __len = function(tuple)
         return builtin.box_tuple_field_count(tuple)
-    end;
-    __tostring = internal.tuple.tostring;
+    end,
+    __tostring = internal.tuple.tostring,
     __index = function(tuple, key)
         if type(key) == "number" then
             return tuple_field(tuple, key)
@@ -397,18 +397,18 @@ ffi.metatype(tuple_t, {
             end
         end
         return methods[key]
-    end;
+    end,
     __eq = function(tuple_a, tuple_b)
         -- Two tuple are considered equal if they have same memory address
         return ffi.cast('void *', tuple_a) == ffi.cast('void *', tuple_b);
-    end;
-    __pairs = tuple_ipairs;  -- Lua 5.2 compatibility
-    __ipairs = tuple_ipairs; -- Lua 5.2 compatibility
+    end,
+    __pairs = tuple_ipairs,  -- Lua 5.2 compatibility
+    __ipairs = tuple_ipairs, -- Lua 5.2 compatibility
 })
 
 ffi.metatype(tuple_iterator_t, {
-    __call = tuple_iterator_next;
-    __tostring = function(self) return "<tuple iterator>" end;
+    __call = tuple_iterator_next,
+    __tostring = function(self) return "<tuple iterator>" end,
 })
 
 -- Free methods, which are not needed anymore.

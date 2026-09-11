@@ -6,10 +6,10 @@
 -- yaml formatter must be able to encode any Lua variable
 local yaml = require('yaml').new()
 yaml.cfg{
-    encode_invalid_numbers = true;
-    encode_load_metatables = true;
-    encode_use_tostring    = true;
-    encode_invalid_as_nil  = true;
+    encode_invalid_numbers = true,
+    encode_load_metatables = true,
+    encode_use_tostring    = true,
+    encode_invalid_as_nil  = true,
 }
 
 local ffi = require('ffi') -- for iscdata
@@ -21,12 +21,12 @@ local function traceback(level)
         local info = debug.getinfo(level, "nSl")
         if not info then break end
         local frame = {
-            source = info.source;
-            src = info.short_src;
-            line = info.linedefined or 0;
-            what = info.what;
-            name = info.name;
-            namewhat = info.namewhat;
+            source = info.source,
+            src = info.short_src,
+            line = info.linedefined or 0,
+            what = info.what,
+            name = info.name,
+            namewhat = info.namewhat,
             filename = info.source:sub(1, 1) == "@" and info.source:sub(2) or
                 'eval'
         }
@@ -218,13 +218,13 @@ local test_mt
 local function test(parent, name, fun, ...)
     local level = parent ~= nil and parent.level + 1 or 0
     local test = setmetatable({
-        parent  = parent;
-        name    = name;
-        level   = level;
-        total   = 0;
-        failed  = 0;
-        planned = 0;
-        trace   = parent == nil and true or parent.trace;
+        parent  = parent,
+        name    = name,
+        level   = level,
+        total   = 0,
+        failed  = 0,
+        planned = 0,
+        trace   = parent == nil and true or parent.trace,
         strict = parent ~= nil and parent.strict or false;
     }, test_mt)
     if fun ~= nil then
@@ -258,8 +258,8 @@ local function check(test)
     elseif test.failed > 0 then
         if test.parent ~= nil then
             ok(test.parent, false, "failed subtests", {
-                failed = test.failed;
-                planned = test.planned;
+                failed = test.failed,
+                planned = test.planned,
             })
         else
             diag(test, "failed subtest: %d", test.failed)
@@ -288,7 +288,7 @@ test_mt = {
         isstring  = isstring;
         istable   = istable;
         isboolean = isboolean;
-        isfunction = isfunction;
+        isfunction = isfunction,
         isudata   = isudata;
         iscdata   = iscdata;
         is_deeply = is_deeply;
@@ -303,5 +303,5 @@ local function root_test(...)
 end
 
 return {
-    test = root_test;
+    test = root_test,
 }

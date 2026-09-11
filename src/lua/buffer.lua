@@ -168,30 +168,30 @@ local function ibuf_serialize(buf)
 end
 
 local ibuf_methods = {
-    recycle = ibuf_recycle;
-    reset = ibuf_reset;
+    recycle = ibuf_recycle,
+    reset = ibuf_reset,
 
-    reserve = ibuf_reserve;
-    alloc = ibuf_alloc;
+    reserve = ibuf_reserve,
+    alloc = ibuf_alloc,
 
-    checksize = ibuf_checksize;
-    read = ibuf_read;
-    consume = ibuf_consume;
-    __serialize = ibuf_serialize;
+    checksize = ibuf_checksize,
+    read = ibuf_read,
+    consume = ibuf_consume,
+    __serialize = ibuf_serialize,
 
-    size = ibuf_used;
-    capacity = ibuf_capacity;
-    pos = ibuf_pos;
-    unused = ibuf_unused;
+    size = ibuf_used,
+    capacity = ibuf_capacity,
+    pos = ibuf_pos,
+    unused = ibuf_unused,
 }
 
 local function ibuf_tostring(self)
     return '<ibuf>'
 end
 local ibuf_mt = {
-    __gc = ibuf_recycle;
-    __index = ibuf_methods;
-    __tostring = ibuf_tostring;
+    __gc = ibuf_recycle,
+    __index = ibuf_methods,
+    __tostring = ibuf_tostring,
 };
 
 ffi.metatype(ibuf_t, ibuf_mt);
@@ -299,7 +299,7 @@ local internal = {
 
 return {
     internal = internal,
-    ibuf = ibuf_new;
-    READAHEAD = READAHEAD;
+    ibuf = ibuf_new,
+    READAHEAD = READAHEAD,
     ffi_stash_new = ffi_stash_new,
 }

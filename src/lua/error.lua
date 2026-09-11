@@ -219,12 +219,12 @@ local function error_autocomplete(err)
 end
 
 error_methods = {
-    ["unpack"] = error_unpack;
-    ["raise"] = error_raise;
-    ["match"] = error_match; -- Tarantool 1.6 backward compatibility
-    ["__serialize"] = error_serialize;
-    ["set_prev"] = error_set_prev;
-    ["__autocomplete"] = error_autocomplete;
+    ["unpack"] = error_unpack,
+    ["raise"] = error_raise,
+    ["match"] = error_match, -- Tarantool 1.6 backward compatibility
+    ["__serialize"] = error_serialize,
+    ["set_prev"] = error_set_prev,
+    ["__autocomplete"] = error_autocomplete,
 }
 
 local function error_index(err, key)
@@ -282,9 +282,9 @@ local function error_to_string(err)
 end
 
 local error_mt = {
-    __index = error_index;
-    __tostring = error_to_string;
-    __concat = error_concat;
+    __index = error_index,
+    __tostring = error_to_string,
+    __concat = error_concat,
 };
 
 ffi.metatype('struct error', error_mt);

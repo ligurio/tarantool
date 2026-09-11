@@ -972,17 +972,17 @@ end
 --
 local repl_mt = {
     __index = {
-        running = false;
-        delimiter = "";
-        prompt = "tarantool";
-        read = local_read;
-        eval = local_eval;
-        print = local_print;
-        completion = internal.completion_handler;
-        ac = true;
-        local_eos = default_local_eos;
-        continuation_on = false;
-    };
+        running = false,
+        delimiter = "",
+        prompt = "tarantool",
+        read = local_read,
+        eval = local_eval,
+        print = local_print,
+        completion = internal.completion_handler,
+        ac = true,
+        local_eos = default_local_eos,
+        continuation_on = false,
+    },
 }
 
 --
@@ -1226,10 +1226,10 @@ local function client_handler(client, _peer)
     session_internal.run_on_connect()
     session_internal.run_on_auth(box.session.user(), true)
     local state = setmetatable({
-        running = true;
-        read = client_read;
-        print = client_print;
-        client = client;
+        running = true,
+        read = client_read,
+        print = client_print,
+        client = client,
     }, repl_mt)
     local version = _TARANTOOL:match("([^-]+)-")
     state:print(string.format("%-63s\n%-63s\n",

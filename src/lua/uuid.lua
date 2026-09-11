@@ -190,14 +190,14 @@ local uuid_le = function(lhs, rhs)
 end
 
 local uuid_mt = {
-    __tostring = uuid_tostring;
-    __eq = uuid_eq;
-    __lt = uuid_lt;
-    __le = uuid_le;
+    __tostring = uuid_tostring,
+    __eq = uuid_eq,
+    __lt = uuid_lt,
+    __le = uuid_le,
     __index = {
-        isnil = uuid_isnil;
-        bin   = uuid_tobin;    -- binary host byteorder
-        str   = uuid_tostring; -- RFC4122 string
+        isnil = uuid_isnil,
+        bin   = uuid_tobin,    -- binary host byteorder
+        str   = uuid_tostring, -- RFC4122 string
     }
 }
 
@@ -212,5 +212,5 @@ return setmetatable({
     str         = uuid_new_str;   -- optimized shortcut for new():str()
     is_uuid     = is_uuid;
 }, {
-    __call = uuid_new; -- shortcut for new()
+    __call = uuid_new, -- shortcut for new()
 })

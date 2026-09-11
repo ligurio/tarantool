@@ -12,7 +12,7 @@ Available backslash commands:
   \set delimiter <delimiter> -- set expression delimiter
   \help                      -- show this screen
   \quit                      -- quit interactive console
-]];
+]],
     tutorial = {
         [[
 Tutorial -- Screen #1 -- Hello, Moon
@@ -45,7 +45,7 @@ You’ll see the response:
 Then you’ll get a chance to repeat -- perhaps entering
 something else such as "Longer String",-1,-3,0.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
-]];
+]],
 
         [[
 Tutorial -- Screen #2 -- Variables
@@ -77,7 +77,7 @@ Take all the three lines and enter them below after the
 Or try different values in a different order.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
 Or, to go to the previous screen, enter <tutorial("prev")>.
-]];
+]],
 
         [[
 Tutorial -- Screen #3 -- Loops
@@ -105,7 +105,7 @@ Take all four lines and enter them below after the
 For adventure, change the loop to "for i=1,3,1"
 (don’t worry, it won’t crash).
 When you’re ready to go to the next screen, enter <tutorial("next")>.
-]];
+]],
 
         [[
 Tutorial -- Screen #4 -- Operators
@@ -132,7 +132,7 @@ try to predict whether the display will be
 
 The answer will appear when you type in the request.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
-]];
+]],
 
         [[
 Tutorial -- Screen #5 -- Conditions
@@ -157,7 +157,7 @@ the result, try to predict whether the display will be
 (c) no
 The answer will appear when you type in the request.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
-]];
+]],
 
         [[
 Tutorial -- Screen #6 -- Delimiters
@@ -190,7 +190,7 @@ as we'll be writing on the next screen).
 
 When you’re ready to go to the next screen, enter <tutorial("next")!>.
 Yes, <tutorial("next")!> now has to end with an exclamation mark too!
-]];
+]],
 
         [[
 Tutorial -- Screen #7 -- Simple functions
@@ -214,7 +214,7 @@ func()!
 This defines a function which sums all the numbers
 between 1 and 100, and returns the final result.
 The request "func()!" invokes the function.
-]];
+]],
 
         [[
 Tutorial -- Screen #8 -- Improved functions
@@ -234,7 +234,7 @@ return n
 end!
 func(0)!
 ------------------------------
-]];
+]],
 
         [[
 Tutorial -- Screen #9 -- Comments
@@ -263,7 +263,7 @@ func(0)!
 -------------------------------------------
 
 Obviously it will work, so just type <tutorial("next")!> now.
-]];
+]],
 
         [[
 Tutorial -- Screen #10 -- Modules
@@ -297,7 +297,7 @@ fiber.status()!
 First you’ll see a list of functions, one of which is "status".
 Then you’ll see the fiber's current status (the fiber is running now).
 More on fibers on the next screen, so type <tutorial("next")!> now.
-]];
+]],
 
         [[
 Tutorial -- Screen #11 -- The fiber module
@@ -334,7 +334,7 @@ During waking moments, gvar will go up by 1 -- and
 gvar is deliberately a global variable. So it’s
 possible to monitor it: slowly type "gvar!" a few
 times and notice how the value mysteriously increases.
-]];
+]],
 
         [[
 Tutorial -- Screen #12 -- The socket module
@@ -363,7 +363,7 @@ The response will be short, for example
 but it shows you’ve gotten in touch with a distant server.
 More in the Tarantool manual:
 https://tarantool.io/en/doc/<version>/reference/reference_lua/socket/
-]];
+]],
 
         [[
 Tutorial -- Screen #13 -- The box module
@@ -408,7 +408,7 @@ To understand the description, you just have to know that:
 Much of the description doesn’t matter right now; it’s
 enough if you see that module box gets a space which is
 named tutor, and it has one index on the first field.
-]];
+]],
 
         [[
 Tutorial -- Screen #14 -- box.select()
@@ -444,7 +444,7 @@ So select() is returning a set of tuples into a Lua table
 named t, and the loop is going to print each element of
 the table. That is, when you call database_display()! you’ll
 see a display of what’s in the tuples.
-]];
+]],
 
         [[
 Tutorial -- Screen #15 -- box.replace()
@@ -471,7 +471,7 @@ If there is already a "tuple" (our equivalent of a record)
 whose number is equal to 1, it will be replaced with your
 new data. Otherwise it will be created for the first time.
 The display will be the formal description of the new tuple.
-]];
+]],
 
         [[
 Tutorial -- Screen #16 -- Create your own space
@@ -497,7 +497,7 @@ will be "memtx" -- the engine which keeps all tuples
 in memory, and writes changes to a log file to ensure
 that data can’t be lost. Although "memtx" is the
 default engine anyway, specifying it does no harm.
-]];
+]],
 
         [[
 Tutorial -- Screen #17 -- Create your own index
@@ -523,7 +523,7 @@ tuple, and will be numeric. The second index will
 be named secondary, doesn’t have to be unique, will
 be on the second field of each tuple, and will be
 in order by string value.
-]];
+]],
 
         [[
 Tutorial -- Screen #18 -- Insert multiple tuples
@@ -546,7 +546,7 @@ end!
 
 Tip: to select the tuples later, use the function
 that you created earlier: database_display("test")!
-]];
+]],
 
         [[
 Tutorial -- Screen #19 -- Become another user
@@ -568,7 +568,7 @@ unauthorized users from working with databases.
 But you can say box.session.su("admin")! to become
 a powerful user again, because for this tutorial
 the "admin" user isn’t protected by a password.
-]];
+]],
 
         [[
 Tutorial -- Screen #20 -- The bigger Tutorials
@@ -593,6 +593,6 @@ Request #20 is:
 
 When you’re finished, don’t type <tutorial("next")!>, just wander off
 and have a nice day.
-]];
+]],
     }; --[[ tutorial ]]--
 }

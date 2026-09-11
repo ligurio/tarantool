@@ -622,16 +622,16 @@ local function socket_accept(self)
 end
 
 local errno_is_transient = {
-    [boxerrno.EAGAIN] = true;
-    [boxerrno.EWOULDBLOCK] = true;
-    [boxerrno.EINTR] = true;
+    [boxerrno.EAGAIN] = true,
+    [boxerrno.EWOULDBLOCK] = true,
+    [boxerrno.EINTR] = true,
 }
 
 local errno_is_fatal = {
-    [boxerrno.EBADF] = true;
-    [boxerrno.EINVAL] = true;
-    [boxerrno.EOPNOTSUPP] = true;
-    [boxerrno.ENOTSOCK] = true;
+    [boxerrno.EBADF] = true,
+    [boxerrno.EINVAL] = true,
+    [boxerrno.EOPNOTSUPP] = true,
+    [boxerrno.ENOTSOCK] = true,
 }
 
 local function check_limit(self, limit)
@@ -1351,34 +1351,34 @@ end
 
 socket_mt = {
     __index     = {
-        close = socket_close;
-        detach = socket_detach;
-        errno = socket_errno;
-        error = socket_error;
-        sysconnect = socket_sysconnect;
-        syswrite = socket_syswrite;
-        sysread = socket_sysread;
-        nonblock = socket_nonblock;
-        readable = socket_readable;
-        writable = socket_writable;
-        wait = socket_wait;
-        listen = socket_listen;
-        bind = socket_bind;
-        shutdown = socket_shutdown;
-        setsockopt = socket_setsockopt;
-        getsockopt = socket_getsockopt;
-        linger = socket_linger;
-        accept = socket_accept;
-        read = socket_read;
-        write = socket_write;
-        send = socket_send;
-        recv = socket_recv;
-        recvfrom = socket_recvfrom;
-        sendto = socket_sendto;
-        name = socket_name;
-        peer = socket_peer;
-        fd = socket_fd;
-    };
+        close = socket_close,
+        detach = socket_detach,
+        errno = socket_errno,
+        error = socket_error,
+        sysconnect = socket_sysconnect,
+        syswrite = socket_syswrite,
+        sysread = socket_sysread,
+        nonblock = socket_nonblock,
+        readable = socket_readable,
+        writable = socket_writable,
+        wait = socket_wait,
+        listen = socket_listen,
+        bind = socket_bind,
+        shutdown = socket_shutdown,
+        setsockopt = socket_setsockopt,
+        getsockopt = socket_getsockopt,
+        linger = socket_linger,
+        accept = socket_accept,
+        read = socket_read,
+        write = socket_write,
+        send = socket_send,
+        recv = socket_recv,
+        recvfrom = socket_recvfrom,
+        sendto = socket_sendto,
+        name = socket_name,
+        peer = socket_peer,
+        fd = socket_fd,
+    },
     __tostring  = function(self)
         local fd = check_socket(self)
 
@@ -1511,17 +1511,17 @@ end
 
 lsocket_tcp_mt = {
     __index = {
-        close = lsocket_tcp_close;
-        getsockname = lsocket_tcp_getsockname;
-        getpeername = lsocket_tcp_getpeername;
-        settimeout = lsocket_tcp_settimeout;
-        setoption = lsocket_tcp_setoption;
-        bind = lsocket_tcp_bind;
-        listen = lsocket_tcp_listen;
-        connect = lsocket_tcp_connect;
-    };
-    __tostring = lsocket_tcp_tostring;
-    __serialize = lsocket_tcp_tostring;
+        close = lsocket_tcp_close,
+        getsockname = lsocket_tcp_getsockname,
+        getpeername = lsocket_tcp_getpeername,
+        settimeout = lsocket_tcp_settimeout,
+        setoption = lsocket_tcp_setoption,
+        bind = lsocket_tcp_bind,
+        listen = lsocket_tcp_listen,
+        connect = lsocket_tcp_connect,
+    },
+    __tostring = lsocket_tcp_tostring,
+    __serialize = lsocket_tcp_tostring,
 };
 
 --
@@ -1552,15 +1552,15 @@ end
 
 lsocket_tcp_server_mt = {
     __index = {
-        close = lsocket_tcp_close;
-        getsockname = lsocket_tcp_getsockname;
-        getpeername = lsocket_tcp_getpeername;
-        settimeout = lsocket_tcp_settimeout;
-        setoption = lsocket_tcp_setoption;
-        accept = lsocket_tcp_accept;
-    };
-    __tostring = lsocket_tcp_server_tostring;
-    __serialize = lsocket_tcp_server_tostring;
+        close = lsocket_tcp_close,
+        getsockname = lsocket_tcp_getsockname,
+        getpeername = lsocket_tcp_getpeername,
+        settimeout = lsocket_tcp_settimeout,
+        setoption = lsocket_tcp_setoption,
+        accept = lsocket_tcp_accept,
+    },
+    __tostring = lsocket_tcp_server_tostring,
+    __serialize = lsocket_tcp_server_tostring,
 };
 
 --
@@ -1642,17 +1642,17 @@ end
 
 lsocket_tcp_client_mt = {
     __index = {
-        close = lsocket_tcp_close;
-        getsockname = lsocket_tcp_getsockname;
-        getpeername = lsocket_tcp_getpeername;
-        settimeout = lsocket_tcp_settimeout;
-        setoption = lsocket_tcp_setoption;
-        receive = lsocket_tcp_receive;
-        send = lsocket_tcp_send;
-        shutdown = lsocket_tcp_shutdown;
-    };
-    __tostring = lsocket_tcp_client_tostring;
-    __serialize = lsocket_tcp_client_tostring;
+        close = lsocket_tcp_close,
+        getsockname = lsocket_tcp_getsockname,
+        getpeername = lsocket_tcp_getpeername,
+        settimeout = lsocket_tcp_settimeout,
+        setoption = lsocket_tcp_setoption,
+        receive = lsocket_tcp_receive,
+        send = lsocket_tcp_send,
+        shutdown = lsocket_tcp_shutdown,
+    },
+    __tostring = lsocket_tcp_client_tostring,
+    __serialize = lsocket_tcp_client_tostring,
 };
 
 --
@@ -1707,8 +1707,8 @@ end
 --------------------------------------------------------------------------------
 
 return setmetatable({
-    from_fd = socket_from_fd;
-    socketpair = socket_socketpair;
+    from_fd = socket_from_fd,
+    socketpair = socket_socketpair,
     getaddrinfo = getaddrinfo,
     tcp_connect = tcp_connect,
     tcp_server = tcp_server,
@@ -1717,10 +1717,10 @@ return setmetatable({
     iowait = internal.iowait,
     internal = internal,
 }, {
-    __call = function(self, ...) return socket_new(...) end;
+    __call = function(self, ...) return socket_new(...) end,
     __index = {
-        tcp = lsocket_tcp;
-        connect = lsocket_connect;
-        bind = lsocket_bind;
+        tcp = lsocket_tcp,
+        connect = lsocket_connect,
+        bind = lsocket_bind,
     }
 })

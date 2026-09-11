@@ -46,6 +46,6 @@ end
 setmetatable(tutorial, {__call = tutorial_call})
 
 return {
-    help = help;
-    tutorial = tutorial;
+    help = help,
+    tutorial = tutorial,
 }

@@ -1184,25 +1184,25 @@ local function load_cfg_apply_dynamic(oldcfg)
 end
 
 local box_cfg_guard_whitelist = {
-    error = true;
-    internal = true;
-    index = true;
-    lib = true;
-    session = true;
-    tuple = true;
-    runtime = true;
-    malloc = true;
-    ctl = true;
-    watch = true;
-    watch_once = true;
-    broadcast = true;
-    txn_isolation_level = true;
-    NULL = true;
-    info = true;
-    iproto = true;
-    priv = true;
-    schema = true;
-    backup = true;
+    error = true,
+    internal = true,
+    index = true,
+    lib = true,
+    session = true,
+    tuple = true,
+    runtime = true,
+    malloc = true,
+    ctl = true,
+    watch = true,
+    watch_once = true,
+    broadcast = true,
+    txn_isolation_level = true,
+    NULL = true,
+    info = true,
+    iproto = true,
+    priv = true,
+    schema = true,
+    backup = true,
 };
 
 -- List of box members that requires full box loading.

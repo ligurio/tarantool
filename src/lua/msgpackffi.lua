@@ -633,38 +633,38 @@ end
 
 local decoder_hint = {
     --[[{{{ MP_BIN]]
-    [0xc4] = function(data) return decode_bin(data, decode_u8(data)) end;
-    [0xc5] = function(data) return decode_bin(data, decode_u16(data)) end;
-    [0xc6] = function(data) return decode_bin(data, decode_u32(data)) end;
+    [0xc4] = function(data) return decode_bin(data, decode_u8(data)) end,
+    [0xc5] = function(data) return decode_bin(data, decode_u16(data)) end,
+    [0xc6] = function(data) return decode_bin(data, decode_u32(data)) end,
 
     --[[MP_FLOAT, MP_DOUBLE]]
-    [0xca] = decode_float;
-    [0xcb] = decode_double;
+    [0xca] = decode_float,
+    [0xcb] = decode_double,
 
     --[[MP_UINT]]
-    [0xcc] = decode_u8;
-    [0xcd] = decode_u16;
-    [0xce] = decode_u32;
-    [0xcf] = decode_u64;
+    [0xcc] = decode_u8,
+    [0xcd] = decode_u16,
+    [0xce] = decode_u32,
+    [0xcf] = decode_u64,
 
     --[[MP_INT]]
-    [0xd0] = decode_i8;
-    [0xd1] = decode_i16;
-    [0xd2] = decode_i32;
-    [0xd3] = decode_i64;
+    [0xd0] = decode_i8,
+    [0xd1] = decode_i16,
+    [0xd2] = decode_i32,
+    [0xd3] = decode_i64,
 
     --[[MP_STR]]
-    [0xd9] = function(data) return decode_str(data, decode_u8(data)) end;
-    [0xda] = function(data) return decode_str(data, decode_u16(data)) end;
-    [0xdb] = function(data) return decode_str(data, decode_u32(data)) end;
+    [0xd9] = function(data) return decode_str(data, decode_u8(data)) end,
+    [0xda] = function(data) return decode_str(data, decode_u16(data)) end,
+    [0xdb] = function(data) return decode_str(data, decode_u32(data)) end,
 
     --[[MP_ARRAY]]
-    [0xdc] = function(data) return decode_array(data, decode_u16(data)) end;
-    [0xdd] = function(data) return decode_array(data, decode_u32(data)) end;
+    [0xdc] = function(data) return decode_array(data, decode_u16(data)) end,
+    [0xdd] = function(data) return decode_array(data, decode_u32(data)) end,
 
     --[[MP_MAP]]
-    [0xde] = function(data) return decode_map(data, decode_u16(data)) end;
-    [0xdf] = function(data) return decode_map(data, decode_u32(data)) end;
+    [0xde] = function(data) return decode_map(data, decode_u16(data)) end,
+    [0xdf] = function(data) return decode_map(data, decode_u32(data)) end,
 }
 
 decode_r = function(data)
@@ -740,16 +740,16 @@ end
 --------------------------------------------------------------------------------
 
 return {
-    NULL = msgpack.NULL;
-    array_mt = msgpack.array_mt;
-    map_mt = msgpack.map_mt;
-    encode = encode;
-    on_encode = on_encode;
-    decode_unchecked = decode_unchecked;
-    decode = decode_unchecked; -- just for tests
+    NULL = msgpack.NULL,
+    array_mt = msgpack.array_mt,
+    map_mt = msgpack.map_mt,
+    encode = encode,
+    on_encode = on_encode,
+    decode_unchecked = decode_unchecked,
+    decode = decode_unchecked, -- just for tests
     internal = {
-        encode_fix = encode_fix;
-        encode_array = encode_array;
-        encode_r = encode_r;
+        encode_fix = encode_fix,
+        encode_array = encode_array,
+        encode_r = encode_r,
     }
 }

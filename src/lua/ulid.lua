@@ -181,14 +181,14 @@ local ulid_le = function(lhs, rhs)
 end
 
 local ulid_mt = {
-    __tostring = ulid_tostring;
-    __eq = ulid_eq;
-    __lt = ulid_lt;
-    __le = ulid_le;
+    __tostring = ulid_tostring,
+    __eq = ulid_eq,
+    __lt = ulid_lt,
+    __le = ulid_le,
     __index = {
-        isnil = ulid_isnil;
-        bin   = ulid_tobin;
-        str   = ulid_tostring;
+        isnil = ulid_isnil,
+        bin   = ulid_tobin,
+        str   = ulid_tostring,
     }
 }
 
@@ -203,5 +203,5 @@ return setmetatable({
     str         = ulid_new_str;   -- shortcut for new():str()
     is_ulid     = is_ulid;
 }, {
-    __call = ulid_new; -- shortcut for new()
+    __call = ulid_new, -- shortcut for new()
 })

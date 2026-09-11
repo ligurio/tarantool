@@ -1361,11 +1361,11 @@ box.schema.index.create = atomic_wrapper(function(space_id, name, options)
         aggregates = options.aggregates,
     }
     local field_type_aliases = {
-        num = 'unsigned'; -- Deprecated since 1.7.2
-        uint = 'unsigned';
-        str = 'string';
-        int = 'integer';
-        ['*'] = 'any';
+        num = 'unsigned', -- Deprecated since 1.7.2
+        uint = 'unsigned',
+        str = 'string',
+        int = 'integer',
+        ['*'] = 'any',
     };
     for _, part in pairs(parts) do
         local field_type = part.type:lower()
@@ -1570,7 +1570,7 @@ local iterator_t = ffi.typeof('struct iterator')
 ffi.metatype(iterator_t, {
     __tostring = function(self)
         return "<iterator state>"
-    end;
+    end,
 })
 
 local iterator_gen_luac = function(param, state) -- luacheck: no unused args
