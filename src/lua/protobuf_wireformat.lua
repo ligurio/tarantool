@@ -206,7 +206,7 @@ end
 
 -- }}} API functions
 
-return{
+return {
     encode_int = encode_int,
     encode_sint = encode_sint,
     encode_float = encode_float,

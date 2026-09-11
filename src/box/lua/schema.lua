@@ -1803,7 +1803,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
         end
         local prefix_name = 'fselect_' .. name
         local variants = {fselect_opts[prefix_name], fselect_opts[name],
-            grab_from_opts(prefix_name), get_global(prefix_name), default }
+            grab_from_opts(prefix_name), get_global(prefix_name), default}
         local min_i = 0
         local min_v = nil
         for i,v in pairs(variants) do

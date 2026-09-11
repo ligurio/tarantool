@@ -13,7 +13,7 @@ local function make_units(defs, normalize)
 end
 
 local byte_size_unit_defs = {
-    {'B', 1},
+    {'B',   1},
     {'KiB', 1024},
     {'MiB', 1024 * 1024},
     {'GiB', 1024 * 1024 * 1024},
@@ -26,13 +26,13 @@ local byte_size_units, byte_size_unit_names_str =
 
 local duration_unit_defs = {
     {'ms', 0.001},
-    {'s', 1},
-    {'m', 60},
-    {'h', 60 * 60},
-    {'d', 24 * 60 * 60},
-    {'w', 7 * 24 * 60 * 60},
-    {'M', 30 * 24 * 60 * 60},
-    {'y', 365 * 24 * 60 * 60},
+    {'s',  1},
+    {'m',  60},
+    {'h',  60 * 60},
+    {'d',  24 * 60 * 60},
+    {'w',  7 * 24 * 60 * 60},
+    {'M',  30 * 24 * 60 * 60},
+    {'y',  365 * 24 * 60 * 60},
 }
 
 local duration_units, duration_unit_names_str = make_units(duration_unit_defs)

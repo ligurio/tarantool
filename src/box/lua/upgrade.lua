@@ -672,14 +672,14 @@ local function upgrade_to_1_7_7()
     --
     for _, v in _priv.index.object:pairs{'universe'} do
         if bit.band(v[5], 1) ~= 0 and bit.band(v[5], 2) ~= 0 then
-            _priv:update({v[2], v[3], v[4]}, {{ "|", 5, box.priv.C}})
+            _priv:update({v[2], v[3], v[4]}, {{"|", 5, box.priv.C}})
         end
     end
     -- grant admin all new privileges (session, usage, grant option,
     -- create, alter, drop and anything that might come up in the future
     --
     _priv:upsert({ADMIN, ADMIN, 'universe', 0, box.priv.ALL},
-                 {{ "|", 5, box.priv.ALL}})
+        {{"|", 5, box.priv.ALL}})
     --
     -- create role 'super' and grant it all privileges on universe
     --
@@ -984,7 +984,7 @@ local function upgrade_collation_to_2_1_3()
         for _, strength in ipairs(coll_strengths) do
             local coll_name = 'unicode_' .. collation.name .. "_" .. strength.s
             log.info("creating collation %s", coll_name)
-            box.space._collation:replace{id, coll_name, ADMIN, "ICU", collation.loc_str, strength.opt }
+            box.space._collation:replace{id, coll_name, ADMIN, "ICU", collation.loc_str, strength.opt}
             id = id + 1
         end
     end

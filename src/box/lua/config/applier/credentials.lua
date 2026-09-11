@@ -132,7 +132,7 @@ Examples:
   - ['role']['super']['execute'] = true
   - equivalent to granting a role to myuser
 
-]]--
+]] --
 
 local function privileges_from_box(name)
     local res = {

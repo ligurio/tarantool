@@ -736,14 +736,14 @@ local function socket_read(self, opts, timeout)
     if type(opts) == 'number' then
         return read(self, opts, timeout, check_limit)
     elseif type(opts) == 'string' then
-        return read(self, LIMIT_INFINITY, timeout, check_delimiter, { opts })
+        return read(self, LIMIT_INFINITY, timeout, check_delimiter, {opts})
     elseif type(opts) == 'table' then
         local chunk = opts.chunk or opts.size or LIMIT_INFINITY
         local delimiter = opts.delimiter or opts.line
         if delimiter == nil then
             return read(self, chunk, timeout, check_limit)
         elseif type(delimiter) == 'string' then
-            return read(self, chunk, timeout, check_delimiter, { delimiter })
+            return read(self, chunk, timeout, check_delimiter, {delimiter})
         elseif type(delimiter) == 'table' then
             return read(self, chunk, timeout, check_delimiter, delimiter)
         end
@@ -1151,7 +1151,7 @@ local function tcp_server_loop_impl(server, s, addr)
                 log.error('accept(%s) failed: %s', tostring(s),
                     socket_error(s))
             end
-            if  errno_is_fatal[errno] then
+            if errno_is_fatal[errno] then
                 break
             end
         else

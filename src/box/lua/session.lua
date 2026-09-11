@@ -18,7 +18,7 @@ setmetatable(session, {
         if mt.aggregate_storage[sid] == nil then
             mt.aggregate_storage[sid] = {}
         end
-        return mt.aggregate_storage[ sid ]
+        return mt.aggregate_storage[sid]
     end,
 
     aggregate_storage = {}

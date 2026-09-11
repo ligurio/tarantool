@@ -752,7 +752,7 @@ local function http_default_wrap(fname)
     return function(...) return http_default[fname](http_default, ...) end
 end
 
-for _, name in ipairs({ 'get', 'delete', 'trace', 'options', 'head',
+for _, name in ipairs({'get', 'delete', 'trace', 'options', 'head',
     'connect', 'post', 'put', 'patch', 'request'}) do
     this_module[name] = http_default_wrap(name)
 end

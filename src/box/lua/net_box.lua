@@ -1332,7 +1332,7 @@ index_metatable = function(remote)
                 '"' .. self.name .. '"' or self.id) ..
             ']:count'
         return remote:_request('COUNT', opts, nil, self._stream_id,
-                               code, { key, opts })
+            code, {key, opts})
     end
 
     function methods:delete(key, opts)

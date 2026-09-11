@@ -132,7 +132,7 @@ local FORM_URLENCODED = {
 
 local function parse_uribuf(uribuf)
     local result = {}
-    for _, k in ipairs({ 'scheme', 'login', 'password', 'host', 'service',
+    for _, k in ipairs({'scheme', 'login', 'password', 'host', 'service',
         'path', 'query', 'fragment'}) do
         if uribuf[k] ~= nil then
             result[k] = ffi.string(uribuf[k])
