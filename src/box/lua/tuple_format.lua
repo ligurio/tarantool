@@ -323,7 +323,7 @@ end
 
 -- Convert zero-based foreign key field numbers to one-based
 local function denormalize_format(format)
-    local result = setmetatable({}, { __serialize = 'seq' })
+    local result = setmetatable({}, {__serialize = 'seq'})
     for i, f in ipairs(format) do
         result[i] = f
         for k, v in pairs(f) do

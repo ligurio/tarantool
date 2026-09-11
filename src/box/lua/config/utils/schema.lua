@@ -572,8 +572,8 @@ table_is_array = function(data)
 
     -- Check that all the keys are numeric.
     local key_count = 0
-    local min_key = 1/0  -- +inf
-    local max_key = -1/0 -- -inf
+    local min_key = 1 / 0  -- +inf
+    local max_key = -1 / 0 -- -inf
     for k, _ in pairs(data) do
         if type(k) ~= 'number' then
             return false, 'An array contains a non-numeric key: %q', k

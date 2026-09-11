@@ -76,7 +76,7 @@ local function convert_parameter(name, convert_from, convert_to)
     if convert_to:find('+') then
         convert_to = convert_to:sub(1, -2)
         if type(convert_from) ~= 'table' then
-            convert_from = { convert_from }
+            convert_from = {convert_from}
         end
         convert_from = fun.iter(convert_from):map(function(v)
             return convert_parameter_simple(name, v, convert_to)

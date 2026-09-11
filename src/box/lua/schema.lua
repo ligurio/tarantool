@@ -322,7 +322,7 @@ box.savepoint = function()
     if csavepoint == nil then
         box.error(box.error.last(), 2)
     end
-    return { csavepoint=csavepoint, txn_id=builtin.box_txn_id() }
+    return {csavepoint = csavepoint, txn_id = builtin.box_txn_id()}
 end
 
 local function atomic_tail(level, options, status, ...)
@@ -523,7 +523,7 @@ box.schema.create_space = box.schema.space.create
 box.schema.space.drop = atomic_wrapper(function(space_id, space_name, opts)
     check_param(space_id, 'space_id', 'number', 2)
     opts = opts or {}
-    check_param_table(opts, { if_exists = 'boolean' }, 2)
+    check_param_table(opts, {if_exists = 'boolean'}, 2)
     local _space = box.space[box.schema.SPACE_ID]
     local _index = box.space[box.schema.INDEX_ID]
     local _trigger = box.space[box.schema.TRIGGER_ID]
@@ -564,7 +564,7 @@ box.schema.space.drop = atomic_wrapper(function(space_id, space_name, opts)
     end
     if _space:delete{space_id} == nil then
         if space_name == nil then
-            space_name = '#'..tostring(space_id)
+            space_name = '#' .. tostring(space_id)
         end
         if not opts.if_exists then
             box.error(box.error.NO_SUCH_SPACE, space_name, 2)
@@ -1238,7 +1238,7 @@ local function normalize_covers(covers, format, what, level)
     -- sparse array or map with keys.
     local result = {}
     for i, field in ipairs(covers) do
-        result[i] = setmetatable({}, { __serialize = 'map' })
+        result[i] = setmetatable({}, {__serialize = 'map'})
         if type(field) == 'table' then
             for k, v in pairs(field) do
                 if k == 1 or k == 'field' then
@@ -1285,9 +1285,9 @@ box.schema.index.create = atomic_wrapper(function(space_id, name, options)
     }
     options = update_param_table(options, options_defaults)
     local type_dependent_defaults = {
-        rtree = {parts = { 2, 'array' }, unique = false},
-        bitset = {parts = { 2, 'unsigned' }, unique = false},
-        other = {parts = { 1, 'unsigned' }, unique = true},
+        rtree = {parts = {2, 'array'}, unique = false},
+        bitset = {parts = {2, 'unsigned'}, unique = false},
+        other = {parts = {1, 'unsigned'}, unique = true},
     }
     options_defaults = type_dependent_defaults[options.type]
         or type_dependent_defaults.other
@@ -1334,7 +1334,7 @@ box.schema.index.create = atomic_wrapper(function(space_id, name, options)
     else
         -- max
         local tuple = _vindex.index[0]
-            :select(space_id, { limit = 1, iterator = 'LE' })[1]
+            :select(space_id, {limit = 1, iterator = 'LE'})[1]
         if tuple then
             local id = tuple.id
             if id == space_id then
@@ -1465,7 +1465,7 @@ box.schema.index.alter = atomic_wrapper(function(space_id, index_id, options)
     local format = space:format()
     local _index = box.space[box.schema.INDEX_ID]
     if options.id ~= nil then
-        local can_update_field = {id = true, name = true, type = true }
+        local can_update_field = {id = true, name = true, type = true}
         local can_update = true
         local cant_update_fields = ''
         for k, _ in pairs(options) do
@@ -1491,7 +1491,7 @@ box.schema.index.alter = atomic_wrapper(function(space_id, index_id, options)
         _index:update({space_id, index_id}, ops)
         return
     end
-    local tuple = _index:get{space_id, index_id }
+    local tuple = _index:get{space_id, index_id}
     local parts = {}
     local index_opts = {}
     if type(tuple.opts) == 'number' then
@@ -1783,7 +1783,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     -- Get global value, like _G[name] but wrapped with pcall for strict mode.
     local function get_global(name)
         local function internal() return _G[name] end
-        local success,result = pcall(internal)
+        local success, result = pcall(internal)
         return success and result or nil
     end
     -- Get a value from `opts` table and remove it from the table.
@@ -1868,10 +1868,10 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     end
 
     -- select and stringify.
-    local tab = { }
+    local tab = {}
     local json = require('json')
     for _, t in index:pairs(key, opts) do
-        local row = { }
+        local row = {}
         if columns then
             for _, c in ipairs(columns) do
                 table.insert(row, json.encode(t[c]))
@@ -1891,8 +1891,8 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
 
     -- The JSON encoder above passes through invalid UTF-8 characters untouched.
     -- Replace such strings with the <binary> tag.
-    for j = 1,num_cols do
-        for i = 1,num_rows do
+    for j = 1, num_cols do
+        for i = 1, num_rows do
             if tab[i][j] then
                 local _, err = utf8.len(tab[i][j])
                 if err then
@@ -1922,13 +1922,13 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     end
 
     local real_width = num_cols + 1 -- including '|' symbols
-    for j = 1,num_cols do
+    for j = 1, num_cols do
         if type(widths[j]) ~= 'number' then
             local width = utf8.len(names[j])
             if fselect_type == 'jira' then
                 width = width + 1
             end
-            for i = 1,num_rows do
+            for i = 1, num_rows do
                 if tab[i][j] then
                     width = math.max(width, utf8.len(tab[i][j]))
                 end
@@ -1943,7 +1943,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     -- cut some columns if its width is too big
     while max_width > 0 and real_width > max_width do
         local max_j = 1
-        for j = 2,num_cols do
+        for j = 2, num_cols do
             if widths[j] >= widths[max_j] then max_j = j end
         end
         widths[max_j] = widths[max_j] - 1
@@ -1955,7 +1955,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     local delim_row_delim = fselect_type == 'sql' and '+' or '|'
 
     local delim_row = delim_row_delim
-    for j = 1,num_cols do
+    for j = 1, num_cols do
         delim_row = delim_row .. string.rep('-', widths[j]) .. delim_row_delim
     end
 
@@ -1967,8 +1967,8 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
         local x_len = utf8.len(x)
         if x_len <= n then
             local add = n - x_len
-            local addl = math.floor(add/2)
-            local addr = math.ceil(add/2)
+            local addl = math.floor(add / 2)
+            local addr = math.ceil(add / 2)
             str = string.rep(' ', addl) .. x .. string.rep(' ', addr)
         else
             str = x:sub(1, n)
@@ -1983,7 +1983,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
         local delim = is_header and header_row_delim or result_row_delim
         local str_row = delim
         local shrink = fselect_type == 'jira' and is_header and 1 or 0
-        for j = 1,num_cols do
+        for j = 1, num_cols do
             str_row = str_row .. fmt_str(row[j], widths[j] - shrink) .. delim
         end
         table.insert(res, str_row)
@@ -1997,7 +1997,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
     if fselect_type ~= 'jira' then
         table.insert(res, delim_row)
     end
-    for i = 1,num_rows do
+    for i = 1, num_rows do
         res_insert(tab[i], false)
     end
     if fselect_type == 'sql' then
@@ -2224,7 +2224,7 @@ base_index_mt.select_ffi = function(index, key, opts)
 
     local ret = {}
     local entry = port_c.first
-    for i=1,tonumber(port_c.size),1 do
+    for i = 1, tonumber(port_c.size), 1 do
         ret[i] = tuple_bless(entry.tuple)
         entry = entry.next
     end
@@ -2308,8 +2308,8 @@ end
 
 local read_ops = {'select', 'get', 'min', 'max', 'count', 'random', 'pairs'}
 for _, op in ipairs(read_ops) do
-    vinyl_index_mt[op] = base_index_mt[op..'_luac']
-    memtx_index_mt[op] = base_index_mt[op..'_ffi']
+    vinyl_index_mt[op] = base_index_mt[op .. '_luac']
+    memtx_index_mt[op] = base_index_mt[op .. '_ffi']
 end
 -- Lua 5.2 compatibility
 vinyl_index_mt.__pairs = vinyl_index_mt.pairs
@@ -2428,7 +2428,7 @@ space_mt.pairs = function(space, key, opts)
     end
     return pk:pairs(key, opts)
 end
-space_mt.__pairs = space_mt.pairs -- Lua 5.2 compatibility
+space_mt.__pairs = space_mt.pairs  -- Lua 5.2 compatibility
 space_mt.__ipairs = space_mt.pairs -- Lua 5.2 compatibility
 space_mt.truncate = function(space)
     check_space_arg(space, 'truncate', 2)
@@ -2858,7 +2858,7 @@ local function object_resolve(object_type, object_name, level)
             return ''
         end
         local space = box.space[object_name]
-        if  space == nil then
+        if space == nil then
             box.error(box.error.NO_SUCH_SPACE, object_name, level + 1)
         end
         return space.id
@@ -2993,7 +2993,7 @@ end
 
 box.schema.func.drop = atomic_wrapper(function(name, opts)
     opts = opts or {}
-    check_param_table(opts, { if_exists = 'boolean' }, 2)
+    check_param_table(opts, {if_exists = 'boolean'}, 2)
     local _func = box.space[box.schema.FUNC_ID]
     local _vfunc = box.space[box.schema.VFUNC_ID]
     local fid
@@ -3080,7 +3080,7 @@ box.internal.collation.create = function(name, coll_type, locale, opts)
         box.error(box.error.ILLEGAL_PARAMS,
             "options (fourth arg) must be a table or nil", 2)
     end
-    local lua_opts = {if_not_exists = opts.if_not_exists }
+    local lua_opts = {if_not_exists = opts.if_not_exists}
     check_param_table(lua_opts, {if_not_exists = 'boolean'}, 2)
     opts.if_not_exists = nil
     local collation_defaults = {
@@ -3102,7 +3102,7 @@ end
 
 box.internal.collation.drop = function(name, opts)
     opts = opts or {}
-    check_param_table(opts, { if_exists = 'boolean' }, 2)
+    check_param_table(opts, {if_exists = 'boolean'}, 2)
 
     local _coll = box.space[box.schema.COLLATION_ID]
     if opts.if_exists then
@@ -3265,7 +3265,7 @@ box.schema.user.create = atomic_wrapper(function(name, opts)
     -- only admin has the ownership over universe and we don't have
     -- grant option
     box.session.su('admin', box.schema.user.grant, uid, 'session,usage', 'universe',
-                   nil, {if_not_exists=true})
+        nil, {if_not_exists = true})
 end)
 
 -- Note: we intentionally keep the semantics that `box.schema.*.exists(name)`
@@ -3279,7 +3279,7 @@ box.schema.user.exists = function(name, opts)
     utils.box_check_configured(2)
     local origin
     if opts ~= nil then
-        check_param_table(opts, { _origin = 'string' }, 2)
+        check_param_table(opts, {_origin = 'string'}, 2)
         origin = opts._origin
     end
     local uid = user_resolve(name, 2)
@@ -3637,7 +3637,7 @@ end
 
 box.schema.user.drop = atomic_wrapper(function(name, opts)
     opts = opts or {}
-    check_param_table(opts, { if_exists = 'boolean', _origin = 'string' }, 2)
+    check_param_table(opts, {if_exists = 'boolean', _origin = 'string'}, 2)
     local uid = user_resolve(name, 2)
     if uid ~= nil then
         if uid >= box.schema.SYSTEM_USER_ID_MIN and
@@ -3698,7 +3698,7 @@ box.schema.role.exists = function(name, opts)
     utils.box_check_configured(2)
     local origin
     if opts ~= nil then
-        check_param_table(opts, { _origin = 'string' }, 2)
+        check_param_table(opts, {_origin = 'string'}, 2)
         origin = opts._origin
     end
     local uid = role_resolve(name, 2)
@@ -3719,7 +3719,7 @@ end
 box.schema.role.create = function(name, opts)
     utils.box_check_configured(2)
     opts = opts or {}
-    check_param_table(opts, { if_not_exists = 'boolean', _origin = 'string' }, 2)
+    check_param_table(opts, {if_not_exists = 'boolean', _origin = 'string'}, 2)
     local uid = user_or_role_resolve(name)
     local origin = opts._origin or DEFAULT_ORIGIN
     local _user = box.space[box.schema.USER_ID]
@@ -3748,7 +3748,7 @@ end
 
 box.schema.role.drop = atomic_wrapper(function(name, opts)
     opts = opts or {}
-    check_param_table(opts, { if_exists = 'boolean', _origin = 'string' }, 2)
+    check_param_table(opts, {if_exists = 'boolean', _origin = 'string'}, 2)
     local uid = role_resolve(name)
     if uid == nil then
         if not opts.if_exists then
@@ -3810,7 +3810,7 @@ box.once = function(key, func, ...)
             "Usage: box.once(key, func, ...)", 2)
     end
 
-    local key = "once"..key
+    local key = "once" .. key
     if box.space._schema:get{key} ~= nil then
         return
     end
@@ -3828,7 +3828,7 @@ local function box_space_mt(tab)
     local t = {}
     for k,v in pairs(tab) do
         -- skip system spaces and views
-        if type(k) == 'string' and #k > 0 and k:sub(1,1) ~= '_' then
+        if type(k) == 'string' and #k > 0 and k:sub(1, 1) ~= '_' then
             t[k] = {
                 engine = v.engine,
                 is_local = v.is_local,
@@ -3840,4 +3840,4 @@ local function box_space_mt(tab)
     return t
 end
 
-setmetatable(box.space, { __serialize = box_space_mt })
+setmetatable(box.space, {__serialize = box_space_mt})

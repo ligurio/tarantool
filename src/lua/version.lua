@@ -20,7 +20,7 @@
 --
 
 local ffi   = require('ffi')
-local utils = require('internal.utils')
+local utils       = require('internal.utils')
 
 local check_param = utils.check_param
 

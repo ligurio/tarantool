@@ -278,7 +278,7 @@ local function encode_r(buf, obj, level, trace_level)
     ::restart::
     if type(obj) == "number" then
         -- Lua-way to check that number is an integer
-        if obj % 1 == 0 and obj >= -2^63 and obj < 2^64 then
+        if obj % 1 == 0 and obj >= -2 ^ 63 and obj < 2 ^ 64 then
             encode_int(buf, obj)
         else
             encode_double(buf, obj)
@@ -315,7 +315,7 @@ local function encode_r(buf, obj, level, trace_level)
         if (serialize == nil and map_count == 0) or serialize == 'array' or
             serialize == 'seq' or serialize == 'sequence' then
             encode_array(buf, array_count)
-            for i=1,array_count,1 do
+            for i = 1, array_count, 1 do
                 encode_r(buf, obj[i], level + 1,
                     trace_level and trace_level + 1)
             end
@@ -553,7 +553,7 @@ local function decode_bin(data, size)
 end
 
 local function decode_array(data, size)
-    assert (type(size) == "number")
+    assert(type(size) == "number")
     local arr = {}
     for _ = 1, size do
         table.insert(arr, decode_r(data))
@@ -565,7 +565,7 @@ local function decode_array(data, size)
 end
 
 local function decode_map(data, size)
-    assert (type(size) == "number")
+    assert(type(size) == "number")
     local map = {}
     for _ = 1, size do
         local key = decode_r(data);
@@ -690,7 +690,7 @@ decode_r = function(data)
         return decode_ext(data)
     else
         local fun = decoder_hint[c];
-        assert (type(fun) == "function")
+        assert(type(fun) == "function")
         return fun(data)
     end
 end

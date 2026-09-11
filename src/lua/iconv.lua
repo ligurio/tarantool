@@ -1,8 +1,8 @@
 local ffi    = require('ffi')
 local errno  = require('errno')
-local buffer = require('buffer')
+local buffer         = require('buffer')
 local cord_ibuf_take = buffer.internal.cord_ibuf_take
-local cord_ibuf_put = buffer.internal.cord_ibuf_put
+local cord_ibuf_put  = buffer.internal.cord_ibuf_put
 
 ffi.cdef[[
 typedef struct iconv *iconv_t;
@@ -21,9 +21,9 @@ local size_t_arr_t    = ffi.typeof('size_t [1]')
 local E2BIG    = errno['E2BIG']
 local EINVAL   = errno['EINVAL']
 local EILSEQ   = errno['EILSEQ']
-local BUF_SIZE = 64
+local BUF_SIZE        = 64
 
-local conv_rv_error = ffi.cast('void *', -1)
+local conv_rv_error   = ffi.cast('void *', -1)
 
 local function iconv_convert(iconv, data)
     if not ffi.istype(iconv_t, iconv) then
@@ -37,12 +37,12 @@ local function iconv_convert(iconv, data)
     local output_len = data_len >= BUF_SIZE and data_len or BUF_SIZE
     local buf      = cord_ibuf_take();
     local buf_ptr  = char_ptr_arr_t()
-    local buf_left = size_t_arr_t()
+    local buf_left   = size_t_arr_t()
 
     while data_left[0] > 0 do
         buf_ptr[0]  = buf:reserve(output_len)
         buf_left[0] = buf:unused()
-        local res = ffi.C.tnt_iconv(iconv, data_ptr, data_left,
+        local res   = ffi.C.tnt_iconv(iconv, data_ptr, data_left,
             buf_ptr, buf_left)
         if res == ffi.cast('size_t', -1) then
             local err = errno()

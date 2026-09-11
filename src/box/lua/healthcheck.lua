@@ -340,7 +340,7 @@ local function evaluate(check, kind, name, ok_status, fail_status, use_degraded)
 
     if res == true then
         check.statuses[name] = ok_status
-        return { status = ok_status }
+        return {status = ok_status}
     end
 
     if (res == false or res == nil) and type(reason) == 'string' then
@@ -355,7 +355,7 @@ local function evaluate(check, kind, name, ok_status, fail_status, use_degraded)
             active[name] = true
             cleanup_check_statuses(check, name, active)
             return {
-                [name] = { status = ok_status },
+                [name] = {status = ok_status},
             }
         end
         for subname, item in pairs(res) do

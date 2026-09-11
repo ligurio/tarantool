@@ -4,8 +4,8 @@ local soext = (jit.os == "OSX" and "dylib" or "so")
 
 local ROCKS_LIB_PATH = '.rocks/lib/tarantool'
 local ROCKS_LUA_PATH = '.rocks/share/tarantool'
-local LIB_TEMPLATES = { '?.'..soext }
-local LUA_TEMPLATES = { '?.lua', '?/init.lua' }
+local LIB_TEMPLATES = {'?.' .. soext}
+local LUA_TEMPLATES = {'?.lua', '?/init.lua'}
 local ROCKS_LIB_TEMPLATES = {
     ROCKS_LIB_PATH .. '/?.'..soext,
 }
@@ -30,7 +30,7 @@ end
 
 local function traverse_path(path)
     path = minifio.abspath(path)
-    local paths = { path }
+    local paths = {path}
 
     while path ~= '/' do
         path = minifio.dirname(path)
@@ -57,7 +57,7 @@ local function gen_path_builder(basepath_fn, templates, need_traverse)
 
     return function()
         local base = basepath_fn() or '.'
-        local dirs = need_traverse and traverse_path(base) or { base }
+        local dirs = need_traverse and traverse_path(base) or {base}
 
         local searchpaths = {}
 

@@ -163,8 +163,8 @@ local function ibuf_consume(buf, size)
 end
 
 local function ibuf_serialize(buf)
-    local properties = { rpos = buf.rpos, wpos = buf.wpos }
-    return { ibuf = properties }
+    local properties = {rpos = buf.rpos, wpos = buf.wpos}
+    return {ibuf = properties}
 end
 
 local ibuf_methods = {

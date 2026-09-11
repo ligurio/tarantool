@@ -148,7 +148,7 @@ local function create_sysview(source_id, target_id)
     --
     local def = box.space._space:get(source_id):totable()
     def[1] = target_id
-    def[3] = "_v"..def[3]:sub(2)
+    def[3] = "_v" .. def[3]:sub(2)
     def[4] = 'sysview'
     local space_def = box.space._space:get(target_id)
     if space_def == nil then
@@ -157,10 +157,10 @@ local function create_sysview(source_id, target_id)
     elseif json.encode(space_def[7]) ~= json.encode(def[7]) then
         -- sync box.space._vXXX format with box.space._XXX format
         log.info("alter space %s set format", def[3])
-        box.space._space:update(def[1], {{ '=', 7, def[7] }})
+        box.space._space:update(def[1], {{'=', 7, def[7]}})
     end
     local idefs = {}
-    for _, idef in box.space._index:pairs(source_id, { iterator = 'EQ'}) do
+    for _, idef in box.space._index:pairs(source_id, {iterator = 'EQ'}) do
         idef = idef:totable()
         idef[1] = target_id
         table.insert(idefs, idef)
@@ -258,44 +258,44 @@ local space_formats_1_7_5 = {
         {name = 'key', type = 'string'},
     },
     _space = {
-        {name = 'id', type = 'unsigned'},
-        {name = 'owner', type = 'unsigned'},
-        {name = 'name', type = 'string'},
-        {name = 'engine', type = 'string'},
+        {name = 'id',          type = 'unsigned'},
+        {name = 'owner',       type = 'unsigned'},
+        {name = 'name',        type = 'string'},
+        {name = 'engine',      type = 'string'},
         {name = 'field_count', type = 'unsigned'},
-        {name = 'flags', type = 'map'},
-        {name = 'format', type = 'array'},
+        {name = 'flags',       type = 'map'},
+        {name = 'format',      type = 'array'},
     },
     _index = {
-        {name = 'id', type = 'unsigned'},
-        {name = 'iid', type = 'unsigned'},
-        {name = 'name', type = 'string'},
-        {name = 'type', type = 'string'},
-        {name = 'opts', type = 'map'},
+        {name = 'id',    type = 'unsigned'},
+        {name = 'iid',   type = 'unsigned'},
+        {name = 'name',  type = 'string'},
+        {name = 'type',  type = 'string'},
+        {name = 'opts',  type = 'map'},
         {name = 'parts', type = 'array'},
     },
     _func = {
-        {name = 'id', type = 'unsigned'},
-        {name = 'owner', type = 'unsigned'},
-        {name = 'name', type = 'string'},
+        {name = 'id',     type = 'unsigned'},
+        {name = 'owner',  type = 'unsigned'},
+        {name = 'name',   type = 'string'},
         {name = 'setuid', type = 'unsigned'},
     },
     _user = {
-        {name = 'id', type = 'unsigned'},
+        {name = 'id',    type = 'unsigned'},
         {name = 'owner', type = 'unsigned'},
-        {name = 'name', type = 'string'},
-        {name = 'type', type = 'string'},
-        {name = 'auth', type = 'map'},
+        {name = 'name',  type = 'string'},
+        {name = 'type',  type = 'string'},
+        {name = 'auth',  type = 'map'},
     },
     _priv = {
-        {name = 'grantor', type = 'unsigned'},
-        {name = 'grantee', type = 'unsigned'},
+        {name = 'grantor',     type = 'unsigned'},
+        {name = 'grantee',     type = 'unsigned'},
         {name = 'object_type', type = 'string'},
-        {name = 'object_id', type = 'unsigned'},
-        {name = 'privilege', type = 'unsigned'},
+        {name = 'object_id',   type = 'unsigned'},
+        {name = 'privilege',   type = 'unsigned'},
     },
     _cluster = {
-        {name = 'id', type = 'unsigned'},
+        {name = 'id',   type = 'unsigned'},
         {name = 'uuid', type = 'string'},
     },
 }
@@ -339,31 +339,31 @@ local function initial_1_7_5()
     --
     log.info("create space _schema")
     local format = {}
-    format[1] = {type='string', name='key'}
+    format[1] = {type = 'string', name = 'key'}
     _space:insert{_schema.id, ADMIN, '_schema', 'memtx', 0, MAP, format}
     log.info("create index primary on _schema")
-    _index:insert{_schema.id, 0, 'primary', 'tree', { unique = true }, {{0, 'string'}}}
+    _index:insert{_schema.id, 0, 'primary', 'tree', {unique = true}, {{0, 'string'}}}
 
     --
     -- _space
     --
     log.info("create space _space")
     format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='owner', type='unsigned'}
-    format[3] = {name='name', type='string'}
-    format[4] = {name='engine', type='string'}
-    format[5] = {name='field_count', type='unsigned'}
-    format[6] = {name='flags', type='map'}
-    format[7] = {name='format', type='array'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'owner', type = 'unsigned'}
+    format[3] = {name = 'name', type = 'string'}
+    format[4] = {name = 'engine', type = 'string'}
+    format[5] = {name = 'field_count', type = 'unsigned'}
+    format[6] = {name = 'flags', type = 'map'}
+    format[7] = {name = 'format', type = 'array'}
     _space:insert{_space.id, ADMIN, '_space', 'memtx', 0, MAP, format}
     -- space name is unique
     log.info("create index primary on _space")
-    _index:insert{_space.id, 0, 'primary', 'tree', { unique = true }, {{0, 'unsigned'}}}
+    _index:insert{_space.id, 0, 'primary', 'tree', {unique = true}, {{0, 'unsigned'}}}
     log.info("create index owner on _space")
-    _index:insert{_space.id, 1, 'owner', 'tree', {unique = false }, {{1, 'unsigned'}}}
+    _index:insert{_space.id, 1, 'owner', 'tree', {unique = false}, {{1, 'unsigned'}}}
     log.info("create index index name on _space")
-    _index:insert{_space.id, 2, 'name', 'tree', { unique = true }, {{2, 'string'}}}
+    _index:insert{_space.id, 2, 'name', 'tree', {unique = true}, {{2, 'string'}}}
     create_sysview(box.schema.SPACE_ID, box.schema.VSPACE_ID)
 
     --
@@ -390,10 +390,10 @@ local function initial_1_7_5()
     --
     log.info("create space _func")
     format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='owner', type='unsigned'}
-    format[3] = {name='name', type='string'}
-    format[4] = {name='setuid', type='unsigned'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'owner', type = 'unsigned'}
+    format[3] = {name = 'name', type = 'string'}
+    format[4] = {name = 'setuid', type = 'unsigned'}
     _space:insert{_func.id, ADMIN, '_func', 'memtx', 0, MAP, format}
     -- function name and id are unique
     log.info("create index _func:primary")
@@ -409,11 +409,11 @@ local function initial_1_7_5()
     --
     log.info("create space _user")
     format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='owner', type='unsigned'}
-    format[3] = {name='name', type='string'}
-    format[4] = {name='type', type='string'}
-    format[5] = {name='auth', type='map'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'owner', type = 'unsigned'}
+    format[3] = {name = 'name', type = 'string'}
+    format[4] = {name = 'type', type = 'string'}
+    format[5] = {name = 'auth', type = 'map'}
     _space:insert{_user.id, ADMIN, '_user', 'memtx', 0, MAP, format}
     -- user name and id are unique
     log.info("create index _func:primary")
@@ -429,11 +429,11 @@ local function initial_1_7_5()
     --
     log.info("create space _priv")
     format = {}
-    format[1] = {name='grantor', type='unsigned'}
-    format[2] = {name='grantee', type='unsigned'}
-    format[3] = {name='object_type', type='string'}
-    format[4] = {name='object_id', type='unsigned'}
-    format[5] = {name='privilege', type='unsigned'}
+    format[1] = {name = 'grantor', type = 'unsigned'}
+    format[2] = {name = 'grantee', type = 'unsigned'}
+    format[3] = {name = 'object_type', type = 'string'}
+    format[4] = {name = 'object_id', type = 'unsigned'}
+    format[5] = {name = 'privilege', type = 'unsigned'}
     _space:insert{_priv.id, ADMIN, '_priv', 'memtx', 0, MAP, format}
     -- user id, object type and object id are unique
     log.info("create index primary on _priv")
@@ -451,8 +451,8 @@ local function initial_1_7_5()
     --
     log.info("create space _cluster")
     format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='uuid', type='string'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'uuid', type = 'string'}
     _space:insert{_cluster.id, ADMIN, '_cluster', 'memtx', 0, MAP, format}
     -- primary key: node id
     log.info("create index primary on _cluster")
@@ -466,8 +466,8 @@ local function initial_1_7_5()
     --
     log.info("create space _truncate")
     format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='count', type='unsigned'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'count', type = 'unsigned'}
     _space:insert{_truncate.id, ADMIN, '_truncate', 'memtx', 0, MAP, format}
     -- primary key: space id
     log.info("create index primary on _truncate")
@@ -522,10 +522,10 @@ end
 
 local sequence_format = {{name = 'id', type = 'unsigned'},
     {name = 'owner', type = 'unsigned'},
-                         {name = 'name', type = 'string'},
-                         {name = 'step', type = 'integer'},
-                         {name = 'min', type = 'integer'},
-                         {name = 'max', type = 'integer'},
+    {name = 'name',  type = 'string'},
+    {name = 'step',  type = 'integer'},
+    {name = 'min',   type = 'integer'},
+    {name = 'max',   type = 'integer'},
     {name = 'start', type = 'integer'},
     {name = 'cache', type = 'integer'},
     {name = 'cycle', type = 'boolean'}}
@@ -610,8 +610,8 @@ local function create_sequence_space()
 
     log.info("create space _space_sequence")
     _space:insert{_space_sequence.id, ADMIN, '_space_sequence', 'memtx', 0, MAP,
-                  {{name = 'id', type = 'unsigned'},
-                   {name = 'sequence_id', type = 'unsigned'},
+        {{name = 'id',          type = 'unsigned'},
+            {name = 'sequence_id',  type = 'unsigned'},
             {name = 'is_generated', type = 'boolean'}}}
     log.info("create index _space_sequence:primary")
     _index:insert{_space_sequence.id, 0, 'primary', 'tree', {unique = true}, {{0, 'unsigned'}}}
@@ -625,9 +625,9 @@ local function create_collation_space()
     log.info("create space _collation")
     box.space._space:insert{_collation.id, ADMIN, '_collation', 'memtx', 0,
         utils.setmap({}),
-        { { name = 'id', type = 'unsigned' }, { name = 'name', type = 'string' },
-          { name = 'owner', type = 'unsigned' }, { name = 'type', type = 'string' },
-          { name = 'locale', type = 'string' }, { name = 'opts', type = 'map' } } }
+        {{name = 'id',   type = 'unsigned'}, {name = 'name', type = 'string'},
+            {name = 'owner', type = 'unsigned'}, {name = 'type', type = 'string'},
+            {name = 'locale', type = 'string'}, {name = 'opts', type = 'map'}}}
 
     log.info("create index primary on _collation")
     box.space._index:insert{_collation.id, 0, 'primary', 'tree', {unique = true}, {{0, 'unsigned'}}}
@@ -637,7 +637,7 @@ local function create_collation_space()
 
     log.info("create predefined collations")
     box.space._collation:replace{1, "unicode", ADMIN, "ICU", "", utils.setmap{}}
-    box.space._collation:replace{2, "unicode_ci", ADMIN, "ICU", "", {strength='primary'}}
+    box.space._collation:replace{2, "unicode_ci", ADMIN, "ICU", "", {strength = 'primary'}}
 
     local _priv = box.space[box.schema.PRIV_ID]
     _priv:insert{ADMIN, PUBLIC, 'space', _collation.id, box.priv.W}
@@ -788,27 +788,27 @@ local function upgrade_to_2_1_0()
     local MAP = utils.setmap({})
 
     log.info("create space _trigger")
-    local format = {{name='name', type='string'},
-                    {name='space_id', type='unsigned'},
-                    {name='opts', type='map'}}
+    local format = {{name = 'name', type = 'string'},
+        {name = 'space_id', type = 'unsigned'},
+        {name = 'opts',     type = 'map'}}
     _space:insert{_trigger.id, ADMIN, '_trigger', 'memtx', 0, MAP, format}
 
     log.info("create index primary on _trigger")
-    _index:insert{_trigger.id, 0, 'primary', 'tree', { unique = true },
+    _index:insert{_trigger.id, 0, 'primary', 'tree', {unique = true},
         {{0, 'string'}}}
     log.info("create index secondary on _trigger")
-    _index:insert{_trigger.id, 1, 'space_id', 'tree', { unique = false },
+    _index:insert{_trigger.id, 1, 'space_id', 'tree', {unique = false},
         {{1, 'unsigned'}}}
 
-    local fk_constr_ft = {{name='name', type='string'},
-                          {name='child_id', type='unsigned'},
-                          {name='parent_id', type='unsigned'},
-                          {name='is_deferred', type='boolean'},
-                          {name='match', type='string'},
-                          {name='on_delete', type='string'},
-                          {name='on_update', type='string'},
-                          {name='child_cols', type='array'},
-                          {name='parent_cols', type='array'}}
+    local fk_constr_ft = {{name = 'name', type = 'string'},
+        {name = 'child_id',    type = 'unsigned'},
+        {name = 'parent_id',   type = 'unsigned'},
+        {name = 'is_deferred', type = 'boolean'},
+        {name = 'match',       type = 'string'},
+        {name = 'on_delete',   type = 'string'},
+        {name = 'on_update',   type = 'string'},
+        {name = 'child_cols',  type = 'array'},
+        {name = 'parent_cols', type = 'array'}}
     log.info("create space _fk_constraint")
     _space:insert{box.schema.FK_CONSTRAINT_ID, ADMIN, '_fk_constraint', 'memtx',
         0, utils.setmap({}), fk_constr_ft}
@@ -826,8 +826,8 @@ local function upgrade_to_2_1_0()
     -- field in format, marking it nullable.
     log.info("Add nullable value field to space _schema")
     local format = {}
-    format[1] = {type='string', name='key'}
-    format[2] = {type='any', name='value', is_nullable=true}
+    format[1] = {type = 'string', name = 'key'}
+    format[2] = {type = 'any', name = 'value', is_nullable = true}
     _space:update({box.schema.SCHEMA_ID}, {{'=', 7, format}})
 
     box.space._collation:replace{0, "none", ADMIN, "BINARY", "",
@@ -881,102 +881,102 @@ end
 -- Add new collations
 local function upgrade_collation_to_2_1_3()
     local coll_lst = {
-        {name="af", loc_str="af"},  -- Afrikaans
-        {name="am", loc_str="am"},  -- Amharic (no character changes, just re-ordering)
-        {name="ar", loc_str="ar"},  -- Arabic (use only "standard")
-        {name="as", loc_str="as"},  -- Assamese
-        {name="az", loc_str="az"},  -- Azerbaijani (Azeri)
-        {name="be", loc_str="be"},  -- Belarusian
-        {name="bn", loc_str="bn"},  -- Bengali (Bangla actually)
-        {name="bs", loc_str="bs"},  -- Bosnian (tailored as Croatian)
-        {name="bs_Cyrl", loc_str="bs_Cyrl"}, -- Bosnian in Cyrillic (tailored as Serbian)
-        {name="ca", loc_str="ca"},  -- Catalan
-        {name="cs", loc_str="cs"},  -- Czech
-        {name="cy", loc_str="cy"},  -- Welsh
-        {name="da", loc_str="da"},  -- Danish
-        {name="de__phonebook", loc_str="de_DE_u_co_phonebk"}, -- German (umlaut as 'ae', 'oe', 'ue')
-        {name="de_AT_phonebook", loc_str="de_AT_u_co_phonebk"}, -- Austrian German (umlaut primary greater)
-        {name="dsb", loc_str="dsb"}, -- Lower Sorbian
-        {name="ee", loc_str="ee"},  -- Ewe
-        {name="eo", loc_str="eo"},  -- Esperanto
-        {name="es", loc_str="es"},  -- Spanish
-        {name="es__traditional", loc_str="es_u_co_trad"}, -- Spanish ('ch' and 'll' as a grapheme)
-        {name="et", loc_str="et"},  -- Estonian
-        {name="fa", loc_str="fa"},  -- Persian
-        {name="fi", loc_str="fi"},  -- Finnish (v and w are primary equal)
-        {name="fi__phonebook", loc_str="fi_u_co_phonebk"}, -- Finnish (v and w as separate characters)
-        {name="fil", loc_str="fil"}, -- Filipino
-        {name="fo", loc_str="fo"},  -- Faroese
-        {name="fr_CA", loc_str="fr_CA"}, -- Canadian French
-        {name="gu", loc_str="gu"},  -- Gujarati
-        {name="ha", loc_str="ha"},  -- Hausa
-        {name="haw", loc_str="haw"}, -- Hawaiian
-        {name="he", loc_str="he"},  -- Hebrew
-        {name="hi", loc_str="hi"},  -- Hindi
-        {name="hr", loc_str="hr"},  -- Croatian
-        {name="hu", loc_str="hu"},  -- Hungarian
-        {name="hy", loc_str="hy"},  -- Armenian
-        {name="ig", loc_str="ig"},  -- Igbo
-        {name="is", loc_str="is"},  -- Icelandic
-        {name="ja", loc_str="ja"},  -- Japanese
-        {name="kk", loc_str="kk"},  -- Kazakh
-        {name="kl", loc_str="kl"},  -- Kalaallisut
-        {name="kn", loc_str="kn"},  -- Kannada
-        {name="ko", loc_str="ko"},  -- Korean
-        {name="kok", loc_str="kok"}, -- Konkani
-        {name="ky", loc_str="ky"},  -- Kyrgyz
-        {name="lkt", loc_str="lkt"}, -- Lakota
-        {name="ln", loc_str="ln"},  -- Lingala
-        {name="lt", loc_str="lt"},  -- Lithuanian
-        {name="lv", loc_str="lv"},  -- Latvian
-        {name="mk", loc_str="mk"},  -- Macedonian
-        {name="ml", loc_str="ml"},  -- Malayalam
-        {name="mr", loc_str="mr"},  -- Marathi
-        {name="mt", loc_str="mt"},  -- Maltese
-        {name="nb", loc_str="nb"},  -- Norwegian Bokmal
-        {name="nn", loc_str="nn"},  -- Norwegian Nynorsk
-        {name="nso", loc_str="nso"}, -- Northern Sotho
-        {name="om", loc_str="om"},  -- Oromo
-        {name="or", loc_str="or"},  -- Oriya (Odia)
-        {name="pa", loc_str="pa"},  -- Punjabi
-        {name="pl", loc_str="pl"},  -- Polish
-        {name="ro", loc_str="ro"},  -- Romanian
-        {name="sa", loc_str="sa"},  -- Sanskrit
-        {name="se", loc_str="se"},  -- Northern Sami
-        {name="si", loc_str="si"},  -- Sinhala
-        {name="si__dictionary", loc_str="si_u_co_dict"}, -- Sinhala (U+0DA5 = U+0DA2,0DCA,0DA4)
-        {name="sk", loc_str="sk"},  -- Slovak
-        {name="sl", loc_str="sl"},  -- Slovenian
-        {name="sq", loc_str="sq"},  -- Albanian (just "standard")
-        {name="sr", loc_str="sr"},  -- Serbian
-        {name="sr_Latn", loc_str="sr_Latn"}, -- Serbian in Latin (tailored as Croatian)
-        {name="sv", loc_str="sv"},  -- Swedish (v and w are primary equal)
-        {name="sv__reformed", loc_str="sv_u_co_reformed"}, -- Swedish (v and w as separate characters)
-        {name="ta", loc_str="ta"},  -- Tamil
-        {name="te", loc_str="te"},  -- Telugu
-        {name="th", loc_str="th"},  -- Thai
-        {name="tn", loc_str="tn"},  -- Tswana
-        {name="to", loc_str="to"},  -- Tonga
-        {name="tr", loc_str="tr"},  -- Turkish
-        {name="ug_Cyrl", loc_str="ug"}, -- Uyghur in Cyrillic - is there such locale?
-        {name="uk", loc_str="uk"},  -- Ukrainian
-        {name="ur", loc_str="ur"},  -- Urdu
-        {name="vi", loc_str="vi"},  -- Vietnamese
-        {name="vo", loc_str="vo"},  -- Volapük
-        {name="wae", loc_str="wae"}, -- Walser
-        {name="wo", loc_str="wo"},  -- Wolof
-        {name="yo", loc_str="yo"},  -- Yoruba
-        {name="zh", loc_str="zh"},  -- Chinese
-        {name="zh__big5han", loc_str="zh_u_co_big5han"},  -- Chinese (ideographs: big5 order)
-        {name="zh__gb2312han", loc_str="zh_u_co_gb2312"}, -- Chinese (ideographs: GB-2312 order)
-        {name="zh__pinyin", loc_str="zh_u_co_pinyin"}, -- Chinese (ideographs: pinyin order)
-        {name="zh__stroke", loc_str="zh_u_co_stroke"}, -- Chinese (ideographs: stroke order)
-        {name="zh__zhuyin", loc_str="zh_u_co_zhuyin"}, -- Chinese (ideographs: zhuyin order)
+        {name = "af",              loc_str = "af"},                 -- Afrikaans
+        {name = "am",              loc_str = "am"},                 -- Amharic (no character changes, just re-ordering)
+        {name = "ar",              loc_str = "ar"},                 -- Arabic (use only "standard")
+        {name = "as",              loc_str = "as"},                 -- Assamese
+        {name = "az",              loc_str = "az"},                 -- Azerbaijani (Azeri)
+        {name = "be",              loc_str = "be"},                 -- Belarusian
+        {name = "bn",              loc_str = "bn"},                 -- Bengali (Bangla actually)
+        {name = "bs",              loc_str = "bs"},                 -- Bosnian (tailored as Croatian)
+        {name = "bs_Cyrl",         loc_str = "bs_Cyrl"},            -- Bosnian in Cyrillic (tailored as Serbian)
+        {name = "ca",              loc_str = "ca"},                 -- Catalan
+        {name = "cs",              loc_str = "cs"},                 -- Czech
+        {name = "cy",              loc_str = "cy"},                 -- Welsh
+        {name = "da",              loc_str = "da"},                 -- Danish
+        {name = "de__phonebook",   loc_str = "de_DE_u_co_phonebk"}, -- German (umlaut as 'ae', 'oe', 'ue')
+        {name = "de_AT_phonebook", loc_str = "de_AT_u_co_phonebk"}, -- Austrian German (umlaut primary greater)
+        {name = "dsb",             loc_str = "dsb"},                -- Lower Sorbian
+        {name = "ee",              loc_str = "ee"},                 -- Ewe
+        {name = "eo",              loc_str = "eo"},                 -- Esperanto
+        {name = "es",              loc_str = "es"},                 -- Spanish
+        {name = "es__traditional", loc_str = "es_u_co_trad"},       -- Spanish ('ch' and 'll' as a grapheme)
+        {name = "et",              loc_str = "et"},                 -- Estonian
+        {name = "fa",              loc_str = "fa"},                 -- Persian
+        {name = "fi",              loc_str = "fi"},                 -- Finnish (v and w are primary equal)
+        {name = "fi__phonebook",   loc_str = "fi_u_co_phonebk"},    -- Finnish (v and w as separate characters)
+        {name = "fil",             loc_str = "fil"},                -- Filipino
+        {name = "fo",              loc_str = "fo"},                 -- Faroese
+        {name = "fr_CA",           loc_str = "fr_CA"},              -- Canadian French
+        {name = "gu",              loc_str = "gu"},                 -- Gujarati
+        {name = "ha",              loc_str = "ha"},                 -- Hausa
+        {name = "haw",             loc_str = "haw"},                -- Hawaiian
+        {name = "he",              loc_str = "he"},                 -- Hebrew
+        {name = "hi",              loc_str = "hi"},                 -- Hindi
+        {name = "hr",              loc_str = "hr"},                 -- Croatian
+        {name = "hu",              loc_str = "hu"},                 -- Hungarian
+        {name = "hy",              loc_str = "hy"},                 -- Armenian
+        {name = "ig",              loc_str = "ig"},                 -- Igbo
+        {name = "is",              loc_str = "is"},                 -- Icelandic
+        {name = "ja",              loc_str = "ja"},                 -- Japanese
+        {name = "kk",              loc_str = "kk"},                 -- Kazakh
+        {name = "kl",              loc_str = "kl"},                 -- Kalaallisut
+        {name = "kn",              loc_str = "kn"},                 -- Kannada
+        {name = "ko",              loc_str = "ko"},                 -- Korean
+        {name = "kok",             loc_str = "kok"},                -- Konkani
+        {name = "ky",              loc_str = "ky"},                 -- Kyrgyz
+        {name = "lkt",             loc_str = "lkt"},                -- Lakota
+        {name = "ln",              loc_str = "ln"},                 -- Lingala
+        {name = "lt",              loc_str = "lt"},                 -- Lithuanian
+        {name = "lv",              loc_str = "lv"},                 -- Latvian
+        {name = "mk",              loc_str = "mk"},                 -- Macedonian
+        {name = "ml",              loc_str = "ml"},                 -- Malayalam
+        {name = "mr",              loc_str = "mr"},                 -- Marathi
+        {name = "mt",              loc_str = "mt"},                 -- Maltese
+        {name = "nb",              loc_str = "nb"},                 -- Norwegian Bokmal
+        {name = "nn",              loc_str = "nn"},                 -- Norwegian Nynorsk
+        {name = "nso",             loc_str = "nso"},                -- Northern Sotho
+        {name = "om",              loc_str = "om"},                 -- Oromo
+        {name = "or",              loc_str = "or"},                 -- Oriya (Odia)
+        {name = "pa",              loc_str = "pa"},                 -- Punjabi
+        {name = "pl",              loc_str = "pl"},                 -- Polish
+        {name = "ro",              loc_str = "ro"},                 -- Romanian
+        {name = "sa",              loc_str = "sa"},                 -- Sanskrit
+        {name = "se",              loc_str = "se"},                 -- Northern Sami
+        {name = "si",              loc_str = "si"},                 -- Sinhala
+        {name = "si__dictionary",  loc_str = "si_u_co_dict"},       -- Sinhala (U+0DA5 = U+0DA2,0DCA,0DA4)
+        {name = "sk",              loc_str = "sk"},                 -- Slovak
+        {name = "sl",              loc_str = "sl"},                 -- Slovenian
+        {name = "sq",              loc_str = "sq"},                 -- Albanian (just "standard")
+        {name = "sr",              loc_str = "sr"},                 -- Serbian
+        {name = "sr_Latn",         loc_str = "sr_Latn"},            -- Serbian in Latin (tailored as Croatian)
+        {name = "sv",              loc_str = "sv"},                 -- Swedish (v and w are primary equal)
+        {name = "sv__reformed",    loc_str = "sv_u_co_reformed"},   -- Swedish (v and w as separate characters)
+        {name = "ta",              loc_str = "ta"},                 -- Tamil
+        {name = "te",              loc_str = "te"},                 -- Telugu
+        {name = "th",              loc_str = "th"},                 -- Thai
+        {name = "tn",              loc_str = "tn"},                 -- Tswana
+        {name = "to",              loc_str = "to"},                 -- Tonga
+        {name = "tr",              loc_str = "tr"},                 -- Turkish
+        {name = "ug_Cyrl",         loc_str = "ug"},                 -- Uyghur in Cyrillic - is there such locale?
+        {name = "uk",              loc_str = "uk"},                 -- Ukrainian
+        {name = "ur",              loc_str = "ur"},                 -- Urdu
+        {name = "vi",              loc_str = "vi"},                 -- Vietnamese
+        {name = "vo",              loc_str = "vo"},                 -- Volapük
+        {name = "wae",             loc_str = "wae"},                -- Walser
+        {name = "wo",              loc_str = "wo"},                 -- Wolof
+        {name = "yo",              loc_str = "yo"},                 -- Yoruba
+        {name = "zh",              loc_str = "zh"},                 -- Chinese
+        {name = "zh__big5han",     loc_str = "zh_u_co_big5han"},    -- Chinese (ideographs: big5 order)
+        {name = "zh__gb2312han",   loc_str = "zh_u_co_gb2312"},     -- Chinese (ideographs: GB-2312 order)
+        {name = "zh__pinyin",      loc_str = "zh_u_co_pinyin"},     -- Chinese (ideographs: pinyin order)
+        {name = "zh__stroke",      loc_str = "zh_u_co_stroke"},     -- Chinese (ideographs: stroke order)
+        {name = "zh__zhuyin",      loc_str = "zh_u_co_zhuyin"},     -- Chinese (ideographs: zhuyin order)
     }
     local coll_strengths = {
-        {s="s1", opt={strength='primary'}},
-        {s="s2", opt={strength='secondary'}},
-        {s="s3", opt={strength='tertiary'}}
+        {s = "s1", opt = {strength = 'primary'}},
+        {s = "s2", opt = {strength = 'secondary'}},
+        {s = "s3", opt = {strength = 'tertiary'}}
     }
 
     local id = 4
@@ -1039,10 +1039,10 @@ local function upgrade_ck_constraint_to_2_2_1()
     local _index = box.space._index
     local _ck_constraint = box.space._ck_constraint
     log.info("create space _ck_constraint")
-    local format = {{name='space_id', type='unsigned'},
-                    {name='name', type='string'},
-                    {name='is_deferred', type='boolean'},
-                    {name='language', type='str'}, {name='code', type='str'}}
+    local format = {{name = 'space_id', type = 'unsigned'},
+        {name = 'name',        type = 'string'},
+        {name = 'is_deferred', type = 'boolean'},
+        {name = 'language',    type = 'str'}, {name = 'code', type = 'str'}}
     _space:insert{_ck_constraint.id, ADMIN, '_ck_constraint', 'memtx', 0, MAP, format}
 
     log.info("create index primary on _ck_constraint")
@@ -1112,25 +1112,25 @@ local function upgrade_func_to_2_2_1()
         utils.setmap({}), '', datetime, datetime})
     _priv:replace{ADMIN, PUBLIC, 'function', t[1], box.priv.X}
     local format = {}
-    format[1] = {name='id', type='unsigned'}
-    format[2] = {name='owner', type='unsigned'}
-    format[3] = {name='name', type='string'}
-    format[4] = {name='setuid', type='unsigned'}
-    format[5] = {name='language', type='string'}
-    format[6] = {name='body', type='string'}
-    format[7] = {name='routine_type', type='string'}
-    format[8] = {name='param_list', type='array'}
-    format[9] = {name='returns', type='string'}
-    format[10] = {name='aggregate', type='string'}
-    format[11] = {name='sql_data_access', type='string'}
-    format[12] = {name='is_deterministic', type='boolean'}
-    format[13] = {name='is_sandboxed', type='boolean'}
-    format[14] = {name='is_null_call', type='boolean'}
-    format[15] = {name='exports', type='array'}
-    format[16] = {name='opts', type='map'}
-    format[17] = {name='comment', type='string'}
-    format[18] = {name='created', type='string'}
-    format[19] = {name='last_altered', type='string'}
+    format[1] = {name = 'id', type = 'unsigned'}
+    format[2] = {name = 'owner', type = 'unsigned'}
+    format[3] = {name = 'name', type = 'string'}
+    format[4] = {name = 'setuid', type = 'unsigned'}
+    format[5] = {name = 'language', type = 'string'}
+    format[6] = {name = 'body', type = 'string'}
+    format[7] = {name = 'routine_type', type = 'string'}
+    format[8] = {name = 'param_list', type = 'array'}
+    format[9] = {name = 'returns', type = 'string'}
+    format[10] = {name = 'aggregate', type = 'string'}
+    format[11] = {name = 'sql_data_access', type = 'string'}
+    format[12] = {name = 'is_deterministic', type = 'boolean'}
+    format[13] = {name = 'is_sandboxed', type = 'boolean'}
+    format[14] = {name = 'is_null_call', type = 'boolean'}
+    format[15] = {name = 'exports', type = 'array'}
+    format[16] = {name = 'opts', type = 'map'}
+    format[17] = {name = 'comment', type = 'string'}
+    format[18] = {name = 'created', type = 'string'}
+    format[19] = {name = 'last_altered', type = 'string'}
     box.space._space:update({_func.id}, {{'=', 7, format}})
     box.space._index:update(
         {_func.id, _func.index.name.id},
@@ -1142,9 +1142,9 @@ local function create_func_index()
     local _func_index = box.space[box.schema.FUNC_INDEX_ID]
     local _space = box.space._space
     local _index = box.space._index
-    local format = {{name='space_id', type='unsigned'},
-                    {name='index_id', type='unsigned'},
-                    {name='func_id',  type='unsigned'}}
+    local format = {{name = 'space_id', type = 'unsigned'},
+        {name = 'index_id', type = 'unsigned'},
+        {name = 'func_id',  type = 'unsigned'}}
     _space:insert{_func_index.id, ADMIN, '_func_index', 'memtx', 0,
         utils.setmap({}), format}
     _index:insert{_func_index.id, 0, 'primary', 'tree', {unique = true},
@@ -1187,12 +1187,12 @@ local function upgrade_to_2_3_0()
     for _, tuple in _ck_constraint:pairs() do
         _ck_constraint:update({tuple[1], tuple[2]}, {{'=', 6, true}})
     end
-    local format = {{name='space_id', type='unsigned'},
-                    {name='name', type='string'},
-                    {name='is_deferred', type='boolean'},
-                    {name='language', type='str'},
-                    {name='code', type='str'},
-                    {name='is_enabled', type='boolean'}}
+    local format = {{name = 'space_id', type = 'unsigned'},
+        {name = 'name',        type = 'string'},
+        {name = 'is_deferred', type = 'boolean'},
+        {name = 'language',    type = 'str'},
+        {name = 'code',        type = 'str'},
+        {name = 'is_enabled',  type = 'boolean'}}
     _space:update({_ck_constraint.id}, {{'=', 7, format}})
 end
 
@@ -1210,8 +1210,8 @@ local function create_session_settings_space()
     local _space = box.space[box.schema.SPACE_ID]
     local _index = box.space[box.schema.INDEX_ID]
     local format = {}
-    format[1] = {name='name', type='string'}
-    format[2] = {name='value', type='any'}
+    format[1] = {name = 'name', type = 'string'}
+    format[2] = {name = 'value', type = 'any'}
     log.info("create space _session_settings")
     _space:insert{box.schema.SESSION_SETTINGS_ID, ADMIN, '_session_settings',
         'service', 2, {temporary = true}, format}
@@ -1448,9 +1448,9 @@ end
 local function add_instance_names()
     log.info('add instance names to _cluster')
     local format = {
-        {name = 'id', type = 'unsigned'},
+        {name = 'id',   type = 'unsigned'},
         {name = 'uuid', type = 'string'},
-        {name = 'name', type = 'string', is_nullable = true}
+        {name = 'name', type = 'string',  is_nullable = true}
     }
     box.space._space:update({box.schema.CLUSTER_ID}, {{'=', 7, format}})
 end
@@ -1495,7 +1495,7 @@ local function create_gc_consumers()
     log.info("create space _gc_consumers")
     local format = {{name = 'uuid', type = 'string'},
         {name = 'vclock', type = 'map'},
-                    {name = 'opts', type = 'map'}}
+        {name = 'opts',   type = 'map'}}
     _space:insert{space_id, ADMIN, '_gc_consumers', 'memtx', 0, opts,
         format}
 
@@ -1505,7 +1505,7 @@ local function create_gc_consumers()
         box.priv.W}
 
     log.info("create primary index for space _gc_consumers")
-    _index:insert{space_id, 0, 'primary', 'tree', { unique = true },
+    _index:insert{space_id, 0, 'primary', 'tree', {unique = true},
         {{0, 'string'}}}
 end
 local function upgrade_to_3_3_0()
@@ -1519,10 +1519,10 @@ local function create_recovery_point()
 
     log.info("create space _recovery_point")
     local format = {
-        {name = 'timestamp', type = 'unsigned'},
+        {name = 'timestamp',  type = 'unsigned'},
         {name = 'replica_id', type = 'unsigned'},
-        {name = 'lsn', type = 'unsigned'},
-        {name = 'opts', type = 'map'},
+        {name = 'lsn',        type = 'unsigned'},
+        {name = 'opts',       type = 'map'},
     }
     _space:insert{space_id, ADMIN, '_recovery_point', 'memtx', 0,
         utils.setmap({}), format}
@@ -1543,30 +1543,30 @@ end
 --------------------------------------------------------------------------------
 
 local handlers = {
-    {version = mkversion.new(1, 7, 5), func = upgrade_to_1_7_5},
-    {version = mkversion.new(1, 7, 6), func = upgrade_to_1_7_6},
-    {version = mkversion.new(1, 7, 7), func = upgrade_to_1_7_7},
+    {version = mkversion.new(1, 7, 5),  func = upgrade_to_1_7_5},
+    {version = mkversion.new(1, 7, 6),  func = upgrade_to_1_7_6},
+    {version = mkversion.new(1, 7, 7),  func = upgrade_to_1_7_7},
     {version = mkversion.new(1, 10, 0), func = upgrade_to_1_10_0},
     {version = mkversion.new(1, 10, 2), func = upgrade_to_1_10_2},
-    {version = mkversion.new(2, 1, 0), func = upgrade_to_2_1_0},
-    {version = mkversion.new(2, 1, 1), func = upgrade_to_2_1_1},
-    {version = mkversion.new(2, 1, 2), func = upgrade_to_2_1_2},
-    {version = mkversion.new(2, 1, 3), func = upgrade_to_2_1_3},
-    {version = mkversion.new(2, 2, 1), func = upgrade_to_2_2_1},
-    {version = mkversion.new(2, 3, 0), func = upgrade_to_2_3_0},
-    {version = mkversion.new(2, 3, 1), func = upgrade_to_2_3_1},
-    {version = mkversion.new(2, 7, 1), func = upgrade_to_2_7_1},
-    {version = mkversion.new(2, 9, 1), func = upgrade_to_2_9_1},
+    {version = mkversion.new(2, 1, 0),  func = upgrade_to_2_1_0},
+    {version = mkversion.new(2, 1, 1),  func = upgrade_to_2_1_1},
+    {version = mkversion.new(2, 1, 2),  func = upgrade_to_2_1_2},
+    {version = mkversion.new(2, 1, 3),  func = upgrade_to_2_1_3},
+    {version = mkversion.new(2, 2, 1),  func = upgrade_to_2_2_1},
+    {version = mkversion.new(2, 3, 0),  func = upgrade_to_2_3_0},
+    {version = mkversion.new(2, 3, 1),  func = upgrade_to_2_3_1},
+    {version = mkversion.new(2, 7, 1),  func = upgrade_to_2_7_1},
+    {version = mkversion.new(2, 9, 1),  func = upgrade_to_2_9_1},
     {version = mkversion.new(2, 10, 1), func = upgrade_to_2_10_1},
     {version = mkversion.new(2, 10, 4), func = upgrade_to_2_10_4},
     {version = mkversion.new(2, 10, 5), func = upgrade_to_2_10_5},
     {version = mkversion.new(2, 11, 0), func = upgrade_to_2_11_0},
     {version = mkversion.new(2, 11, 1), func = upgrade_to_2_11_1},
     {version = mkversion.new(2, 11, 5), func = upgrade_to_2_11_5},
-    {version = mkversion.new(3, 0, 0), func = upgrade_to_3_0_0},
-    {version = mkversion.new(3, 1, 0), func = upgrade_to_3_1_0},
-    {version = mkversion.new(3, 3, 0), func = upgrade_to_3_3_0},
-    {version = mkversion.new(3, 8, 0), func = upgrade_to_3_8_0},
+    {version = mkversion.new(3, 0, 0),  func = upgrade_to_3_0_0},
+    {version = mkversion.new(3, 1, 0),  func = upgrade_to_3_1_0},
+    {version = mkversion.new(3, 3, 0),  func = upgrade_to_3_3_0},
+    {version = mkversion.new(3, 8, 0),  func = upgrade_to_3_8_0},
 }
 
 builtin.box_init_latest_dd_version_id(
@@ -2069,7 +2069,7 @@ local function drop_instance_names(issue_handler)
     end
     log.info('drop instance names from _cluster format')
     local format = {
-        {name = 'id', type = 'unsigned'},
+        {name = 'id',   type = 'unsigned'},
         {name = 'uuid', type = 'string'},
     }
     box.space._space:update({box.schema.CLUSTER_ID}, {{'=', 7, format}})
@@ -2183,15 +2183,15 @@ end
 -- if schema version is 2.10.0.
 --
 local downgrade_handlers = {
-    {version = mkversion.new(3, 8, 0), func = downgrade_from_3_8_0},
-    {version = mkversion.new(3, 3, 0), func = downgrade_from_3_3_0},
-    {version = mkversion.new(3, 1, 0), func = downgrade_from_3_1_0},
-    {version = mkversion.new(3, 0, 0), func = downgrade_from_3_0_0},
+    {version = mkversion.new(3, 8, 0),  func = downgrade_from_3_8_0},
+    {version = mkversion.new(3, 3, 0),  func = downgrade_from_3_3_0},
+    {version = mkversion.new(3, 1, 0),  func = downgrade_from_3_1_0},
+    {version = mkversion.new(3, 0, 0),  func = downgrade_from_3_0_0},
     {version = mkversion.new(2, 11, 1), func = downgrade_from_2_11_1},
     {version = mkversion.new(2, 11, 0), func = downgrade_from_2_11_0},
     {version = mkversion.new(2, 10, 5), func = downgrade_from_2_10_5},
     {version = mkversion.new(2, 10, 0), func = downgrade_from_2_10_0},
-    {version = mkversion.new(2, 9, 1), func = downgrade_from_2_9_1},
+    {version = mkversion.new(2, 9, 1),  func = downgrade_from_2_9_1},
 }
 
 -- This downgrade issue handler is used to raise an error when issue is

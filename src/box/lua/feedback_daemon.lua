@@ -2,27 +2,27 @@
 --
 local log   = require('log')
 local json  = require('json')
-local fiber = require('fiber')
+local fiber          = require('fiber')
 local http  = require('http.client')
-local fio = require('fio')
-local ffi = require('ffi')
+local fio            = require('fio')
+local ffi            = require('ffi')
 
-local PREFIX = "feedback_daemon"
+local PREFIX         = "feedback_daemon"
 local METRICS_PREFIX = "metrics_collector"
 
-local daemon = {
+local daemon         = {
     enabled  = false,
-    interval = 0,
+    interval                 = 0,
     host     = nil,
-    send_metrics = false,
+    send_metrics             = false,
     metrics_collect_interval = 0,
-    metrics_limit = 0,
+    metrics_limit            = 0,
     fiber    = nil,
     control  = nil,
     guard    = nil,
-    shutdown = nil,
+    shutdown                 = nil,
     metrics  = {},
-    metrics_size = 0,
+    metrics_size             = 0,
 }
 
 local function get_fiber_id(f)
@@ -207,11 +207,11 @@ local function fill_in_schema_stats_impl(schema)
     end
 
     for k, v in pairs(spaces) do
-        schema[k..'_spaces'] = v
+        schema[k .. '_spaces'] = v
     end
 
     for k, v in pairs(indices) do
-        schema[k..'_indices'] = v
+        schema[k .. '_indices'] = v
     end
 end
 
@@ -344,7 +344,7 @@ local function fill_in_feedback(self, feedback)
 end
 
 local function feedback_loop(self)
-    fiber.name(PREFIX, { truncate = true })
+    fiber.name(PREFIX, {truncate = true})
     -- Speed up the first send.
     local send_timeout = math.min(120, self.interval)
 
@@ -357,7 +357,7 @@ local function feedback_loop(self)
         end
         local feedback = self:generate_feedback()
         if feedback ~= nil then
-            pcall(http.post, self.host, json.encode(feedback), {timeout=1})
+            pcall(http.post, self.host, json.encode(feedback), {timeout = 1})
         end
     end
     self.shutdown:put("stopped")
@@ -413,7 +413,7 @@ local function insert_metric(self, new_metric)
 end
 
 local function metrics_collect_loop(self)
-    fiber.name(METRICS_PREFIX, { truncate = true })
+    fiber.name(METRICS_PREFIX, {truncate = true})
 
     while true do
         local collect_timeout = self.metrics_collect_interval
@@ -434,7 +434,7 @@ local function metrics_collect_loop(self)
 end
 
 local function guard_loop(self)
-    fiber.name(string.format("guard of %s", PREFIX), {truncate=true})
+    fiber.name(string.format("guard of %s", PREFIX), {truncate = true})
 
     while true do
 
@@ -524,17 +524,17 @@ setmetatable(daemon, {
             box.internal.cfg_set_feedback()
             daemon.enabled  = box.cfg.feedback_enabled
             daemon.host     = box.cfg.feedback_host
-            daemon.interval = box.cfg.feedback_interval
-            daemon.send_metrics = box.cfg.feedback_send_metrics
+            daemon.interval                 = box.cfg.feedback_interval
+            daemon.send_metrics             = box.cfg.feedback_send_metrics
             daemon.metrics_collect_interval =
                 box.cfg.feedback_metrics_collect_interval
-            daemon.metrics_limit = box.cfg.feedback_metrics_limit
+            daemon.metrics_limit            = box.cfg.feedback_metrics_limit
             reload(daemon)
             return
         end,
         -- this function is used in saving feedback in file
         generate_feedback = function()
-            return fill_in_feedback(daemon, { feedback_version = 8 })
+            return fill_in_feedback(daemon, {feedback_version = 8})
         end,
         start = function()
             start(daemon)
@@ -572,7 +572,7 @@ box.feedback.save = function(file_name)
 end
 
 if box.internal == nil then
-    box.internal = { [PREFIX] = daemon }
+    box.internal = {[PREFIX] = daemon}
 else
     box.internal[PREFIX] = daemon
 end

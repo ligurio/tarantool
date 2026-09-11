@@ -330,9 +330,9 @@ crypto_stream_mt = {
 local digest_api = {}
 for class, digest in pairs(digests) do
     digest_api[class] = setmetatable({
-        new = function () return digest_new(digest) end
+        new = function() return digest_new(digest) end
     }, {
-        __call = function (self, str)
+        __call = function(self, str)
             if type(str) ~= 'string' then
                 error("Usage: digest."..class.."(string)")
             end
@@ -353,9 +353,9 @@ digest_api = setmetatable(digest_api,
 local hmac_api = {}
 for class, digest in pairs(hmacs) do
     hmac_api[class] = setmetatable({
-        new = function (key) return hmac_new(class, digest, key) end
+        new = function(key) return hmac_new(class, digest, key) end
     }, {
-        __call = function (self, key, str)
+        __call = function(self, key, str)
             if type(str) ~= 'string' then
                 error("Usage: hmac."..class.."(key, string)")
             end
@@ -366,7 +366,7 @@ for class, digest in pairs(hmacs) do
             return res
         end
     })
-    hmac_api[class .. '_hex'] = function (key, str)
+    hmac_api[class .. '_hex'] = function(key, str)
         if type(str) ~= 'string' then
             error("Usage: hmac."..class.."_hex(key, string)")
         end

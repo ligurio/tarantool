@@ -316,9 +316,9 @@ end
 local function encode_kv(key, values, res, escape_opts)
     local val = values
     if type(val) ~= "table" then
-        val = { val }
+        val = {val}
     end
-    local key_escaped= escape(tostring(key), escape_opts)
+    local key_escaped = escape(tostring(key), escape_opts)
 
     -- { a = {} } --> "a"
     if next(val) == nil then

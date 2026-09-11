@@ -733,7 +733,7 @@ I['config.storage.endpoints.*.params.ssl_password'] =
 I['config.storage.endpoints.*.params.ssl_password_file'] =
     I['<uri>.params.ssl_password_file']
 
-I['config.storage.endpoints.*.params.transport'] =  I['<uri>.params.transport']
+I['config.storage.endpoints.*.params.transport'] = I['<uri>.params.transport']
 
 I['config.storage.endpoints.*.password'] = 'A password used for authentication.'
 

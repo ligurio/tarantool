@@ -105,85 +105,85 @@ enum {
 
 ]]
 
-local builtin = ffi.C
-local math_modf = math.modf
-local math_floor = math.floor
+local builtin               = ffi.C
+local math_modf             = math.modf
+local math_floor            = math.floor
 
 -- Unix, January 1, 1970, Thursday
-local DAYS_EPOCH_OFFSET = 719163
+local DAYS_EPOCH_OFFSET     = 719163
 local SECS_PER_DAY      = 86400
-local SECS_EPOCH_OFFSET = DAYS_EPOCH_OFFSET * SECS_PER_DAY
+local SECS_EPOCH_OFFSET     = DAYS_EPOCH_OFFSET * SECS_PER_DAY
 local TOSTRING_BUFSIZE  = 64
 local IVAL_TOSTRING_BUFSIZE = 96
 local STRFTIME_BUFSIZE  = 128
 
 -- At the moment the range of known timezones is UTC-12:00..UTC+14:00. See [1].
 -- 1. https://en.wikipedia.org/wiki/List_of_UTC_time_offsets.
-local TZOFFSET_MIN = -12 * 60
-local TZOFFSET_MAX = 14 * 60
+local TZOFFSET_MIN          = -12 * 60
+local TZOFFSET_MAX          = 14 * 60
 
 -- minimum supported date - -5879610-06-22
-local MIN_DATE_YEAR = -5879610
-local MIN_DATE_MONTH = 6
-local MIN_DATE_DAY = 22
+local MIN_DATE_YEAR         = -5879610
+local MIN_DATE_MONTH        = 6
+local MIN_DATE_DAY          = 22
 -- maximum supported date - 5879611-07-11
-local MAX_DATE_YEAR = 5879611
-local MAX_DATE_MONTH = 7
-local MAX_DATE_DAY = 11
+local MAX_DATE_YEAR         = 5879611
+local MAX_DATE_MONTH        = 7
+local MAX_DATE_DAY          = 11
 -- In the Julian calendar, the average year length is
 -- 365 1/4 days = 365.25 days. This gives an error of
 -- about 1 day in 128 years.
-local AVERAGE_DAYS_YEAR = 365.25
-local AVERAGE_WEEK_YEAR = AVERAGE_DAYS_YEAR / 7
-local INT_MAX = 2147483647
-local INT_MIN = -2147483648
+local AVERAGE_DAYS_YEAR     = 365.25
+local AVERAGE_WEEK_YEAR     = AVERAGE_DAYS_YEAR / 7
+local INT_MAX               = 2147483647
+local INT_MIN               = -2147483648
 -- -5879610-06-22
-local MIN_DATE_TEXT = ('%d-%02d-%02d'):format(MIN_DATE_YEAR, MIN_DATE_MONTH,
+local MIN_DATE_TEXT         = ('%d-%02d-%02d'):format(MIN_DATE_YEAR, MIN_DATE_MONTH,
     MIN_DATE_DAY)
 -- 5879611-07-11
-local MAX_DATE_TEXT = ('%d-%02d-%02d'):format(MAX_DATE_YEAR, MAX_DATE_MONTH,
+local MAX_DATE_TEXT         = ('%d-%02d-%02d'):format(MAX_DATE_YEAR, MAX_DATE_MONTH,
     MAX_DATE_DAY)
-local MIN_DT_DAY_VALUE = INT_MIN
-local MAX_DT_DAY_VALUE = INT_MAX
-local MIN_EPOCH_SECS_VALUE = MIN_DT_DAY_VALUE * SECS_PER_DAY - SECS_EPOCH_OFFSET
-local MAX_EPOCH_SECS_VALUE = MAX_DT_DAY_VALUE * SECS_PER_DAY - SECS_EPOCH_OFFSET
-local MAX_YEAR_RANGE = MAX_DATE_YEAR - MIN_DATE_YEAR
-local MAX_MONTH_RANGE = MAX_YEAR_RANGE * 12
-local MAX_WEEK_RANGE = MAX_YEAR_RANGE * AVERAGE_WEEK_YEAR
-local MAX_DAY_RANGE = MAX_YEAR_RANGE * AVERAGE_DAYS_YEAR
-local MAX_HOUR_RANGE = MAX_DAY_RANGE * 24
-local MAX_MIN_RANGE = MAX_HOUR_RANGE * 60
-local MAX_SEC_RANGE = MAX_DAY_RANGE * SECS_PER_DAY
-local MAX_NSEC_RANGE = INT_MAX
-local MAX_USEC_RANGE = math_floor(MAX_NSEC_RANGE / 1e3)
-local MAX_MSEC_RANGE = math_floor(MAX_NSEC_RANGE / 1e6)
-local DEF_DT_ADJUST = builtin.DT_LIMIT
+local MIN_DT_DAY_VALUE      = INT_MIN
+local MAX_DT_DAY_VALUE      = INT_MAX
+local MIN_EPOCH_SECS_VALUE  = MIN_DT_DAY_VALUE * SECS_PER_DAY - SECS_EPOCH_OFFSET
+local MAX_EPOCH_SECS_VALUE  = MAX_DT_DAY_VALUE * SECS_PER_DAY - SECS_EPOCH_OFFSET
+local MAX_YEAR_RANGE        = MAX_DATE_YEAR - MIN_DATE_YEAR
+local MAX_MONTH_RANGE       = MAX_YEAR_RANGE * 12
+local MAX_WEEK_RANGE        = MAX_YEAR_RANGE * AVERAGE_WEEK_YEAR
+local MAX_DAY_RANGE         = MAX_YEAR_RANGE * AVERAGE_DAYS_YEAR
+local MAX_HOUR_RANGE        = MAX_DAY_RANGE * 24
+local MAX_MIN_RANGE         = MAX_HOUR_RANGE * 60
+local MAX_SEC_RANGE         = MAX_DAY_RANGE * SECS_PER_DAY
+local MAX_NSEC_RANGE        = INT_MAX
+local MAX_USEC_RANGE        = math_floor(MAX_NSEC_RANGE / 1e3)
+local MAX_MSEC_RANGE        = math_floor(MAX_NSEC_RANGE / 1e6)
+local DEF_DT_ADJUST         = builtin.DT_LIMIT
 
-local date_tostr_stash =
+local date_tostr_stash      =
     buffer.ffi_stash_new(string.format('char[%s]', TOSTRING_BUFSIZE))
 local date_tostr_stash_take = date_tostr_stash.take
-local date_tostr_stash_put = date_tostr_stash.put
+local date_tostr_stash_put  = date_tostr_stash.put
 
-local ival_tostr_stash =
+local ival_tostr_stash      =
     buffer.ffi_stash_new(string.format('char[%s]', IVAL_TOSTRING_BUFSIZE))
 local ival_tostr_stash_take = ival_tostr_stash.take
-local ival_tostr_stash_put = ival_tostr_stash.put
+local ival_tostr_stash_put  = ival_tostr_stash.put
 
-local date_strf_stash =
+local date_strf_stash       =
     buffer.ffi_stash_new(string.format('char[%s]', STRFTIME_BUFSIZE))
-local date_strf_stash_take = date_strf_stash.take
-local date_strf_stash_put = date_strf_stash.put
+local date_strf_stash_take  = date_strf_stash.take
+local date_strf_stash_put   = date_strf_stash.put
 
-local date_dt_stash = buffer.ffi_stash_new('dt_t[1]')
-local date_dt_stash_take = date_dt_stash.take
-local date_dt_stash_put = date_dt_stash.put
+local date_dt_stash         = buffer.ffi_stash_new('dt_t[1]')
+local date_dt_stash_take    = date_dt_stash.take
+local date_dt_stash_put     = date_dt_stash.put
 
-local date_int16_stash = buffer.ffi_stash_new('int16_t[1]')
+local date_int16_stash      = buffer.ffi_stash_new('int16_t[1]')
 local date_int16_stash_take = date_int16_stash.take
-local date_int16_stash_put = date_int16_stash.put
+local date_int16_stash_put  = date_int16_stash.put
 
-local datetime_t = ffi.typeof('struct datetime')
-local interval_t = ffi.typeof('struct interval')
+local datetime_t            = ffi.typeof('struct datetime')
+local interval_t            = ffi.typeof('struct interval')
 
 local function is_interval(o)
     return ffi.istype(interval_t, o)
@@ -990,7 +990,7 @@ local function datetime_parse_from(str, obj)
     -- Override timezone, if it was not specified in a parsed
     -- string.
     if date.tz == '' and date.tzoffset == 0 then
-        datetime_set(date, { tzoffset = tzoffset, tz = tzname })
+        datetime_set(date, {tzoffset = tzoffset, tz = tzname})
     end
 
     return date, len

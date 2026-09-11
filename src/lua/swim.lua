@@ -939,7 +939,7 @@ local swim_cfg_mt = {
         return c.index
     end,
     __newindex = function()
-        return error('please, use swim:cfg{key = value} instead of '..
+        return error('please, use swim:cfg{key = value} instead of ' ..
             'swim.cfg.key = value')
     end
 }
@@ -976,7 +976,7 @@ swim_cfg_not_configured_mt.__call = swim_cfg_first_call
 
 -- Member cache stores week references so as to do not care about
 -- removed members erasure - GC drops them automatically.
-local cache_table_mt = { __mode = 'v' }
+local cache_table_mt = {__mode = 'v'}
 
 --
 -- Create a new SWIM instance, and configure if @a cfg is

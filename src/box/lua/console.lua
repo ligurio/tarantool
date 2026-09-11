@@ -63,8 +63,8 @@ local M = {}
 --
 -- Default output handler set to YAML for backward
 -- compatibility reason.
-local default_output_format = { ["fmt"] = "yaml", ["opts"] = nil }
-local output_handlers = { }
+local default_output_format = {["fmt"] = "yaml", ["opts"] = nil}
+local output_handlers = {}
 
 --
 -- This is an end-of-stream marker for text output of Tarantool
@@ -76,7 +76,7 @@ local output_handlers = { }
 -- reading data created by a Tarantool server, we can rely on it not
 -- being present inside of stream, since Tarantool server never
 -- puts it inside of a stream.
-local output_eos = { ["yaml"] = '\n...\n', ["lua"] = ';' }
+local output_eos = {["yaml"] = '\n...\n', ["lua"] = ';'}
 
 local default_local_eos = ''
 
@@ -96,14 +96,14 @@ output_handlers["yaml"] = function(status, _opts, ...)
         if err == nil then
             err = box.NULL
         end
-        ok, res = pcall(internal.format_yaml, { error = err })
+        ok, res = pcall(internal.format_yaml, {error = err})
     end
     if ok then
         return res
     else
         local m = 'console: exception while formatting the output: "%s"'
         err = m:format(tostring(res))
-        return internal.format_yaml({ error = err })
+        return internal.format_yaml({error = err})
     end
 end
 
@@ -114,7 +114,7 @@ local function format_lua_value(status, internal_opts, value)
         if value == nil then
             value = box.NULL
         end
-        value = { error = value }
+        value = {error = value}
     end
     local ok, res = pcall(internal.format_lua, internal_opts, value)
     if ok then
@@ -122,7 +122,7 @@ local function format_lua_value(status, internal_opts, value)
     else
         local m = 'console: exception while formatting the output: "%s"'
         local err = m:format(tostring(res))
-        return internal.format_lua(internal_opts, { error = err })
+        return internal.format_lua(internal_opts, {error = err})
     end
 end
 
@@ -130,9 +130,9 @@ end
 -- Convert options from user form to the internal format.
 local function gen_lua_opts(opts)
     if opts == "block" then
-        return {block=true, indent=2}
+        return {block = true, indent = 2}
     else
-        return {block=false, indent=2}
+        return {block = false, indent = 2}
     end
 end
 
@@ -222,11 +222,11 @@ end
 local function current_output()
     local fmt = ffi.C.console_get_output_format()
     if fmt == ffi.C.OUTPUT_FORMAT_YAML then
-        return { ["fmt"] = "yaml", ["opts"] = nil }
+        return {["fmt"] = "yaml", ["opts"] = nil}
     elseif fmt == ffi.C.OUTPUT_FORMAT_LUA_LINE then
-        return { ["fmt"] = "lua", ["opts"] = "line" }
+        return {["fmt"] = "lua", ["opts"] = "line"}
     elseif fmt == ffi.C.OUTPUT_FORMAT_LUA_BLOCK then
-        return { ["fmt"] = "lua", ["opts"] = "block" }
+        return {["fmt"] = "lua", ["opts"] = "block"}
     end
 end
 
@@ -304,7 +304,7 @@ end
 
 local function set_language(storage, value)
     if value == nil then
-        return { language = storage.language or 'lua' }
+        return {language = storage.language or 'lua'}
     end
     if value ~= 'lua' and value ~= 'sql' then
         local msg = 'Invalid language "%s", supported languages: lua and sql.'
@@ -562,7 +562,7 @@ local function local_eval(storage, line)
     -- case try to run the original string.
     --
     create_env_on_demand(storage)
-    local fun, errmsg = loadstring("return "..line, nil, nil, storage.env)
+    local fun, errmsg = loadstring("return " .. line, nil, nil, storage.env)
     if not fun then
         fun, errmsg = loadstring(line, nil, nil, storage.env)
     end
@@ -707,7 +707,7 @@ local text_connection_mt = {
             -- If `text` is a `\set output` command, server_cmd may be a cropped
             -- version of it without some configuration, that server doesn't
             -- need to get.
-            text = (server_cmd or text)..'$EOF$\n'
+            text = (server_cmd or text) .. '$EOF$\n'
             local fmt = self.fmt or default_output_format["fmt"]
             if not self:write(text) then
                 error(self:set_error())
@@ -819,7 +819,7 @@ local function local_check_lua(buf)
         -- an incomplete input
         return true
     end
-    if loadstring('return '..buf) ~= nil then
+    if loadstring('return ' .. buf) ~= nil then
         -- certain obscure inputs like '(42\n)' yield the
         -- same error as incomplete statement
         return true
@@ -836,7 +836,7 @@ local function local_read(self)
     while true do
         local delim = self.delimiter
         local line, discard_buffer = internal.readline({
-            prompt = prompt.. "> ",
+            prompt = prompt .. "> ",
             completion = self.ac and self.completion or nil
         })
         if not line then
@@ -845,7 +845,7 @@ local function local_read(self)
         if discard_buffer then
             return ''
         end
-        buf = buf..line
+        buf = buf .. line
         if buf:sub(1, 1) == '\\' then
             break
         end
@@ -878,7 +878,7 @@ local function local_read(self)
             break
         end
         ::continue::
-        buf = buf.."\n"
+        buf = buf .. "\n"
         prompt = string.rep(' ', #self.prompt)
     end
     internal.add_history(buf)
@@ -903,7 +903,7 @@ local function local_print(self, output)
         else
             new_local_eos = self.local_eos
         end
-        output = output:sub(1, -#output_eos["lua"] - 1) .. new_local_eos
+        output = output:sub(1, - #output_eos["lua"] - 1) .. new_local_eos
     end
     print(output)
 end
@@ -1110,7 +1110,7 @@ function M.start()
         error("console is already started")
     end
     started = true
-    local self = setmetatable({ running = true }, repl_mt)
+    local self = setmetatable({running = true}, repl_mt)
     local history_file = get_history_file_path()
     if history_file then
         self.history_file = history_file
@@ -1211,7 +1211,7 @@ function M.connect(uri, opts)
     self.remote = remote
     self.eval = remote_eval
     self.prompt = string.format("%s:%s", self.remote.host, self.remote.port)
-    self.completion = function (str, pos1, pos2)
+    self.completion = function(str, pos1, pos2)
         local c = string.format(
             'return require("console").completion_handler(%q, %d, %d)',
             str, pos1, pos2)

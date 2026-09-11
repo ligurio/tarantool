@@ -279,7 +279,7 @@ function methods.sharding(self)
         'rebalancer_bucket_send_timeout',
     }
     for _, v in pairs(vshard_global_options) do
-        cfg[v] = instance_config:get(self._iconfig_def, 'sharding.'..v)
+        cfg[v] = instance_config:get(self._iconfig_def, 'sharding.' .. v)
     end
     return cfg
 end
@@ -1124,7 +1124,7 @@ local function new(iconfig, cconfig, instance_name)
                '"config"'):format(found.replicaset_name, instance_name), 0)
     else
         if peers[bootstrap_leader] == nil then
-            error(('"bootstrap_leader" = %q option is set for replicaset %q '..
+            error(('"bootstrap_leader" = %q option is set for replicaset %q ' ..
                    'of group %q, but instance %q is not found in this '..
                 'replicaset'):format(bootstrap_leader, found.replicaset_name,
                 found.group_name, bootstrap_leader), 0)

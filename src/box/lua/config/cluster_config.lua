@@ -94,7 +94,7 @@ local function record_from_fields(fields)
 
             -- Copy fields.
             for kk, vv in pairs(v.fields) do
-                assert(res.fields[kk] == nil, 'record_from_fields: duplicate '..
+                assert(res.fields[kk] == nil, 'record_from_fields: duplicate ' ..
                                               'fields '..tostring(kk))
                 res.fields[kk] = vv
             end
@@ -102,7 +102,7 @@ local function record_from_fields(fields)
             -- Copy annotations.
             for kk, vv in pairs(v) do
                 if kk ~= 'fields' and kk ~= 'type' then
-                    assert(res[kk] == nil, 'record_from_fields: duplicate '..
+                    assert(res[kk] == nil, 'record_from_fields: duplicate ' ..
                                            'annotations '..tostring(kk))
                     res[kk] = vv
                 end
@@ -114,7 +114,7 @@ local function record_from_fields(fields)
             assert(type(k) == 'string')
 
             -- Copy the field.
-            assert(res.fields[k] == nil, 'record_from_fields: duplicate '..
+            assert(res.fields[k] == nil, 'record_from_fields: duplicate ' ..
                                          'fields '..tostring(k))
             res.fields[k] = v
         end

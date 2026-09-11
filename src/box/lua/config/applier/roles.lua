@@ -84,7 +84,7 @@ local function load_roles(roles_names)
         end
         loaded[role_name] = role
         if role.dependencies ~= nil and type(role.dependencies) ~= 'table' then
-            local err = 'Role %q has field "dependencies" of type %s, '..
+            local err = 'Role %q has field "dependencies" of type %s, ' ..
                 'array-like table or nil expected'
             error(err:format(role_name, type(role.dependencies)), 0)
         end
@@ -275,7 +275,7 @@ local function stop_roles(roles_to_skip)
         if deps[role_name] ~= nil then
             local err
             if #deps[role_name] == 1 then
-                err =('role %q depends on it'):format(deps[role_name][1])
+                err = ('role %q depends on it'):format(deps[role_name][1])
             else
                 local names = {}
                 for _, v in ipairs(deps[role_name]) do

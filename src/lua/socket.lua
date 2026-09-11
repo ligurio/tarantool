@@ -1,20 +1,20 @@
 -- socket.lua (internal file)
 
 local TIMEOUT_INFINITY      = 500 * 365 * 86400
-local LIMIT_INFINITY = 2147483647
+local LIMIT_INFINITY   = 2147483647
 
-local ffi = require('ffi')
-local boxerrno = require('errno')
-local internal = require('socket.lib')
-local fiber = require('fiber')
-local fio = require('fio')
-local log = require('log')
-local buffer = require('buffer')
-local cord_ibuf_take = buffer.internal.cord_ibuf_take
-local cord_ibuf_put = buffer.internal.cord_ibuf_put
-local cord_ibuf_drop = buffer.internal.cord_ibuf_drop
+local ffi              = require('ffi')
+local boxerrno         = require('errno')
+local internal         = require('socket.lib')
+local fiber            = require('fiber')
+local fio              = require('fio')
+local log              = require('log')
+local buffer           = require('buffer')
+local cord_ibuf_take   = buffer.internal.cord_ibuf_take
+local cord_ibuf_put    = buffer.internal.cord_ibuf_put
+local cord_ibuf_drop   = buffer.internal.cord_ibuf_drop
 
-local format = string.format
+local format           = string.format
 
 ffi.cdef[[
     struct gc_socket {
@@ -56,7 +56,7 @@ ffi.cdef[[
 ]]
 
 local gc_socket_t = ffi.metatype(ffi.typeof('struct gc_socket'), {
-    __gc = function (socket)
+    __gc = function(socket)
         if socket.fd < 0 then return end
         if ffi.C.coio_close(socket.fd) ~= 0 then
             log.error("socket: failed to close fd=%d on gc: %s", socket.fd,
@@ -91,13 +91,13 @@ end
 local function make_socket(fd, itype)
     assert(itype ~= nil)
     local socket = {
-        _gc_socket = ffi.new(gc_socket_t, { fd = fd }),
+        _gc_socket = ffi.new(gc_socket_t, {fd = fd}),
         itype = itype,
     }
     return setmetatable(socket, socket_mt)
 end
 
-local gc_socket_sentinel = ffi.new(gc_socket_t, { fd = -1 })
+local gc_socket_sentinel = ffi.new(gc_socket_t, {fd = -1})
 
 local function do_detach(socket)
     -- .fd is const to prevent tampering
@@ -179,7 +179,7 @@ local function get_iflags(table, flags)
     end
     local res = 0
     if type(flags) ~= 'table' then
-        flags = { flags }
+        flags = {flags}
     end
     for _, f in pairs(flags) do
         if table[f] == nil then
@@ -593,7 +593,7 @@ local function socket_linger(self, active, timeout)
     end
 
     local value = ffi.new("linger_t[1]",
-        { { active = iactive, timeout = timeout } })
+        {{active = iactive, timeout = timeout}})
     local len = 2 * ffi.sizeof('int')
     local res = ffi.C.setsockopt(fd, level, info.iname, value, len)
     if res < 0 then
@@ -1136,7 +1136,7 @@ local function tcp_server_handler(server, sc, from)
 end
 
 local function tcp_server_loop_impl(server, s, addr)
-    addr = addr or socket_name(s) or { host = '?', port = '?' }
+    addr = addr or socket_name(s) or {host = '?', port = '?'}
 
     fiber.name(format("%s/%s:%s", server.name, addr.host, addr.port), {truncate = true})
     log.info("started")
@@ -1350,7 +1350,7 @@ local function tcp_server(host, port, opts, timeout)
 end
 
 socket_mt   = {
-    __index = {
+    __index     = {
         close = socket_close;
         detach = socket_detach;
         errno = socket_errno;
@@ -1398,7 +1398,7 @@ socket_mt   = {
     __serialize = function(self)
         -- Allow YAML, MsgPack and JSON to dump objects with sockets
         local fd = check_socket(self)
-        return { fd = fd, peer = socket_peer(self), name = socket_name(self) }
+        return {fd = fd, peer = socket_peer(self), name = socket_name(self)}
     end
 }
 
@@ -1489,7 +1489,7 @@ local function lsocket_tcp_connect(self, host, port)
     check_socket(self)
     local deadline = fiber.clock() + (self.timeout or TIMEOUT_INFINITY)
     -- This function is broken by design
-    local ga_opts = { family = 'AF_INET', type = 'SOCK_STREAM' }
+    local ga_opts = {family = 'AF_INET', type = 'SOCK_STREAM'}
     local timeout = deadline - fiber.clock()
     local dns, err = getaddrinfo(host, port, timeout, ga_opts)
     if dns == nil then
@@ -1599,7 +1599,7 @@ local function lsocket_tcp_receive(self, pattern, prefix)
             return nil, 'closed', prefix..data
         end
     elseif pattern == "*a" then
-        local result = { prefix }
+        local result = {prefix}
         local deadline = fiber.clock() + (self.timeout or TIMEOUT_INFINITY)
         repeat
             local data = read(self, LIMIT_INFINITY, timeout, check_infinity)

@@ -15,8 +15,8 @@ setmetatable(session, {
 
         local mt = getmetatable(tbl)
 
-        if mt.aggregate_storage[ sid ] == nil then
-            mt.aggregate_storage[ sid ] = {}
+        if mt.aggregate_storage[sid] == nil then
+            mt.aggregate_storage[sid] = {}
         end
         return mt.aggregate_storage[ sid ]
     end,

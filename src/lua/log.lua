@@ -205,7 +205,7 @@ local function say(self, level, fmt, ...)
             if msg_mt and type(msg_mt.__serialize) == 'function' then
                 msg = msg_mt.__serialize(msg)
                 if type(msg) ~= 'table' then
-                    msg = { message = tostring(msg) }
+                    msg = {message = tostring(msg)}
                 end
             end
             -- ignore internal keys

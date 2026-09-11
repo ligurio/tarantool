@@ -19,7 +19,7 @@ local c_char_ptr     = ffi.typeof('const char *')
 
 local memcmp  = ffi.C.memcmp
 local memmem  = ffi.C.memmem
-local isspace = ffi.C.isspace
+local isspace        = ffi.C.isspace
 
 local err_string_arg = "bad argument #%d to '%s' (%s expected, got %s)"
 local space_chars    = ' \t\n\v\f\r'
@@ -424,7 +424,7 @@ end
 
 
 -- It'll automatically set string methods, too.
-local string = require('string')
+local string      = require('string')
 string.split      = string_split
 string.ljust      = string_ljust
 string.rjust      = string_rjust

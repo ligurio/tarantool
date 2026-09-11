@@ -1039,7 +1039,7 @@ end
 -- {type = obj_type, name = obj_name} - perform a per-object sync, skip
 --                                      return message
 local function sync_credentials_worker()
-    fiber.self():name('sync_credentials', { truncate = true })
+    fiber.self():name('sync_credentials', {truncate = true})
 
     if not schema_is_upgraded then
         local not_upgraded_alert_key = 'not_upgraded_schema'

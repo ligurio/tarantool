@@ -27,7 +27,7 @@ mt.__newindex = function (t, n, v)
   rawset(t, n, v)
 end
 
-mt.__index = function (t, n)
+mt.__index = function(t, n)
     if not mt.__declared[n] and what() ~= "C" then
     error("variable '"..n.."' is not declared", 2)
     end
@@ -50,7 +50,7 @@ end
 
 local function on()
     local m = getmetatable(_G)
-    if  m == mt then
+    if m == mt then
         return
     end
     if m == nil then

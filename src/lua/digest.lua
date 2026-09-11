@@ -131,7 +131,7 @@ PMurHash = {
 
     new = function(opts)
         opts = opts or {}
-        local self = setmetatable({}, { __index = PMurHash_methods })
+        local self = setmetatable({}, {__index = PMurHash_methods})
         self.default_seed = (opts.seed or PMurHash.default_seed)
         self.seed = ffi.new("int[1]", self.default_seed)
         self.value = ffi.new("int[1]", 0)
@@ -171,7 +171,7 @@ CRC32 = {
     crc_begin = 4294967295,
 
     new = function()
-        local self = setmetatable({}, { __index = CRC32_methods })
+        local self = setmetatable({}, {__index = CRC32_methods})
         self.value = CRC32.crc_begin
         return self
     end
@@ -290,10 +290,10 @@ local m = {
 }
 
 for digest, _ in pairs(digest_shortcuts) do
-    m[digest] = function (str)
+    m[digest] = function(str)
         return crypto.digest[digest](str)
     end
-    m[digest .. '_hex'] = function (str)
+    m[digest .. '_hex'] = function(str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
                       'Usage: digest.'..digest..'_hex(string)', 2)
@@ -303,10 +303,10 @@ for digest, _ in pairs(digest_shortcuts) do
 end
 
 m['aes256cbc'] = {
-    encrypt = function (str, key, iv)
+    encrypt = function(str, key, iv)
         return crypto.cipher.aes256.cbc.encrypt(str, key, iv)
     end,
-    decrypt = function (str, key, iv)
+    decrypt = function(str, key, iv)
         return crypto.cipher.aes256.cbc.decrypt(str, key, iv)
     end
 }

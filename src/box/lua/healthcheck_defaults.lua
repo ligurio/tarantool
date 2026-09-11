@@ -14,7 +14,7 @@ local function add_box_check()
             return true
         end
         return false, box.info.status
-    end, { if_not_exists = true })
+    end, {if_not_exists = true})
 end
 
 local function config_is_initialized(config)
@@ -39,7 +39,7 @@ local function add_config_check(config)
             return false, status
         end
         return status ~= 'check_errors', first_error_alert_message
-    end, { if_not_exists = true, alert = false })
+    end, {if_not_exists = true, alert = false})
 end
 
 local function ensure()
@@ -47,7 +47,7 @@ local function ensure()
 
     local config = get_config()
     if config == nil or not config_is_initialized(config) then
-        health.remove_health_check('config', { if_exists = true })
+        health.remove_health_check('config', {if_exists = true})
         return
     end
 

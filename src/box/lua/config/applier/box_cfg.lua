@@ -484,7 +484,7 @@ local function revert_non_dynamic_options(config, box_cfg)
     box_cfg_nondynamic.audit_spaces = box_cfg.audit_spaces
     for k, v in pairs(box_cfg_nondynamic) do
         if v ~= box.cfg[k] then
-            local warning = 'box_cfg.apply: non-dynamic option '..k..
+            local warning = 'box_cfg.apply: non-dynamic option ' .. k ..
                 ' will not be set until the instance is restarted'
             config._aboard:set({type = 'warn', message = warning})
             box_cfg[k] = nil
@@ -837,9 +837,9 @@ local function set_metrics(configdata, box_cfg)
     local labels = configdata:get('metrics.labels', {use_default = true})
 
     box_cfg.metrics = {
-        include = include or { 'all' },
-        exclude = exclude or { },
-        labels = labels or { alias = names.instance_name },
+        include = include or {'all'},
+        exclude = exclude or {},
+        labels = labels or {alias = names.instance_name},
     }
 end
 

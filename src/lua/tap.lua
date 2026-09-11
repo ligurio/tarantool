@@ -192,9 +192,9 @@ end
 
 local function isudata(test, v, utype, message, extra)
     extra = extra or {}
-    extra.expected = 'userdata<'..utype..'>'
+    extra.expected = 'userdata<' .. utype .. '>'
     if type(v) == 'userdata' then
-        extra.got = 'userdata<'..getmetatable(v)..'>'
+        extra.got = 'userdata<' .. getmetatable(v) .. '>'
         return ok(test, getmetatable(v) == utype, message, extra)
     else
         extra.got = type(v)

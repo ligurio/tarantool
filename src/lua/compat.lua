@@ -383,7 +383,7 @@ local options = {
 }
 
 -- Array with option names in order of addition.
-local options_order = { }
+local options_order = {}
 
 local help = [[
 Tarantool compatibility module.
@@ -408,7 +408,7 @@ local function serialize_compat()
     -- The results of serialization should be ordered correctly.
     -- The only feasible way for it is using indexed table with
     -- values {option_name = val}.
-    local result = { }
+    local result = {}
 
     for _, name in pairs(options_order) do
         local option = options[name]
@@ -503,7 +503,7 @@ local function set_option(name, val)
     option.selected = selected
 end
 
-local compat = { }
+local compat = {}
 
 -- src/box/lua/config/applier/compat.lua needs information about
 -- default values.
@@ -623,7 +623,7 @@ function compat.add_option(option_def)
     -- Else keep `current` and `selected` as is.
 
     -- Copy all other fields.
-    local option = options[name]
+    local option    = options[name]
     option.brief    = option_def.brief
     option.default  = option_def.default
     option.obsolete = option_def.obsolete
@@ -660,7 +660,7 @@ function compat.postload()
     compat.postload = nil
 end
 
-local compat_mt = { }
+local compat_mt = {}
 
 function compat_mt.__call(_, list)
     if type(list) ~= 'table' then
@@ -735,7 +735,7 @@ function compat_mt.__tostring()
 end
 
 function compat_mt.__autocomplete()
-    local res = { }
+    local res = {}
     for key, option in pairs(options) do
         if not option.obsolete then
             res[key] = true

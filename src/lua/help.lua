@@ -7,7 +7,7 @@ local doc = require('help.en_US')
 -- corresponds to a tarantool version a user runs.
 local DOCUMENTATION_VERSION = '2.1'
 
-help = { doc.help }
+help = {doc.help}
 tutorial = {}
 tutorial[1] = help[1]
 
@@ -15,7 +15,7 @@ local function help_call()
     return help
 end
 
-setmetatable(help, { __call = help_call })
+setmetatable(help, {__call = help_call})
 
 local screen_id = 1;
 
@@ -43,7 +43,7 @@ local function tutorial_call(self, action)
     return (res:gsub('<version>', DOCUMENTATION_VERSION))
 end
 
-setmetatable(tutorial, { __call = tutorial_call })
+setmetatable(tutorial, {__call = tutorial_call})
 
 return {
     help = help;

@@ -4,7 +4,7 @@ local ffi      = require('ffi')
 local fiber    = require('fiber')
 local msgpack  = require('msgpack')
 local urilib   = require('uri')
-local internal = require('net.box.lib')
+local internal             = require('net.box.lib')
 local trigger  = require('internal.trigger')
 local utils    = require('internal.utils')
 
@@ -16,14 +16,14 @@ local fiber_clock       = fiber.clock
 local check_select_opts   = box.internal.check_select_opts
 local check_index_arg     = box.internal.check_index_arg
 local check_space_arg     = box.internal.check_space_arg
-local check_primary_index = box.internal.check_primary_index
+local check_primary_index  = box.internal.check_primary_index
 local check_param         = utils.check_param
 local check_param_table   = utils.check_param_table
 
-local ibuf_t = ffi.typeof('struct ibuf')
-local is_tuple = box.tuple.is
+local ibuf_t               = ffi.typeof('struct ibuf')
+local is_tuple             = box.tuple.is
 
-local TIMEOUT_INFINITY = 500 * 365 * 86400
+local TIMEOUT_INFINITY     = 500 * 365 * 86400
 
 -- select errors from box.error
 local E_NO_CONNECTION        = box.error.NO_CONNECTION
@@ -40,20 +40,20 @@ local REQUEST_OPTION_TYPES = {
     skip_header = "boolean",
     timeout     = "number",
     fetch_pos   = "boolean",
-    after = function(after)
+    after       = function(after)
         if after ~= nil and type(after) ~= "string" and type(after) ~= "table"
             and not is_tuple(after) then
             return false, "string, table, tuple"
         end
         return true
     end,
-    buffer = function(buf)
+    buffer      = function(buf)
         if not ffi.istype(ibuf_t, buf) then
             return false, "struct ibuf"
         end
         return true
     end,
-    _thread_id = "number",
+    _thread_id  = "number",
 }
 
 local CONNECT_OPTION_TYPES = {
@@ -664,7 +664,7 @@ function remote_methods:new_stream()
         _stream_id = self._last_stream_id,
         _conn = self,
         _schema_version = self.schema_version,
-    }, { __index = self, __serialize = stream_serialize })
+    }, {__index = self, __serialize = stream_serialize})
     local stream_space_cache = {}
     local stream_spaces_serialize = function() return stream._conn.space end
     -- When stream being created there are no spaces in it. When user try to
@@ -1246,7 +1246,7 @@ space_metatable = function(remote)
         end
     end
 
-    return { __index = methods, __metatable = false }
+    return {__index = methods, __metatable = false}
 end
 
 index_metatable = function(remote)
@@ -1355,7 +1355,7 @@ index_metatable = function(remote)
             self._id_or_name, key, oplist))
     end
 
-    return { __index = methods, __metatable = false }
+    return {__index = methods, __metatable = false}
 end
 
 this_module = {

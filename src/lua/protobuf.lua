@@ -7,17 +7,17 @@ local protocol_mt
 local MIN_FIELD_ID = 1
 local RESERVED_FIELD_ID_MIN = 19000
 local RESERVED_FIELD_ID_MAX = 19999
-local MAX_FIELD_ID = 2^29 - 1
+local MAX_FIELD_ID = 2 ^ 29 - 1
 
 -- Number limits for int32 and int64
 local MAX_FLOAT = 0x1.fffffep+127
-local MAX_UINT32 = 2^32 - 1
+local MAX_UINT32 = 2 ^ 32 - 1
 -- Actual uint64 limit is 2^64 - 1. Because of lua number limited precision
 -- numbers from [2^64 - 1024, 2^64 + 2048] represent as 2^64. So the correct
 -- number limit for uint64 is 2^64 - 1025.
 local MAX_UINT64 = 0xfffffffffffffbff
-local MIN_SINT32 = -2^31
-local MAX_SINT32 = 2^31 - 1
+local MIN_SINT32 = -2 ^ 31
+local MAX_SINT32 = 2 ^ 31 - 1
 -- Same problem with lua number limited precision.
 -- Numbers from [2^63 - 512, 2^63 + 1024] represent as 2^63. So the correct
 -- number limit for int64 is 2^63 - 513.
@@ -25,12 +25,12 @@ local MAX_INT64 = 0x7ffffffffffffdff
 local MIN_INT64 = -0x8000000000000000 -- 2^63
 
 -- Cdata limits for int32_t and int64_t
-local MAX_UINT32_LL = 2LL^32 - 1
-local MAX_UINT32_ULL = 2ULL^32 - 1
-local MIN_SINT32_LL = -2LL^31
-local MAX_SINT32_LL = 2LL^31 - 1
-local MAX_SINT32_ULL = 2ULL^31 - 1
-local MAX_SINT64_ULL = 2ULL^63 - 1
+local MAX_UINT32_LL = 2LL ^ 32 - 1
+local MAX_UINT32_ULL = 2ULL ^ 32 - 1
+local MIN_SINT32_LL = -2LL ^ 31
+local MAX_SINT32_LL = 2LL ^ 31 - 1
+local MAX_SINT32_ULL = 2ULL ^ 31 - 1
+local MAX_SINT64_ULL = 2ULL ^ 63 - 1
 
 
 local int64_t = ffi.typeof('int64_t')
@@ -434,7 +434,7 @@ end
 -- {{{ Validation
 
 local function validate_length(value)
-    local MAX_LEN = 2^32
+    local MAX_LEN = 2 ^ 32
     if string.len(value) > MAX_LEN then
         error("Too long string to be encoded")
     end

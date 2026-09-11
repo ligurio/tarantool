@@ -93,7 +93,7 @@ local function encode_varint(value)
         size = size + 1
     until value == 0
     -- Set the continuation bit to zero for the last byte.
-    buf[size-1] = bit.band(buf[size-1], 0x7f)
+    buf[size - 1] = bit.band(buf[size - 1], 0x7f)
     return ffi.string(buf, size)
 end
 

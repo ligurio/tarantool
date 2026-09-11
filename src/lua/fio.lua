@@ -197,10 +197,10 @@ fio.open = function(path, flags, mode)
         error("Usage: fio.open(path[, flags[, mode]])")
     end
     if type(flags) ~= 'table' then
-        flags = { flags }
+        flags = {flags}
     end
     if type(mode) ~= 'table' then
-        mode = { mode or tonumber('666', 8) }
+        mode = {mode or tonumber('666', 8)}
     end
 
 
@@ -208,10 +208,10 @@ fio.open = function(path, flags, mode)
         if type(flag) == 'number' then
             iflag = bit.bor(iflag, flag)
         else
-            if fio.c.flag[ flag ] == nil then
+            if fio.c.flag[flag] == nil then
                 error(sprintf("fio.open(): unknown flag: %s", flag))
             end
-            iflag = bit.bor(iflag, fio.c.flag[ flag ])
+            iflag = bit.bor(iflag, fio.c.flag[flag])
         end
     end
 
@@ -303,7 +303,7 @@ fio.umask = function(umask)
 end
 
 fio.chdir = function(path)
-    if type(path)~='string' then
+    if type(path) ~= 'string' then
         error("Usage: fio.chdir(path)")
     end
     return ffi.C.chdir(path) == 0
@@ -377,7 +377,7 @@ fio.rmtree = function(path)
             else
                 _, err = fio.unlink(tmppath)
             end
-            if err ~= nil  then
+            if err ~= nil then
                 return nil, err
             end
         end

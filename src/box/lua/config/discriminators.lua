@@ -7,8 +7,8 @@ local function table_is_array(data)
     assert(type(data) == 'table')
 
     local key_count = 0
-    local min_key = 1/0  -- +inf
-    local max_key = -1/0 -- -inf
+    local min_key = 1 / 0  -- +inf
+    local max_key = -1 / 0 -- -inf
     for k, _ in pairs(data) do
         if type(k) ~= 'number' then
             return false

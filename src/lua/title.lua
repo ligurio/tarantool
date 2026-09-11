@@ -35,7 +35,7 @@ function title.update(kv)
 end
 
 function title.get()
-	local function S(s) return s~=nil and ffi.string(s) or nil end
+    local function S(s) return s ~= nil and ffi.string(s) or nil end
     return S(ffi.C.title_get()), {
         interpretor_name = S(ffi.C.title_get_interpretor_name()),
         script_name = S(ffi.C.title_get_script_name()),

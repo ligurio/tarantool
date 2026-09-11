@@ -4,7 +4,7 @@ local utils = {}
 -- and not as a array. Typical use is to give hint for empty table when it is
 -- not possible to infer type from table content.
 function utils.setmap(tab)
-    return setmetatable(tab, { __serialize = 'map' })
+    return setmetatable(tab, {__serialize = 'map'})
 end
 
 -- Same as type(), but returns 'number' if 'param' is
