@@ -1,0 +1,93 @@
+# Base formatting style for Lua sources under src/.
+#
+# Used by EmmyLuaCodeStyle (CodeFormat). The tool picks the
+# *nearest* .editorconfig for a file and does NOT merge it with
+# parent configs, so any nested .editorconfig has to repeat the
+# options below that differ from the tool defaults.
+
+[*.lua]
+# --- indent ---
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+# --- basic ---
+# Tarantool is not quote-consistent, keep the existing mix of ' and ".
+quote_style = none
+# 80 columns suits the majority of files. The few files that legitimately
+# exceed it get a per-file override at the bottom of this file.
+max_line_length = 80
+end_of_line = lf
+insert_final_newline = true
+call_arg_parentheses = keep
+trailing_table_separator = keep
+
+# --- whitespace ---
+# Single-line tables are written as {1, 2} / {key = value}, not { 1, 2 }.
+space_around_table_field_list = false
+space_before_function_open_parenthesis = false
+space_before_function_call_open_parenthesis = false
+space_before_closure_open_parenthesis = false
+space_before_function_call_single_arg = none
+space_inside_function_call_parentheses = false
+space_inside_function_param_list_parentheses = false
+space_inside_square_brackets = false
+
+# --- alignment ---
+align_call_args = false
+align_function_params = true
+align_continuous_assign_statement = true
+align_continuous_rect_table_field = true
+align_array_table = true
+
+# --- keep the existing blank-line layout and semicolons ---
+line_space_after_function_statement = keep
+end_statement_with_semicolon = keep
+
+# --- per-file line width overrides (files longer than 80 columns) ---
+# The value is the file's longest line rounded up to the next 10, so that no
+# existing line is wrapped while the limit still constrains new code.
+
+# Paths are qualified with their directory on purpose: the formatter matches
+# the section pattern as a path suffix, so a bare file name would also affect
+# same-named files elsewhere (for example config/utils/schema.lua).
+
+# src/lua
+[{src/lua/argparse.lua}]
+max_line_length = 90
+[{src/lua/crypto.lua}]
+max_line_length = 90
+[{src/lua/csv.lua}]
+max_line_length = 110
+[{src/lua/datetime.lua}]
+max_line_length = 90
+[{src/lua/digest.lua}]
+max_line_length = 110
+[{src/lua/fio.lua}]
+max_line_length = 90
+[{src/lua/help_en_US.lua}]
+max_line_length = 100
+[{src/lua/httpc.lua}]
+max_line_length = 100
+[{src/lua/loaders.lua}]
+max_line_length = 90
+[{src/lua/msgpackffi.lua}]
+max_line_length = 120
+[{src/lua/socket.lua}]
+max_line_length = 90
+[{src/lua/string.lua}]
+max_line_length = 90
+
+# src/box/lua
+[{src/box/lua/console.lua}]
+max_line_length = 90
+[{src/box/lua/feedback_daemon.lua}]
+max_line_length = 90
+[{src/box/lua/net_box.lua}]
+max_line_length = 110
+[{src/box/lua/schema.lua}]
+max_line_length = 110
+[{src/box/lua/tuple.lua}]
+max_line_length = 100
+[{src/box/lua/upgrade.lua}]
+max_line_length = 120
