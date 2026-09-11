@@ -116,7 +116,7 @@ end
 local function error_set_prev(err, prev)
     -- First argument must be error.
     if not ffi.istype('struct error', err) then
-        box.error(box.error.ILLEGAL_PARAMS,"Usage: error1:set_prev(error2)", 2)
+        box.error(box.error.ILLEGAL_PARAMS, "Usage: error1:set_prev(error2)", 2)
     end
     -- Second argument must be error or nil.
     if not ffi.istype('struct error', prev) and prev ~= nil then
@@ -142,7 +142,7 @@ local function error_unpack(err)
         box.error(box.error.ILLEGAL_PARAMS, "Usage: error:unpack()", 2)
     end
     local result = {code = err.code}
-    for key, getter in pairs(error_fields)  do
+    for key, getter in pairs(error_fields) do
         result[key] = getter(err)
     end
     local payload = err._payload

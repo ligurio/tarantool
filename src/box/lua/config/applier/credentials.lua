@@ -178,7 +178,7 @@ local function privileges_add_perm(obj_type, obj_names, perm, intermediate)
         obj_names = {obj_names}
     end
 
-    for _, obj_name  in ipairs(obj_names) do
+    for _, obj_name in ipairs(obj_names) do
         if obj_name == 'all' then
             -- '' is a special value, meaning all objects of this obj_type.
             obj_name = ''

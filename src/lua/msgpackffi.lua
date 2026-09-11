@@ -673,13 +673,13 @@ decode_r = function(data)
     if c <= 0x7f then
         return tonumber(c) -- fixint
     elseif c >= 0xa0 and c <= 0xbf then
-        return decode_str(data, bit.band(c, 0x1f)) -- fixstr
+        return decode_str(data, bit.band(c, 0x1f))  -- fixstr
     elseif c >= 0x90 and c <= 0x9f then
         return decode_array(data, bit.band(c, 0xf)) -- fixarray
     elseif c >= 0x80 and c <= 0x8f then
-        return decode_map(data, bit.band(c, 0xf)) -- fixmap
+        return decode_map(data, bit.band(c, 0xf))   -- fixmap
     elseif c >= 0xe0 then
-        return tonumber(ffi.cast('signed char',c)) -- negfixint
+        return tonumber(ffi.cast('signed char', c)) -- negfixint
     elseif c == 0xc0 then
         return msgpack.NULL
     elseif c == 0xc2 then

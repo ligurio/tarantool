@@ -230,7 +230,7 @@ box.txn_isolation_level = {
 -- Create private isolation level map anything-correct -> number.
 local function create_txn_isolation_level_map()
     local res = {}
-    for k,v in pairs(box.txn_isolation_level) do
+    for k, v in pairs(box.txn_isolation_level) do
         res[k] = v
         res[v] = v
     end

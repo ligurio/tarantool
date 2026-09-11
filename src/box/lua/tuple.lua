@@ -114,7 +114,7 @@ local encode_r = msgpackffi.internal.encode_r
 local tuple_encode = function(tmpbuf, obj, level)
     local used = tmpbuf:size()
     if obj == nil then
-        encode_fix(tmpbuf, 0x90, 0)  -- empty array
+        encode_fix(tmpbuf, 0x90, 0) -- empty array
     elseif is_tuple(obj) then
         encode_r(tmpbuf, obj, 1, level and level + 1)
     elseif type(obj) == "table" then
@@ -128,7 +128,7 @@ local tuple_encode = function(tmpbuf, obj, level)
             encode_r(tmpbuf, obj[i], 1, level and level + 1)
         end
     else
-        encode_fix(tmpbuf, 0x90, 1)  -- array of one element
+        encode_fix(tmpbuf, 0x90, 1) -- array of one element
         encode_r(tmpbuf, obj, 1, level and level + 1)
     end
     return tmpbuf.rpos + used, tmpbuf.wpos

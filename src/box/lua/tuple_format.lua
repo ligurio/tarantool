@@ -116,7 +116,7 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
         end
         local count = 0
         local converted = {}
-        for k,v in pairs(field) do
+        for k, v in pairs(field) do
             count = count + 1
             if type(k) ~= 'string' and type(k) ~= 'number' then
                 box.error(box.error.ILLEGAL_PARAMS,
@@ -200,7 +200,7 @@ local function normalize_foreign_key(space_id, space_name, fkey, error_prefix,
     end
     -- the second, detailed form.
     local result = {}
-    for k,v in pairs(fkey) do
+    for k, v in pairs(fkey) do
         if type(k) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
                 error_prefix .. "foreign key name must be a string",

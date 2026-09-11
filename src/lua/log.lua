@@ -351,7 +351,7 @@ end
 -- Update box.internal.cfg on log config changes
 local function box_cfg_update(key)
     if key == nil then
-        for km, kb  in pairs(log2box_keys) do
+        for km, kb in pairs(log2box_keys) do
             box.internal.update_cfg(kb, log_cfg[km])
         end
     else

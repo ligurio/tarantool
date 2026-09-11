@@ -307,7 +307,7 @@ local hexadecimal_chars = {
     'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f'}
 
 local hexadecimal_values = {
-    0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15}
 
 local hexadecimals_mapping = {}

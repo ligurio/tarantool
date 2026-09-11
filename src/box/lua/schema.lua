@@ -1806,7 +1806,7 @@ base_index_mt.fselect = function(index, key, opts, fselect_opts)
             grab_from_opts(prefix_name), get_global(prefix_name), default}
         local min_i = 0
         local min_v = nil
-        for i,v in pairs(variants) do
+        for i, v in pairs(variants) do
             -- Can't use ipairs since it's an array with nils.
             -- Have to sort by i, because pairs() doesn't provide order.
             if expected_types_set[type(v)] and (i < min_i or min_v == nil) then
@@ -3826,7 +3826,7 @@ box.space = {}
 
 local function box_space_mt(tab)
     local t = {}
-    for k,v in pairs(tab) do
+    for k, v in pairs(tab) do
         -- skip system spaces and views
         if type(k) == 'string' and #k > 0 and k:sub(1, 1) ~= '_' then
             t[k] = {

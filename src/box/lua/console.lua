@@ -932,7 +932,7 @@ local function client_read_line(self)
         return nil
     end
     -- remove trailing delimiter
-    return buf:sub(1, -#self.delimiter-2)
+    return buf:sub(1, - #self.delimiter - 2)
 end
 
 --

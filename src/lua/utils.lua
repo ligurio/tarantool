@@ -62,7 +62,7 @@ function utils.check_param_table(table, template, level)
         box.error(box.error.ILLEGAL_PARAMS,
             "options should be a table", level and level + 1)
     end
-    for k,v in pairs(table) do
+    for k, v in pairs(table) do
         if template[k] == nil then
             box.error(box.error.ILLEGAL_PARAMS,
                 "unexpected option '" .. k .. "'", level and level + 1)
@@ -110,12 +110,12 @@ end
 function utils.update_param_table(table, defaults)
     local new_table = {}
     if defaults ~= nil then
-        for k,v in pairs(defaults) do
+        for k, v in pairs(defaults) do
             new_table[k] = v
         end
     end
     if table ~= nil then
-        for k,v in pairs(table) do
+        for k, v in pairs(table) do
             new_table[k] = v
         end
     end

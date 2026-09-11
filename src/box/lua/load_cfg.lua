@@ -1006,7 +1006,7 @@ local function prepare_cfg(cfg, old_cfg, default_cfg, template_cfg, modify_cfg)
     local new_cfg = {}
     for k, v in pairs(cfg) do
         if template_cfg[k] == nil then
-            box.error(box.error.CFG, k , "unexpected option")
+            box.error(box.error.CFG, k, "unexpected option")
         elseif v == "" or v == nil then
             -- "" and NULL = ffi.cast('void *', 0) set option to default value
             v = default_cfg[k]
