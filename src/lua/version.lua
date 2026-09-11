@@ -19,7 +19,7 @@
 --   x.y.z-typeN+commit-ghash, but x.y.z-typeN-commit-ghash.
 --
 
-local ffi   = require('ffi')
+local ffi         = require('ffi')
 local utils       = require('internal.utils')
 
 local check_param = utils.check_param

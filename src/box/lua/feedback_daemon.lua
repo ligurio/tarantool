@@ -1,9 +1,9 @@
 -- feedback_daemon.lua (internal file)
 --
-local log   = require('log')
-local json  = require('json')
+local log            = require('log')
+local json           = require('json')
 local fiber          = require('fiber')
-local http  = require('http.client')
+local http           = require('http.client')
 local fio            = require('fio')
 local ffi            = require('ffi')
 
@@ -11,17 +11,17 @@ local PREFIX         = "feedback_daemon"
 local METRICS_PREFIX = "metrics_collector"
 
 local daemon         = {
-    enabled  = false,
+    enabled                  = false,
     interval                 = 0,
-    host     = nil,
+    host                     = nil,
     send_metrics             = false,
     metrics_collect_interval = 0,
     metrics_limit            = 0,
-    fiber    = nil,
-    control  = nil,
-    guard    = nil,
+    fiber                    = nil,
+    control                  = nil,
+    guard                    = nil,
     shutdown                 = nil,
-    metrics  = {},
+    metrics                  = {},
     metrics_size             = 0,
 }
 
@@ -522,8 +522,8 @@ setmetatable(daemon, {
     __index = {
         set_feedback_params = function()
             box.internal.cfg_set_feedback()
-            daemon.enabled  = box.cfg.feedback_enabled
-            daemon.host     = box.cfg.feedback_host
+            daemon.enabled                  = box.cfg.feedback_enabled
+            daemon.host                     = box.cfg.feedback_host
             daemon.interval                 = box.cfg.feedback_interval
             daemon.send_metrics             = box.cfg.feedback_send_metrics
             daemon.metrics_collect_interval =

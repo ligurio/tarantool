@@ -111,11 +111,11 @@ local math_floor            = math.floor
 
 -- Unix, January 1, 1970, Thursday
 local DAYS_EPOCH_OFFSET     = 719163
-local SECS_PER_DAY      = 86400
+local SECS_PER_DAY          = 86400
 local SECS_EPOCH_OFFSET     = DAYS_EPOCH_OFFSET * SECS_PER_DAY
-local TOSTRING_BUFSIZE  = 64
+local TOSTRING_BUFSIZE      = 64
 local IVAL_TOSTRING_BUFSIZE = 96
-local STRFTIME_BUFSIZE  = 128
+local STRFTIME_BUFSIZE      = 128
 
 -- At the moment the range of known timezones is UTC-12:00..UTC+14:00. See [1].
 -- 1. https://en.wikipedia.org/wiki/List_of_UTC_time_offsets.
@@ -1280,7 +1280,7 @@ ffi.metatype(interval_t, {
 })
 
 local interval_mt = {
-    new     = interval_new,
+    new         = interval_new,
     is_interval = is_interval,
 }
 

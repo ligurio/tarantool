@@ -17,8 +17,8 @@ ffi.cdef[[
 
 local c_char_ptr     = ffi.typeof('const char *')
 
-local memcmp  = ffi.C.memcmp
-local memmem  = ffi.C.memmem
+local memcmp         = ffi.C.memcmp
+local memmem         = ffi.C.memmem
 local isspace        = ffi.C.isspace
 
 local err_string_arg = "bad argument #%d to '%s' (%s expected, got %s)"
@@ -434,5 +434,5 @@ string.endswith   = string_endswith
 string.hex        = string_hex
 string.fromhex    = string_fromhex
 string.strip      = string_strip
-string.lstrip      = string_lstrip
-string.rstrip      = string_rstrip
+string.lstrip     = string_lstrip
+string.rstrip     = string_rstrip

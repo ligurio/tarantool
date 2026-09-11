@@ -1,24 +1,24 @@
 -- net_box.lua (internal file)
-local log      = require('log')
-local ffi      = require('ffi')
-local fiber    = require('fiber')
-local msgpack  = require('msgpack')
-local urilib   = require('uri')
+local log                  = require('log')
+local ffi                  = require('ffi')
+local fiber                = require('fiber')
+local msgpack              = require('msgpack')
+local urilib               = require('uri')
 local internal             = require('net.box.lib')
-local trigger  = require('internal.trigger')
-local utils    = require('internal.utils')
+local trigger              = require('internal.trigger')
+local utils                = require('internal.utils')
 
 local this_module
 
-local max               = math.max
-local fiber_clock       = fiber.clock
+local max                  = math.max
+local fiber_clock          = fiber.clock
 
-local check_select_opts   = box.internal.check_select_opts
-local check_index_arg     = box.internal.check_index_arg
-local check_space_arg     = box.internal.check_space_arg
+local check_select_opts    = box.internal.check_select_opts
+local check_index_arg      = box.internal.check_index_arg
+local check_space_arg      = box.internal.check_space_arg
 local check_primary_index  = box.internal.check_primary_index
-local check_param         = utils.check_param
-local check_param_table   = utils.check_param_table
+local check_param          = utils.check_param
+local check_param_table    = utils.check_param_table
 
 local ibuf_t               = ffi.typeof('struct ibuf')
 local is_tuple             = box.tuple.is
@@ -26,8 +26,8 @@ local is_tuple             = box.tuple.is
 local TIMEOUT_INFINITY     = 500 * 365 * 86400
 
 -- select errors from box.error
-local E_NO_CONNECTION        = box.error.NO_CONNECTION
-local E_PROC_LUA             = box.error.PROC_LUA
+local E_NO_CONNECTION      = box.error.NO_CONNECTION
+local E_PROC_LUA           = box.error.PROC_LUA
 
 local REQUEST_OPTION_TYPES = {
     is_async    = "boolean",
@@ -57,17 +57,17 @@ local REQUEST_OPTION_TYPES = {
 }
 
 local CONNECT_OPTION_TYPES = {
-    user                        = "string",
-    password                    = "string",
-    wait_connected              = "number, boolean",
-    reconnect_after             = "number",
-    console                     = "boolean",
-    connect_timeout             = "number",
-    fetch_schema                = "boolean",
-    auth_type                   = "string",
-    required_protocol_version   = "number",
-    required_protocol_features  = "table",
-    _disable_graceful_shutdown  = "boolean",
+    user                       = "string",
+    password                   = "string",
+    wait_connected             = "number, boolean",
+    reconnect_after            = "number",
+    console                    = "boolean",
+    connect_timeout            = "number",
+    fetch_schema               = "boolean",
+    auth_type                  = "string",
+    required_protocol_version  = "number",
+    required_protocol_features = "table",
+    _disable_graceful_shutdown = "boolean",
 }
 
 -- Given an array of IPROTO feature ids, returns a map {feature_name: bool}.
@@ -1103,12 +1103,12 @@ function remote_methods:_install_schema(schema_version, spaces, indices,
 
     for _, index in pairs(indices) do
         local idx = {
-            space   = index[1],
-            id      = index[2],
-            name    = index[3],
+            space       = index[1],
+            id          = index[2],
+            name        = index[3],
             _id_or_name = index[2],
-            type    = string.upper(index[4]),
-            parts   = {},
+            type        = string.upper(index[4]),
+            parts       = {},
         }
         local OPTS = 5
         local PARTS = 6

@@ -1,6 +1,6 @@
 -- socket.lua (internal file)
 
-local TIMEOUT_INFINITY      = 500 * 365 * 86400
+local TIMEOUT_INFINITY = 500 * 365 * 86400
 local LIMIT_INFINITY   = 2147483647
 
 local ffi              = require('ffi')
@@ -404,19 +404,19 @@ end
 local function socket_shutdown(self, how)
     local fd = check_socket(self)
     local hvariants = {
-        ['R']           = 0,
-        ['READ']        = 0,
-        ['receive']     = 0,
-        ['W']           = 1,
-        ['WRITE']       = 1,
-        ['send']        = 1,
-        ['RW']          = 2,
-        ['READ_WRITE']  = 2,
-        ["both"]        = 2,
+        ['R']          = 0,
+        ['READ']       = 0,
+        ['receive']    = 0,
+        ['W']          = 1,
+        ['WRITE']      = 1,
+        ['send']       = 1,
+        ['RW']         = 2,
+        ['READ_WRITE'] = 2,
+        ["both"]       = 2,
 
-        [0]             = 0,
-        [1]             = 1,
-        [2]             = 2
+        [0]            = 0,
+        [1]            = 1,
+        [2]            = 2
     }
     local ihow = hvariants[how]
 
@@ -1349,7 +1349,7 @@ local function tcp_server(host, port, opts, timeout)
     return s, addr
 end
 
-socket_mt   = {
+socket_mt = {
     __index     = {
         close = socket_close;
         detach = socket_detach;

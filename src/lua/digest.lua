@@ -85,13 +85,13 @@ local BASE64_NOWRAP = 2
 local BASE64_URLSAFE = 7
 
 local digest_shortcuts = {
-    sha1    = 'SHA1',
-    sha224  = 'SHA224',
-    sha256  = 'SHA256',
-    sha384  = 'SHA384',
-    sha512  = 'SHA512',
-    md5     = 'MD5',
-    md4     = 'MD4',
+    sha1   = 'SHA1',
+    sha224 = 'SHA224',
+    sha256 = 'SHA256',
+    sha384 = 'SHA384',
+    sha512 = 'SHA512',
+    md5    = 'MD5',
+    md4    = 'MD4',
 }
 local internal = require("digest.lib")
 

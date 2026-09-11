@@ -28,7 +28,7 @@ end
 local methods = {
     ['select'] = merger.internal.select,
     ['pairs']  = merger.internal.ipairs,
-    ['ipairs']  = merger.internal.ipairs,
+    ['ipairs'] = merger.internal.ipairs,
 }
 
 ffi.metatype(merge_source_t, {

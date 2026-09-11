@@ -134,7 +134,7 @@ local error_fields = {
     ["trace"]       = error_trace;
     ["errno"]       = error_errno;
     ["prev"]        = error_prev;
-    ["base_type"]   = error_base_type
+    ["base_type"] = error_base_type
 }
 
 local function error_unpack(err)

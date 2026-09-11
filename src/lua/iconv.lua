@@ -1,5 +1,5 @@
-local ffi    = require('ffi')
-local errno  = require('errno')
+local ffi            = require('ffi')
+local errno          = require('errno')
 local buffer         = require('buffer')
 local cord_ibuf_take = buffer.internal.cord_ibuf_take
 local cord_ibuf_put  = buffer.internal.cord_ibuf_put
@@ -18,9 +18,9 @@ local cchar_ptr_arr_t = ffi.typeof('const char *[1]')
 local cchar_ptr_t     = ffi.typeof('const char *')
 local size_t_arr_t    = ffi.typeof('size_t [1]')
 
-local E2BIG    = errno['E2BIG']
-local EINVAL   = errno['EINVAL']
-local EILSEQ   = errno['EILSEQ']
+local E2BIG           = errno['E2BIG']
+local EINVAL          = errno['EINVAL']
+local EILSEQ          = errno['EILSEQ']
 local BUF_SIZE        = 64
 
 local conv_rv_error   = ffi.cast('void *', -1)
@@ -35,8 +35,8 @@ local function iconv_convert(iconv, data)
 
     -- prepare at lease BUF_SIZE and at most data_len bytes in shared buffer
     local output_len = data_len >= BUF_SIZE and data_len or BUF_SIZE
-    local buf      = cord_ibuf_take();
-    local buf_ptr  = char_ptr_arr_t()
+    local buf        = cord_ibuf_take();
+    local buf_ptr    = char_ptr_arr_t()
     local buf_left   = size_t_arr_t()
 
     while data_left[0] > 0 do

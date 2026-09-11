@@ -387,7 +387,7 @@ local function connect(instance_name, opts)
     opts            = opts and table.copy(opts) or {}
     opts.ttl        = math.huge
 
-    local conn, err  = pool:connect(instance_name, opts)
+    local conn, err = pool:connect(instance_name, opts)
     if err ~= nil then
         error(err, 0)
     end

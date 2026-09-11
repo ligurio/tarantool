@@ -102,26 +102,26 @@ local special_fields = {
 
 -- Map format number to string.
 local fmt_num2str = {
-    [ffi.C.SF_PLAIN]    = "plain",
-    [ffi.C.SF_JSON]     = "json",
+    [ffi.C.SF_PLAIN] = "plain",
+    [ffi.C.SF_JSON]  = "json",
 }
 
 -- Map format string to number.
 local fmt_str2num = {
-    ["plain"]           = ffi.C.SF_PLAIN,
-    ["json"]            = ffi.C.SF_JSON,
+    ["plain"] = ffi.C.SF_PLAIN,
+    ["json"]  = ffi.C.SF_JSON,
 }
 
 -- Logging levels symbolic representation.
 local log_level_keys = {
-    ['fatal']       = ffi.C.S_FATAL,
-    ['syserror']    = ffi.C.S_SYSERROR,
-    ['error']       = ffi.C.S_ERROR,
-    ['crit']        = ffi.C.S_CRIT,
-    ['warn']        = ffi.C.S_WARN,
-    ['info']        = ffi.C.S_INFO,
-    ['verbose']     = ffi.C.S_VERBOSE,
-    ['debug']       = ffi.C.S_DEBUG,
+    ['fatal']    = ffi.C.S_FATAL,
+    ['syserror'] = ffi.C.S_SYSERROR,
+    ['error']    = ffi.C.S_ERROR,
+    ['crit']     = ffi.C.S_CRIT,
+    ['warn']     = ffi.C.S_WARN,
+    ['info']     = ffi.C.S_INFO,
+    ['verbose']  = ffi.C.S_VERBOSE,
+    ['debug']    = ffi.C.S_DEBUG,
 }
 
 local function log_level_list()
@@ -135,11 +135,11 @@ end
 -- Default options. The keys are part of
 -- user API, so change with caution.
 local default_cfg = {
-    log             = nil,
-    nonblock        = nil,
-    level           = S_INFO,
-    modules         = nil,
-    format          = fmt_num2str[ffi.C.SF_PLAIN],
+    log      = nil,
+    nonblock = nil,
+    level    = S_INFO,
+    modules  = nil,
+    format   = fmt_num2str[ffi.C.SF_PLAIN],
 }
 
 local log_cfg = table.copy(default_cfg)
@@ -148,11 +148,11 @@ local log_cfg = table.copy(default_cfg)
 -- back. Make sure all required fields
 -- are covered!
 local log2box_keys = {
-    ['log']             = 'log',
-    ['nonblock']        = 'log_nonblock',
-    ['level']           = 'log_level',
-    ['modules']         = 'log_modules',
-    ['format']          = 'log_format',
+    ['log']      = 'log',
+    ['nonblock'] = 'log_nonblock',
+    ['level']    = 'log_level',
+    ['modules']  = 'log_modules',
+    ['format']   = 'log_format',
 }
 
 -- Return level as a number, level must be valid.
