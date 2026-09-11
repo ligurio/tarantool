@@ -28,12 +28,12 @@ local function apply(config)
     --
     -- Otherwise, the alert is set.
     if memory_limit <
-       used_memory + REQUIRED_UNUSED_MEMORY_AFTER_APPLICATION then
+        used_memory + REQUIRED_UNUSED_MEMORY_AFTER_APPLICATION then
         local name = 'lua_memory_limit_too_small'
         local warning = 'lua.apply: lua.memory will be applied ' ..
-                        'after restarting the instance since the ' ..
-                        'new limit is too close to the currently ' ..
-                        'allocated amount of memory'
+            'after restarting the instance since the ' ..
+            'new limit is too close to the currently ' ..
+            'allocated amount of memory'
         config._aboard:set({type = 'warn', message = warning}, {key = name})
         return
     end

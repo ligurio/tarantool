@@ -12,8 +12,8 @@ local mt = {}
 mt.__declared = {}
 
 local function what ()
-  local d = getinfo(3, "S")
-  return d and d.what or "C"
+    local d = getinfo(3, "S")
+    return d and d.what or "C"
 end
 
 mt.__newindex = function (t, n, v)
@@ -28,10 +28,10 @@ mt.__newindex = function (t, n, v)
 end
 
 mt.__index = function (t, n)
-  if not mt.__declared[n] and what() ~= "C" then
+    if not mt.__declared[n] and what() ~= "C" then
     error("variable '"..n.."' is not declared", 2)
-  end
-  return rawget(t, n)
+    end
+    return rawget(t, n)
 end
 
 local function off()

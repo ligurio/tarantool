@@ -80,7 +80,7 @@ local function vshard_since_apply_default_if(_data, w)
         return false
     end
     return not expression.eval('v < '..w.schema.vshard_since,
-                               {v = vshard.consts.VERSION})
+        {v = vshard.consts.VERSION})
 end
 
 -- Accepted by vshard only since the given version (an option or the whole
@@ -135,7 +135,7 @@ local function find_suitable_uri_to_connect(listen, opts)
                 return urilib.format(uri), u.params
             elseif opts.log_prefix then
                 log.warn(("%sunsuitable URI %q: %s")
-                                :format(opts.log_prefix, u.uri, err))
+                    :format(opts.log_prefix, u.uri, err))
             end
         end
     end
@@ -152,7 +152,7 @@ local function find_password(self, iconfig, username)
     local user_def = self:get(iconfig, 'credentials.users.' .. username)
     if user_def == nil then
         error(('Cannot find user %s in the config to use its password in a '..
-               'replication peer URI'):format(username), 0)
+            'replication peer URI'):format(username), 0)
     end
 
     -- There is a user definition without a password. Let's assume
@@ -192,7 +192,7 @@ end
 
 local function instance_uri(self, iconfig, advertise_type, opts)
     assert(advertise_type == 'peer' or advertise_type == 'sharding' or
-           advertise_type == 'listen')
+        advertise_type == 'listen')
 
     -- An effective value of iproto.advertise.sharding defaults to
     -- iproto.advertise.peer.

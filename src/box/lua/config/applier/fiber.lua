@@ -20,7 +20,7 @@ local function apply(config)
     end
 
     fiber.tx_user_pool_size(configdata:get('fiber.tx_user_pool_size',
-                                           {use_default = true}))
+        {use_default = true}))
 end
 
 return {

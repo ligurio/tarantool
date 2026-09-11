@@ -58,7 +58,7 @@ local function string_split_internal(inp, sep, maxsplit)
     local sep_len = #sep
     if sep_len == 0 then
         error(err_string_arg:format(2, 'string.split', 'non-empty string',
-              "empty string"), 3)
+            "empty string"), 3)
     end
     local rv = {}
     while true do
@@ -89,7 +89,7 @@ local function string_split(inp, sep, max)
     end
     if max ~= nil and (type(max) ~= 'number' or max < 0) then
         error(err_string_arg:format(3, 'string.split', 'positive integer',
-                                    type(max)), 2)
+            type(max)), 2)
     end
     max = max or 0xffffffff
     if not sep then
@@ -111,11 +111,11 @@ local function string_ljust(inp, width, char)
     end
     if type(width) ~= 'number' or width < 0 then
         error(err_string_arg:format(2, 'string.ljust', 'positive integer',
-                                    type(width)), 2)
+            type(width)), 2)
     end
     if char ~= nil and (type(char) ~= 'string' or #char ~= 1) then
         error(err_string_arg:format(3, 'string.ljust', 'char',
-                                    type(char)), 2)
+            type(char)), 2)
     end
     char = char or " "
     local delta = width - #inp
@@ -138,11 +138,11 @@ local function string_rjust(inp, width, char)
     end
     if type(width) ~= 'number' or width < 0 then
         error(err_string_arg:format(2, 'string.rjust', 'positive integer',
-                                    type(width)), 2)
+            type(width)), 2)
     end
     if char ~= nil and (type(char) ~= 'string' or #char ~= 1) then
         error(err_string_arg:format(3, 'string.rjust', 'char',
-                                    type(char)), 2)
+            type(char)), 2)
     end
     char = char or " "
     local delta = width - #inp
@@ -166,11 +166,11 @@ local function string_center(inp, width, char)
     end
     if type(width) ~= 'number' or width < 0 then
         error(err_string_arg:format(2, 'string.center', 'positive integer',
-                                    type(width)), 2)
+            type(width)), 2)
     end
     if char ~= nil and (type(char) ~= 'string' or #char ~= 1) then
         error(err_string_arg:format(3, 'string.center', 'char',
-                                    type(char)), 2)
+            type(char)), 2)
     end
     char = char or " "
     local delta = width - #inp
@@ -196,19 +196,19 @@ end
 local function string_startswith(inp, head, _start, _end)
     if type(inp) ~= 'string' then
         error(err_string_arg:format(1, 'string.startswith', 'string',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     if type(head) ~= 'string' then
         error(err_string_arg:format(2, 'string.startswith', 'string',
-                                    type(head)), 2)
+            type(head)), 2)
     end
     if _start ~= nil and type(_start) ~= 'number' then
         error(err_string_arg:format(3, 'string.startswith', 'integer',
-                                    type(_start)), 2)
+            type(_start)), 2)
     end
     if _end ~= nil and type(_end) ~= 'number' then
         error(err_string_arg:format(4, 'string.startswith', 'integer',
-                                    type(_end)), 2)
+            type(_end)), 2)
     end
     -- prepare input arguments (move negative values [offset from the end] to
     -- positive ones and/or assign default values)
@@ -247,19 +247,19 @@ local function string_endswith(inp, tail, _start, _end)
     local tail_len, inp_len = #tail, #inp
     if type(inp) ~= 'string' then
         error(err_string_arg:format(1, 'string.endswith', 'string',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     if type(tail) ~= 'string' then
         error(err_string_arg:format(2, 'string.endswith', 'string',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     if _start ~= nil and type(_start) ~= 'number' then
         error(err_string_arg:format(3, 'string.endswith', 'integer',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     if _end ~= nil and type(_end) ~= 'number' then
         error(err_string_arg:format(4, 'string.endswith', 'integer',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     -- prepare input arguments (move negative values [offset from the end] to
     -- positive ones and/or assign default values)
@@ -327,12 +327,12 @@ end
 local function string_fromhex(inp)
     if type(inp) ~= 'string' then
         error(err_string_arg:format(1, 'string.fromhex', 'string',
-                                    type(inp)), 2)
+            type(inp)), 2)
     end
     if inp:len() % 2 ~= 0 then
         error(err_string_arg:format(1, 'string.fromhex',
-                                    'even amount of chars',
-                                    'odd amount'), 2)
+            'even amount of chars',
+            'odd amount'), 2)
     end
     local len = inp:len() / 2
     local casted_inp = ffi.cast('const char *', inp)
@@ -344,7 +344,7 @@ local function string_fromhex(inp)
         if first == nil or second == nil then
             cord_ibuf_put(ibuf)
             error(err_string_arg:format(1, 'string.fromhex', 'hex string',
-                                        'non hex chars'), 2)
+                'non hex chars'), 2)
         end
         res[i] = first * 16 + second
     end
@@ -372,7 +372,7 @@ local function string_strip(inp, chars)
     local strip_newstart = ffi.new('unsigned long[1]')
     local strip_newlen = ffi.new('unsigned long[1]')
     ffi.C.string_strip_helper(inp, #inp, chars, #chars, true, true,
-                              strip_newstart, strip_newlen)
+        strip_newstart, strip_newlen)
     return ffi.string(casted_inp + strip_newstart[0], strip_newlen[0])
 end
 
@@ -395,7 +395,7 @@ local function string_lstrip(inp, chars)
     local strip_newstart = ffi.new('unsigned long[1]')
     local strip_newlen = ffi.new('unsigned long[1]')
     ffi.C.string_strip_helper(inp, #inp, chars, #chars, true, false,
-                              strip_newstart, strip_newlen)
+        strip_newstart, strip_newlen)
     return ffi.string(casted_inp + strip_newstart[0], strip_newlen[0])
 end
 
@@ -418,7 +418,7 @@ local function string_rstrip(inp, chars)
     local strip_newstart = ffi.new('unsigned long[1]')
     local strip_newlen = ffi.new('unsigned long[1]')
     ffi.C.string_strip_helper(inp, #inp, chars, #chars, false, true,
-                              strip_newstart, strip_newlen)
+        strip_newstart, strip_newlen)
     return ffi.string(casted_inp + strip_newstart[0], strip_newlen[0])
 end
 

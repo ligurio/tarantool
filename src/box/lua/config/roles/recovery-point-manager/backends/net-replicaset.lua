@@ -49,8 +49,8 @@ end
 -- wrap it) -- the manager retries.
 local function instance_create_point(instance, opts)
     local ok, res = pcall(instance.rs.call_leader, instance.rs,
-                          'box.backup.recovery_point.create',
-                          {{label = opts.label}}, {timeout = opts.timeout})
+        'box.backup.recovery_point.create',
+        {{label = opts.label}}, {timeout = opts.timeout})
     if not ok then
         return nil, res
     end

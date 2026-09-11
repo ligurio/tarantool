@@ -232,7 +232,7 @@ end
 M['failover.metrics.exporters.*.path'] = function(value, w)
     if not value:startswith('/') then
         w.error('failover.metrics.exporters.path must start with "/": %q',
-                value)
+            value)
     end
 end
 
@@ -408,10 +408,10 @@ end
 
 M['security.auth_type'] = function(auth_type, w)
     if auth_type ~= 'chap-sha1' and
-            tarantool.package ~= 'Tarantool Enterprise' then
+        tarantool.package ~= 'Tarantool Enterprise' then
         w.error('"chap-sha1" is the only authentication method ' ..
-                '(auth_type) available in Tarantool Community ' ..
-                'Edition (%q requested)', auth_type)
+            '(auth_type) available in Tarantool Community ' ..
+            'Edition (%q requested)', auth_type)
     end
 end
 
@@ -485,7 +485,7 @@ M['sharding.roles'] = function(roles, w)
     end
     if has_rebalancer and not has_storage then
         w.error('The rebalancer role cannot be present without ' ..
-                'the storage role')
+            'the storage role')
     end
 end
 

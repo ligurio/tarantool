@@ -84,7 +84,7 @@ local function version_new(major, minor, patch, prerelease, commit)
         if not prerelease_id then
             local msg = "Unknown prerelease type '%s'"
             box.error(box.error.ILLEGAL_PARAMS,
-                      string.format(msg, prerelease_name or prerelease), 2)
+                string.format(msg, prerelease_name or prerelease), 2)
         end
     else
         -- Greatest priority, actual release.
@@ -153,7 +153,7 @@ local function version_fromstr(version_str)
         commit = tonumber(commit)
     end
 
-::finish::
+    ::finish::
     -- Note, that ghash itself and everything after it (e.g. -dev suffix) is
     -- ignored and doesn't affect comparing of the versions. Only
     -- x.y.z-typeN-commit part is parsed and validated. However, if anything
@@ -164,7 +164,7 @@ local function version_fromstr(version_str)
     end
     do return version_new(major, minor, patch, prerelease, commit) end
 
-::error::
+    ::error::
     local msg = "Error during parsing version string '%s'"
     box.error(box.error.ILLEGAL_PARAMS, string.format(msg, version_str), 2)
 end
@@ -239,7 +239,7 @@ local version_mt = {
         r = version_cast(r)
         if not l or not r then
             box.error(box.error.ILLEGAL_PARAMS,
-                      "Cannot cast to version object", 2)
+                "Cannot cast to version object", 2)
         end
         return version_cmp(l, r) < 0
     end,
@@ -248,7 +248,7 @@ local version_mt = {
         r = version_cast(r)
         if not l or not r then
             box.error(box.error.ILLEGAL_PARAMS,
-                      "Cannot cast to version object", 2)
+                "Cannot cast to version object", 2)
         end
         return version_cmp(l, r) <= 0
     end,

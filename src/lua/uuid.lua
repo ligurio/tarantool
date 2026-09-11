@@ -156,7 +156,7 @@ local uuid_cmp = function(lhs, rhs)
     if is_uuid(lhs) then
         if is_uuid(rhs) then
             -- Fast path.
-           return builtin.tt_uuid_compare(lhs, rhs)
+            return builtin.tt_uuid_compare(lhs, rhs)
         end
         if type(rhs) ~= 'string' then
             return error_convert_arg(2)

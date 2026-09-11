@@ -11,8 +11,8 @@ local function set_schema_version_alert(current_version, latest_version)
     config._aboard:set({
         type = 'warn',
         message = (
-            'The schema version %s is outdated, the latest ' ..
-            'version is %s. Please, consider using box.schema.upgrade().')
+                'The schema version %s is outdated, the latest ' ..
+                'version is %s. Please, consider using box.schema.upgrade().')
             :format(current_version, latest_version),
     }, {
         key = SCHEMA_VERSION_ALERT_KEY,

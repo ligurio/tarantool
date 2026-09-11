@@ -76,7 +76,7 @@ ffi.cdef[[
 ]]
 
 local function openssl_err_str()
-  return ffi.string(ffi.C.crypto_ERR_error_string(ffi.C.crypto_ERR_get_error(), nil))
+    return ffi.string(ffi.C.crypto_ERR_error_string(ffi.C.crypto_ERR_get_error(), nil))
 end
 
 local digests = {}
@@ -153,10 +153,10 @@ end
 
 digest_mt = {
     __index = {
-          init = digest_init,
-          update = digest_update,
-          result = digest_final,
-          free = digest_free
+        init = digest_init,
+        update = digest_update,
+        result = digest_final,
+        free = digest_free
     }
 }
 
@@ -192,7 +192,7 @@ local function hmac_init(self, key)
         return error('HMAC context isn\'t usable')
     end
     if ffi.C.crypto_HMAC_Init_ex(self.ctx, key, key:len(), self.class,
-                                 self.digest, nil) ~= 1 then
+            self.digest, nil) ~= 1 then
         return error('Can\'t init HMAC: ' .. openssl_err_str())
     end
     self.initialized = true
@@ -234,10 +234,10 @@ end
 
 hmac_mt = {
     __index = {
-          init = hmac_init,
-          update = hmac_update,
-          result = hmac_final,
-          free = hmac_free
+        init = hmac_init,
+        update = hmac_update,
+        result = hmac_final,
+        free = hmac_free
     }
 }
 
@@ -271,7 +271,7 @@ local function crypto_stream_begin(self, key, iv)
     self.iv = iv or self.iv
     if self.key and self.iv then
         if ffi.C.crypto_stream_begin(ctx, self.key, self.key:len(),
-                                     self.iv, self.iv:len()) ~= 0 then
+                self.iv, self.iv:len()) ~= 0 then
             box.error()
         end
         self.is_initialized = true
@@ -320,10 +320,10 @@ end
 
 crypto_stream_mt = {
     __index = {
-          init = crypto_stream_begin,
-          update = crypto_stream_append,
-          result = crypto_stream_commit,
-          free = crypto_stream_free
+        init = crypto_stream_begin,
+        update = crypto_stream_append,
+        result = crypto_stream_commit,
+        free = crypto_stream_free
     }
 }
 
@@ -419,12 +419,12 @@ for algo_name, algo_value in pairs(crypto_algos) do
             mode_api[dir_name] = setmetatable({
                 new = function(key, iv)
                     return crypto_stream_new(algo_value, mode_value, key, iv,
-                                             dir_value)
+                        dir_value)
                 end
             }, {
                 __call = function(self, str, key, iv)
                     local ctx = crypto_stream_new(algo_value, mode_value, key,
-                                                  iv, dir_value)
+                        iv, dir_value)
                     local res = ctx:update(str)
                     res = res .. ctx:result()
                     ctx:free()

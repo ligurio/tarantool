@@ -137,15 +137,15 @@ local swim_incarnation_mt = {
     end,
     __lt = function(l, r)
         return l.generation < r.generation or
-               l.generation == r.generation and l.version < r.version
+            l.generation == r.generation and l.version < r.version
     end,
     __le = function(l, r)
         return l.generation < r.generation or
-               l.generation == r.generation and l.version <= r.version
+            l.generation == r.generation and l.version <= r.version
     end,
     __tostring = function(i)
         return string.format('cdata {generation = %s, version = %s}',
-                             i.generation, i.version)
+            i.generation, i.version)
     end,
 }
 ffi.metatype(ffi.typeof('struct swim_incarnation'), swim_incarnation_mt)
@@ -266,7 +266,7 @@ local function swim_check_const_char(value, size, func_name, param_name)
     if type(value) == 'cdata' then
         if not size then
             return error(func_name..': size is mandatory for cdata '..
-                         param_name)
+                param_name)
         end
         value = ffi.cast('const char *', value)
     elseif type(value) == 'string' then
@@ -274,12 +274,12 @@ local function swim_check_const_char(value, size, func_name, param_name)
             size = value:len()
         elseif size > value:len() then
             return error(func_name..': explicit '..param_name..
-                         ' size > string length')
+                ' size > string length')
         end
     elseif value == nil then
         if size then
             return error(func_name..': size can not be set without '..
-                         param_name)
+                param_name)
         end
         size = 0
     else
@@ -914,13 +914,13 @@ local function swim_cfg_call(c, s, cfg)
     end
     local uri = swim_check_uri(cfg.uri, func_name)
     local heartbeat_rate = swim_check_timeout(cfg.heartbeat_rate,
-                                              func_name, 'heartbeat_rate')
+        func_name, 'heartbeat_rate')
     local ack_timeout = swim_check_timeout(cfg.ack_timeout, func_name,
-                                           'ack_timeout');
+        'ack_timeout');
     local gc_mode = swim_check_gc_mode(cfg.gc_mode, func_name)
     local uuid = swim_check_uuid(cfg.uuid, func_name)
     if capi.swim_cfg(ptr, uri, heartbeat_rate, ack_timeout,
-                     gc_mode, uuid) ~= 0 then
+            gc_mode, uuid) ~= 0 then
         return nil, box.error.last()
     end
     local index = c.index
@@ -940,7 +940,7 @@ local swim_cfg_mt = {
     end,
     __newindex = function()
         return error('please, use swim:cfg{key = value} instead of '..
-                     'swim.cfg.key = value')
+            'swim.cfg.key = value')
     end
 }
 
@@ -987,7 +987,7 @@ local function swim_new(cfg)
     if cfg and type(cfg) == 'table' and cfg.generation then
         generation = cfg.generation
         if type(generation) ~= 'number' or generation < 0 or
-           math.floor(generation) ~= generation then
+            math.floor(generation) ~= generation then
             return error('swim.new: generation should be non-negative integer')
         end
         cfg = table.copy(cfg)

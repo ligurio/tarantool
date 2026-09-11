@@ -85,7 +85,7 @@ local function load_roles(roles_names)
         loaded[role_name] = role
         if role.dependencies ~= nil and type(role.dependencies) ~= 'table' then
             local err = 'Role %q has field "dependencies" of type %s, '..
-                        'array-like table or nil expected'
+                'array-like table or nil expected'
             error(err:format(role_name, type(role.dependencies)), 0)
         end
     end
@@ -115,12 +115,12 @@ local call_on_event_callbacks = locked(function(roles_cfg, key, value)
         local role = roles[role_name]
         if role.on_event ~= nil then
             log.verbose(('roles.on_event: calling callback for role ' ..
-                         '"%s"'):format(role_name))
+                '"%s"'):format(role_name))
             local ok, err = pcall(role.on_event,
-                                  roles_cfg[role_name], key, value)
+                roles_cfg[role_name], key, value)
             if not ok then
                 log.error(('roles.on_event: callback for role ' ..
-                           '"%s" failed: %s'):format(role_name, err))
+                    '"%s" failed: %s'):format(role_name, err))
             end
         end
     end
@@ -220,7 +220,7 @@ local function preload(config)
     for _, role_name in ipairs(role_names) do
         local md = roles_state.metadata[role_name]
         if not early_load_roles_set[role_name]
-        and md ~= nil and md['early_load'] then
+            and md ~= nil and md['early_load'] then
             table.insert(early_load_roles, role_name)
         end
         early_load_roles_set[role_name] = true
@@ -285,7 +285,7 @@ local function stop_roles(roles_to_skip)
                 err = ('roles %s depend on it'):format(names_str)
             end
             error(('Role %q cannot be stopped because %s'):format(role_name,
-                                                                  err), 0)
+                err), 0)
         end
     end
     for _, role_name in ipairs(roles_to_stop) do
@@ -335,7 +335,7 @@ local function resort_roles(original_order, roles)
             -- Detect a role that is not in the list of instance's roles.
             if not roles[dep] then
                 local err = 'Role %q requires role %q, but the latter is ' ..
-                            'not in the list of roles of the instance'
+                    'not in the list of roles of the instance'
                 error(err:format(role_name, dep), 0)
             end
 
@@ -346,7 +346,7 @@ local function resort_roles(original_order, roles)
             end
             if to_add[dep] and role_name ~= dep then
                 local err = 'Circular dependency: roles %q and %q depend on ' ..
-                            'each other'
+                    'each other'
                 error(err:format(role_name, dep), 0)
             end
 
@@ -418,7 +418,7 @@ local function post_apply(config)
             error(('Error applying role %s: %s'):format(role_name, err), 0)
         end
         register_role_health_check(role_name, loaded[role_name],
-                                   roles_cfg[role_name])
+            roles_cfg[role_name])
     end
 
     roles_state.last_loaded = loaded
@@ -431,7 +431,7 @@ local function post_apply(config)
 
     -- Call on_event callbacks after the config is fully applied.
     call_on_event_callbacks(roles_state.last_roles_cfg, 'config.apply',
-                            roles_state.last_box_status_value)
+        roles_state.last_box_status_value)
 end
 
 return {

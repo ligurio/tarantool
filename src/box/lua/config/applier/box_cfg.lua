@@ -511,10 +511,10 @@ local names_state = {
 -- from box.info) and which have not be alerted already.
 local function names_alert_missing(config, missing_names)
     local msg = 'box_cfg.apply: name %s for %s uuid is missing from the ' ..
-                'snapshot. It will be automatically set when possible.'
+        'snapshot. It will be automatically set when possible.'
     local replicaset_name = config._configdata._replicaset_name
     if missing_names[replicaset_name] ~= nil and
-       config._aboard:get(replicaset_name) == nil then
+        config._aboard:get(replicaset_name) == nil then
         local replicaset_uuid = missing_names[replicaset_name]
         local warning = msg:format(replicaset_name, replicaset_uuid)
         config._aboard:set({type = 'warn', message = warning},
@@ -522,8 +522,8 @@ local function names_alert_missing(config, missing_names)
     end
 
     local unknown_msg = 'box_cfg.apply: instance %s is unknown. Possibly ' ..
-                        'instance_name is not set in database and UUID is ' ..
-                        'not specified. Or instance have not joined yet.'
+        'instance_name is not set in database and UUID is ' ..
+        'not specified. Or instance have not joined yet.'
     for name, uuid in pairs(missing_names._peers) do
         local warning
         if uuid == 'unknown' then
@@ -576,7 +576,7 @@ end
 
 local function missing_names_is_empty(missing_names, replicaset_name)
     return not missing_names[replicaset_name] and
-           table.equals(missing_names._peers, {})
+        table.equals(missing_names._peers, {})
 end
 
 local function names_try_set_missing()
@@ -585,7 +585,7 @@ local function names_try_set_missing()
     local missing_names = configdata:missing_names()
 
     if box.info.ro or missing_names_is_empty(missing_names,
-                                             replicaset_name) then
+            replicaset_name) then
         -- Somebody have done work for us, nothing to update or we're not
         -- a rw, which is possible if the function was invoked after reload.
         return
@@ -700,7 +700,7 @@ local function names_apply(config, missing_names, schema_version)
     -- Don't wait for box.status to change, we may be already rw, set names
     -- on reload, if it's possible and needed.
     if schema_version and
-       schema_version >= box.internal.latest_dd_version() then
+        schema_version >= box.internal.latest_dd_version() then
         names_try_set_missing()
     end
 
@@ -981,7 +981,7 @@ local function switch_isolated_mode_after_box_cfg(config)
         local alert_key = 'isolated_mode_drop_iproto_connections_timeout'
 
         if not ok then
-           local message = ('isolated mode: can\'t drop iproto connections ' ..
+            local message = ('isolated mode: can\'t drop iproto connections ' ..
                 'during %d seconds (continued in background): %s'):format(
                 timeout, err)
 

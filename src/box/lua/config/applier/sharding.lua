@@ -82,8 +82,8 @@ local function check_vshard(config)
         local since = w.schema.vshard_since
         if expression.eval('v < ' .. since, {v = version}) then
             error(('%s: The vshard module is too old: the minimum ' ..
-                   'supported version is %s'):format(
-                   table.concat(w.path, '.'), since), 0)
+                'supported version is %s'):format(
+                table.concat(w.path, '.'), since), 0)
         end
     end)
 end

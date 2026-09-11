@@ -57,7 +57,7 @@ thread_groups.tx = {
     call = function(self, func_name, args, opts)
         self._check_call_eval_opts(opts)
         return self._handle_call_eval_result(pcall(box.internal.threads.call,
-                                                   func_name, args))
+            func_name, args))
     end,
     eval = function(self, expr, args, opts)
         self._check_call_eval_opts(opts)
@@ -165,7 +165,7 @@ function thread_group_methods:_dispatch(cb, args, opts)
     else
         local thread_id = self.first_thread_id + opts.target - 1
         if thread_id < self.first_thread_id or
-                thread_id > self.last_thread_id then
+            thread_id > self.last_thread_id then
             box.error(box.error.NO_SUCH_THREAD, opts.target, 2)
         end
         first_thread_id, last_thread_id = thread_id, thread_id
@@ -198,8 +198,8 @@ local function thread_init_cb(args, thread_id)
     local cfg, group = unpack(args)
     local id_in_group = thread_id - group.first_thread_id + 1
     return threads_conn:call('box.internal.threads.init',
-                             {cfg, group.name, id_in_group, make_conn_fd()},
-                             {_thread_id = thread_id, is_async = true})
+        {cfg, group.name, id_in_group, make_conn_fd()},
+        {_thread_id = thread_id, is_async = true})
 end
 
 --
@@ -216,7 +216,7 @@ end
 local function thread_reload_priv_cb(args, thread_id)
     assert(threads_conn ~= nil)
     return threads_conn:call('box.internal.threads.reload_priv', args,
-                             {_thread_id = thread_id, is_async = true})
+        {_thread_id = thread_id, is_async = true})
 end
 
 --
@@ -233,7 +233,7 @@ end
 local function thread_call_cb(args, thread_id)
     assert(threads_conn ~= nil)
     return threads_conn:call('box.internal.threads.call', args,
-                             {_thread_id = thread_id, is_async = true})
+        {_thread_id = thread_id, is_async = true})
 end
 
 --
@@ -251,7 +251,7 @@ end
 local function thread_eval_cb(args, thread_id)
     assert(threads_conn ~= nil)
     return threads_conn:eval(args[1], args[2],
-                             {_thread_id = thread_id, is_async = true})
+        {_thread_id = thread_id, is_async = true})
 end
 
 --
@@ -412,11 +412,11 @@ local CALL_EVAL_OPTS = {
 local function check_call_eval_opts(opts)
     utils.check_param_table(opts, CALL_EVAL_OPTS, 3)
     if type(opts.target) == 'string' and
-            opts.target ~= 'all' and opts.target ~= 'any' then
+        opts.target ~= 'all' and opts.target ~= 'any' then
         box.error(box.error.ILLEGAL_PARAMS,
-                  "unexpected value for option parameter 'target': " ..
-                  "got '" .. opts.target .. "', " ..
-                  "expected 'any', 'all', or a number", 3)
+            "unexpected value for option parameter 'target': " ..
+            "got '" .. opts.target .. "', " ..
+            "expected 'any', 'all', or a number", 3)
     end
 end
 

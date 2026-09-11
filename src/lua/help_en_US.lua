@@ -14,7 +14,7 @@ Available backslash commands:
   \quit                      -- quit interactive console
 ]];
     tutorial = {
-    [[
+        [[
 Tutorial -- Screen #1 -- Hello, Moon
 ====================================
 
@@ -47,7 +47,7 @@ something else such as "Longer String",-1,-3,0.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #2 -- Variables
 ==================================
 
@@ -79,7 +79,7 @@ When you’re ready to go to the next screen, enter <tutorial("next")>.
 Or, to go to the previous screen, enter <tutorial("prev")>.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #3 -- Loops
 ==============================
 
@@ -107,7 +107,7 @@ For adventure, change the loop to "for i=1,3,1"
 When you’re ready to go to the next screen, enter <tutorial("next")>.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #4 -- Operators
 ==================================
 
@@ -134,7 +134,7 @@ The answer will appear when you type in the request.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #5 -- Conditions
 ===================================
 
@@ -159,7 +159,7 @@ The answer will appear when you type in the request.
 When you’re ready to go to the next screen, enter <tutorial("next")>.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #6 -- Delimiters
 ===================================
 
@@ -192,7 +192,7 @@ When you’re ready to go to the next screen, enter <tutorial("next")!>.
 Yes, <tutorial("next")!> now has to end with an exclamation mark too!
 ]];
 
-[[
+        [[
 Tutorial -- Screen #7 -- Simple functions
 =========================================
 
@@ -216,7 +216,7 @@ between 1 and 100, and returns the final result.
 The request "func()!" invokes the function.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #8 -- Improved functions
 ===========================================
 
@@ -236,7 +236,7 @@ func(0)!
 ------------------------------
 ]];
 
-[[
+        [[
 Tutorial -- Screen #9 -- Comments
 =================================
 
@@ -265,7 +265,7 @@ func(0)!
 Obviously it will work, so just type <tutorial("next")!> now.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #10 -- Modules
 =================================
 
@@ -299,7 +299,7 @@ Then you’ll see the fiber's current status (the fiber is running now).
 More on fibers on the next screen, so type <tutorial("next")!> now.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #11 -- The fiber module
 ==========================================
 
@@ -336,7 +336,7 @@ possible to monitor it: slowly type "gvar!" a few
 times and notice how the value mysteriously increases.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #12 -- The socket module
 ===========================================
 
@@ -365,7 +365,7 @@ More in the Tarantool manual:
 https://tarantool.io/en/doc/<version>/reference/reference_lua/socket/
 ]];
 
-[[
+        [[
 Tutorial -- Screen #13 -- The box module
 ========================================
 
@@ -410,7 +410,7 @@ enough if you see that module box gets a space which is
 named tutor, and it has one index on the first field.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #14 -- box.select()
 ======================================
 
@@ -446,7 +446,7 @@ the table. That is, when you call database_display()! you’ll
 see a display of what’s in the tuples.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #15 -- box.replace()
 =======================================
 
@@ -473,7 +473,7 @@ new data. Otherwise it will be created for the first time.
 The display will be the formal description of the new tuple.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #16 -- Create your own space
 ===============================================
 
@@ -499,7 +499,7 @@ that data can’t be lost. Although "memtx" is the
 default engine anyway, specifying it does no harm.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #17 -- Create your own index
 ===============================================
 
@@ -525,7 +525,7 @@ be on the second field of each tuple, and will be
 in order by string value.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #18 -- Insert multiple tuples
 ================================================
 
@@ -548,7 +548,7 @@ Tip: to select the tuples later, use the function
 that you created earlier: database_display("test")!
 ]];
 
-[[
+        [[
 Tutorial -- Screen #19 -- Become another user
 =============================================
 
@@ -570,7 +570,7 @@ a powerful user again, because for this tutorial
 the "admin" user isn’t protected by a password.
 ]];
 
-[[
+        [[
 Tutorial -- Screen #20 -- The bigger Tutorials
 ==============================================
 

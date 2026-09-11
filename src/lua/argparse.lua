@@ -158,7 +158,7 @@ local function parameters_parse(t_in, options)
         else
             table.insert(t_out, v)
         end
-::nextparam::
+        ::nextparam::
     end
     if options then
         local unknown = {}

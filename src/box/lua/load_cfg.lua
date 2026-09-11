@@ -287,7 +287,7 @@ for _, option in ipairs(compat_options) do
         action = function(is_new)
             if is_locked() or box_is_configured then
                 error("The compat  option '" .. option_name .. "' takes " ..
-                      "effect only before the initial box.cfg() call")
+                    "effect only before the initial box.cfg() call")
             end
             local val = is_new and option.newval or option.oldval
             default_cfg[option.name] = val
@@ -599,14 +599,14 @@ local log_cfg_option = {
 
 local function check_instance_uuid()
     if box.cfg.instance_uuid ~= box.NULL and
-       box.cfg.instance_uuid ~= box.info.uuid then
+        box.cfg.instance_uuid ~= box.info.uuid then
         box.error(box.error.RELOAD_CFG, 'instance_uuid')
     end
 end
 
 local function check_replicaset_uuid()
     if box.cfg.replicaset_uuid ~= box.NULL and
-       box.cfg.replicaset_uuid ~= box.info.replicaset.uuid then
+        box.cfg.replicaset_uuid ~= box.info.replicaset.uuid then
         box.error(box.error.RELOAD_CFG, 'replicaset_uuid')
     end
 end
@@ -877,7 +877,7 @@ local dynamic_cfg_skip_at_load = {
 -- into dynamic_cfg_modules.
 for option, api in pairs(dynamic_cfg) do
     assert(dynamic_cfg_modules[option] == nil,
-           'name clash in dynamic_cfg_modules and dynamic_cfg')
+        'name clash in dynamic_cfg_modules and dynamic_cfg')
     dynamic_cfg_modules[option] = {
         cfg = api,
         options = {[option] = true},
@@ -958,9 +958,9 @@ local function upgrade_cfg(cfg, translate_cfg)
                 old_val, new_val = transform(v, new_val_orig)
             end
             if new_val_orig ~= nil and
-               new_val_orig ~= new_val then
+                new_val_orig ~= new_val then
                 box.error(box.error.CFG, k,
-                          'can not override a value for a deprecated option')
+                    'can not override a value for a deprecated option')
             end
             result_cfg[k] = old_val
             result_cfg[new_key] = new_val
@@ -977,14 +977,14 @@ local function check_cfg_option_type(template, name, value)
     elseif (string.find(template, ',') == nil) then
         if type(value) ~= template then
             box.error(box.error.CFG, name, "should be of type " ..
-                      template)
+                template)
         end
     else
         local prepared_tmpl = ',' .. string.gsub(template, ' ', '') .. ','
         local prepared_type = ',' .. type(value) .. ','
         if string.find(prepared_tmpl, prepared_type) == nil then
             box.error(box.error.CFG, name, "should be one of types " ..
-                      template)
+                template)
         end
     end
     -- It makes no sense to set any configuration option value to an infinite
@@ -992,7 +992,7 @@ local function check_cfg_option_type(template, name, value)
     -- configuration option sanity checks and breaking the application logic,
     -- we forbid them explicitly at the top level.
     if type(value) == 'number' and not
-            (value == value and value > -math.huge and value < math.huge) then
+        (value == value and value > -math.huge and value < math.huge) then
         box.error(box.error.CFG, name, "should be a finite number")
     end
 end
@@ -1071,7 +1071,7 @@ local function rollback_module(module, oldcfg, keys, values)
     if not result then
         for key in pairs(keys) do
             log.error("failed to revert '%s' configuration option: %s",
-                      key, err)
+                key, err)
         end
 
         for key in pairs(module.options) do
@@ -1087,12 +1087,12 @@ local function log_changed_options(oldcfg, keys, log_basecfg)
     for key in pairs(keys) do
         local val = oldcfg[key]
         if log_basecfg == nil or
-           not compare_cfg(val, log_basecfg[key]) then
+            not compare_cfg(val, log_basecfg[key]) then
             if log_cfg_option[key] ~= nil then
                 val = log_cfg_option[key](val)
             end
             log.info("set '%s' configuration option to %s",
-                     key, json.encode(val))
+                key, json.encode(val))
         end
     end
 end
@@ -1141,7 +1141,7 @@ end
 local function reload_cfg(oldcfg, cfg)
     cfg = upgrade_cfg(cfg, translate_cfg)
     local newcfg = prepare_cfg(cfg, {}, default_cfg, template_cfg,
-                               modify_cfg)
+        modify_cfg)
     local module_keys = {}
     -- iterate over original table because prepare_cfg() may store NILs
     for key in pairs(cfg) do
@@ -1223,7 +1223,7 @@ end
 setmetatable(box, {
     __index = function()
         box.error(box.error.UNCONFIGURED)
-     end
+    end
 })
 
 local raw_cfg
@@ -1298,9 +1298,9 @@ local function load_cfg(cfg)
                     local v = '<...>'
                     local t = type(value)
                     if t == 'boolean' or
-                       t == 'nil' or
-                       t == 'number' or
-                       t == 'string' then
+                        t == 'nil' or
+                        t == 'number' or
+                        t == 'string' then
                         v = value
                     end
                     local err_msg_fmt = 'Use box.cfg{%s = %s} for update'
@@ -1310,7 +1310,7 @@ local function load_cfg(cfg)
             end,
             __call = function(self, ...)
                 assert(next(proxy_table) == nil,
-                       'length of proxy table is not zero')
+                    'length of proxy table is not zero')
                 return locked(reload_cfg)(raw_cfg, ...)
             end,
             __serialize = function()
@@ -1409,7 +1409,7 @@ local function get_option_from_env(option)
     -- This code lean on the existing set of template_cfg
     -- types for simplicity.
     if param_type:find('table') and (raw_value:startswith('{') or
-                                     raw_value:startswith('[')) then
+            raw_value:startswith('[')) then
         return json.decode(raw_value)
     end
 
@@ -1421,15 +1421,15 @@ local function get_option_from_env(option)
             local eq = v:find('=')
             if eq == nil then
                 error(err_msg_fmt:format(env_var_name, option,
-                                         'in `key=value` or `value` format'))
+                    'in `key=value` or `value` format'))
             end
             local lhs = string.sub(v, 1, eq - 1)
             local rhs = string.sub(v, eq + 1)
 
             if lhs == '' then
                 error(err_msg_fmt:format(env_var_name, option,
-                                         'in `key=value` or `value` format, ' ..
-                                         '`key` must not be empty'))
+                    'in `key=value` or `value` format, ' ..
+                    '`key` must not be empty'))
             end
             -- Don't interpret `=` as a key-value separator if
             -- there is `?` in a key.

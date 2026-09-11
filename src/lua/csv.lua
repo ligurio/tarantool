@@ -101,7 +101,7 @@ module.iterate = function(readable, opts)
     opts = opts or {}
     if type(readable) ~= "string" and type(readable.read) ~= "function" then
         error("Usage: load(string or object with method read(num)" ..
-              "returns string)")
+            "returns string)")
     end
     if not opts.chunk_size then
         opts.chunk_size = 4096
@@ -125,7 +125,7 @@ module.iterate = function(readable, opts)
 
     if not str then --read not works
         error("Usage: load(string or object with method read(num)" ..
-              "returns string)")
+            "returns string)")
     end
     local it = ffi.new('struct csv_iterator')
     local csv = ffi.new('struct csv')

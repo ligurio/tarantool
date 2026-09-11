@@ -7,8 +7,8 @@ M.builtin_pairs = rawget(_G, 'pairs')
 local patched_pairs = function(object)
     local mt = debug.getmetatable(object)
     local iterable = (mt and mt.__name == 'box_cfg') and
-                     mt.__index or
-                     object
+        mt.__index or
+        object
     return M.builtin_pairs(iterable)
 end
 rawset(_G, 'pairs', patched_pairs)

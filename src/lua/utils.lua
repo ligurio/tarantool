@@ -25,8 +25,8 @@ end
 function utils.check_param(param, name, should_be_type, level)
     if param_type(param) ~= should_be_type then
         box.error(box.error.ILLEGAL_PARAMS,
-                  name .. " should be a " .. should_be_type,
-                  level and level + 1)
+            name .. " should be a " .. should_be_type,
+            level and level + 1)
     end
 end
 
@@ -60,19 +60,19 @@ function utils.check_param_table(table, template, level)
     end
     if type(table) ~= 'table' then
         box.error(box.error.ILLEGAL_PARAMS,
-                  "options should be a table", level and level + 1)
+            "options should be a table", level and level + 1)
     end
     for k,v in pairs(table) do
         if template[k] == nil then
             box.error(box.error.ILLEGAL_PARAMS,
-                      "unexpected option '" .. k .. "'", level and level + 1)
+                "unexpected option '" .. k .. "'", level and level + 1)
         elseif type(template[k]) == 'function' then
             local res, expected_type = template[k](v, level and level + 1)
             if not res then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          "options parameter '" .. k ..
-                          "' should be of type " .. expected_type,
-                          level and level + 1)
+                    "options parameter '" .. k ..
+                    "' should be of type " .. expected_type,
+                    level and level + 1)
             end
         elseif template[k] == 'any' then -- luacheck: ignore
             -- any type is ok
@@ -80,9 +80,9 @@ function utils.check_param_table(table, template, level)
             -- one type
             if param_type(v) ~= template[k] then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          "options parameter '" .. k ..
-                          "' should be of type " .. template[k],
-                          level and level + 1)
+                    "options parameter '" .. k ..
+                    "' should be of type " .. template[k],
+                    level and level + 1)
             end
         else
             local good_types = string.gsub(template[k], ' ', '')
@@ -90,9 +90,9 @@ function utils.check_param_table(table, template, level)
             local needle = ',' .. param_type(v) .. ','
             if (string.find(haystack, needle) == nil) then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          "options parameter '" .. k ..
-                          "' should be one of types: " .. template[k],
-                          level and level + 1)
+                    "options parameter '" .. k ..
+                    "' should be one of types: " .. template[k],
+                    level and level + 1)
             end
         end
     end

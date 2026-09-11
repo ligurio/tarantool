@@ -114,7 +114,7 @@ local encode_u32
 if strict_alignment then
     encode_u32 = function(buf, code, num)
         local u32 = ffi.new('uint32_t[1]',
-                            ffi.cast('uint32_t', bit.bswap(tonumber(num))))
+            ffi.cast('uint32_t', bit.bswap(tonumber(num))))
         local p = buf:alloc(5)
         p[0] = code
         ffi.copy(p + 1, u32, 4)
@@ -275,7 +275,7 @@ local function encode_error(buf, err)
 end
 
 local function encode_r(buf, obj, level, trace_level)
-::restart::
+    ::restart::
     if type(obj) == "number" then
         -- Lua-way to check that number is an integer
         if obj % 1 == 0 and obj >= -2^63 and obj < 2^64 then
@@ -289,9 +289,9 @@ local function encode_r(buf, obj, level, trace_level)
         if level >= msgpack.cfg.encode_max_depth then
             if not msgpack.cfg.encode_deep_as_nil then
                 box.error(box.error.PROC_LUA,
-                          string.format('Too high nest level - %d',
-                                        msgpack.cfg.encode_max_depth + 1),
-                          trace_level and trace_level + 1)
+                    string.format('Too high nest level - %d',
+                        msgpack.cfg.encode_max_depth + 1),
+                    trace_level and trace_level + 1)
             end
             encode_nil(buf)
             return
@@ -306,7 +306,7 @@ local function encode_r(buf, obj, level, trace_level)
         local array_count, map_count = 0, 0
         for key in pairs(obj) do
             if type(key) == 'number' and key >= 1 and
-               key == math.floor(key) and key == array_count + 1 then
+                key == math.floor(key) and key == array_count + 1 then
                 array_count = array_count + 1
             else
                 map_count = map_count + 1
@@ -317,7 +317,7 @@ local function encode_r(buf, obj, level, trace_level)
             encode_array(buf, array_count)
             for i=1,array_count,1 do
                 encode_r(buf, obj[i], level + 1,
-                         trace_level and trace_level + 1)
+                    trace_level and trace_level + 1)
             end
         elseif (serialize == nil and map_count > 0) or
             serialize == 'map' or serialize == 'mapping' then
@@ -331,7 +331,7 @@ local function encode_r(buf, obj, level, trace_level)
             goto restart
         else
             box.error(box.error.PROC_LUA, "Invalid __serialize value",
-                      trace_level and trace_level + 1)
+                trace_level and trace_level + 1)
         end
     elseif obj == nil then
         encode_nil(buf)
@@ -349,12 +349,12 @@ local function encode_r(buf, obj, level, trace_level)
         else
             box.error(box.error.PROC_LUA,
                       "can not encode FFI type: '"..ffi.typeof(obj).."'",
-                      trace_level and trace_level + 1)
+                trace_level and trace_level + 1)
         end
     else
         box.error(box.error.PROC_LUA,
                   "can not encode Lua type: '"..type(obj).."'",
-                  trace_level and trace_level + 1)
+            trace_level and trace_level + 1)
     end
 end
 
@@ -518,7 +518,7 @@ if strict_alignment then
 else
     decode_i64 = function(data)
         local num = bit.bswap(ffi.cast('int64_t',
-                ffi.cast(uint64_ptr_t, data[0])[0]))
+            ffi.cast(uint64_ptr_t, data[0])[0]))
         data[0] = data[0] + 8
         if num >= -DBL_INT_MAX and num <= DBL_INT_MAX then
             return tonumber(num) -- return as 'number'
@@ -731,7 +731,7 @@ local function decode_unchecked(str, offset)
         return r, ffi.cast(ffi.typeof(str), bufp[0])
     else
         error("msgpackffi.decode_unchecked(str, offset) -> res, new_offset | "..
-              "msgpackffi.decode_unchecked([const] char *buf) -> res, new_buf")
+            "msgpackffi.decode_unchecked([const] char *buf) -> res, new_buf")
     end
 end
 

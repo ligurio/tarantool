@@ -65,7 +65,7 @@ end
 
 local function is_system_space(space)
     return box.schema.SYSTEM_ID_MIN <= space.id and
-           space.id <= box.schema.SYSTEM_ID_MAX
+        space.id <= box.schema.SYSTEM_ID_MAX
 end
 
 local function jsonpaths_from_idx_parts(idx)
@@ -309,7 +309,7 @@ local function fill_in_stats(feedback)
     -- Send box.stat.net().*.total and box.stat.net().*.current.
     for val, tbl in pairs(net_stat) do
         if type(tbl) == 'table' and
-           (tbl.total ~= nil or tbl.current ~= nil) then
+            (tbl.total ~= nil or tbl.current ~= nil) then
             stats.net[val] = {
                 total = tbl.total,
                 current = tbl.current
@@ -443,7 +443,7 @@ local function guard_loop(self)
             log.verbose("%s restarted", PREFIX)
         end
         if self.send_metrics and
-           get_fiber_id(self.metrics_collect_fiber) == 0 then
+            get_fiber_id(self.metrics_collect_fiber) == 0 then
             self.metrics_collect_fiber =
                 fiber.create(metrics_collect_loop, self)
             log.verbose("%s restarted", METRICS_PREFIX)
@@ -563,7 +563,7 @@ box.feedback.save = function(file_name)
     end
     local feedback = json.encode(daemon.generate_feedback())
     local fh, err = fio.open(file_name, {'O_CREAT', 'O_RDWR', 'O_TRUNC'},
-                             tonumber('0777', 8))
+        tonumber('0777', 8))
     if not fh then
         error(err)
     end

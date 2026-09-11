@@ -15,7 +15,7 @@ ffi.cdef[[
 local title = {}
 
 function title.update(kv)
-	if type(kv) == 'string' then kv = {custom_title = kv} end
+    if type(kv) == 'string' then kv = {custom_title = kv} end
     if type(kv) ~= 'table' then return end
     if kv.interpretor_name ~= nil then
         ffi.C.title_set_interpretor_name(tostring(kv.interpretor_name))

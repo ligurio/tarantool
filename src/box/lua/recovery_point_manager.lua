@@ -144,7 +144,7 @@ local function backend_new(backend, name, backend_cfg)
     check_interface(backend, 'cfg.backend', BACKEND_TEMPLATE, BACKEND_TYPES)
     local instance = backend.new(backend_cfg)
     check_interface(instance, string.format('%q backend instance', name),
-                    BACKEND_INSTANCE_TEMPLATE, BACKEND_INSTANCE_TYPES)
+        BACKEND_INSTANCE_TEMPLATE, BACKEND_INSTANCE_TYPES)
     return instance
 end
 
@@ -160,7 +160,7 @@ end
 --
 local function manager_default_label(manager)
     local instance = (box.info.name ~= box.NULL and box.info.name or
-                      box.info.uuid ~= uuid.NULL and box.info.uuid)
+        box.info.uuid ~= uuid.NULL and box.info.uuid)
     if instance then
         return string.format('%s.%s.%s', instance, manager.name, uuid.str())
     end
@@ -248,7 +248,7 @@ local function manager_sync_alert(manager)
         local ok, err = pcall(namespace.add, namespace, alert)
         if not ok then
             log.error('recovery point manager %q: dropped an invalid alert: %s',
-                      manager.name, err)
+                manager.name, err)
         end
     end
 end
@@ -279,12 +279,12 @@ local function manager_loop(manager)
     -- random offset in [0, interval), the way checkpoints are decorrelated.
     local delay = random_unit() * manager.create_interval
     log.info('recovery point manager %s started: interval %d s, delay %d s',
-              manager.name, manager.create_interval, delay)
+        manager.name, manager.create_interval, delay)
     fiber.sleep(delay)
     while true do
         -- The backend should return the point, or nil + err on its own failure.
         local ok, res, err = pcall(manager_create_point, manager,
-                                   {timeout = manager.timeout})
+            {timeout = manager.timeout})
         fiber.testcancel()
         local sleep_time
         if ok and res ~= nil then
@@ -295,8 +295,8 @@ local function manager_loop(manager)
             local reason = ok and err or res
             manager.consecutive_failures = manager.consecutive_failures + 1
             log.error('recovery point manager %q: failed to create a ' ..
-                      'recovery point (%d in a row): %s', manager.name,
-                      manager.consecutive_failures, reason)
+                'recovery point (%d in a row): %s', manager.name,
+                manager.consecutive_failures, reason)
             sleep_time = manager_backoff(manager)
         end
         manager_sync_alert(manager)
@@ -329,7 +329,7 @@ local function manager_cfg(manager, cfg)
     local backend = cfg.backend or manager.backend
     local backend_cfg = cfg.backend_cfg or manager.backend_cfg
     if manager.backend_instance == nil or backend ~= manager.backend or
-       not table.equals(backend_cfg, manager.backend_cfg) then
+        not table.equals(backend_cfg, manager.backend_cfg) then
         local instance = backend_new(backend, manager.name, backend_cfg)
         local old_instance = manager.backend_instance
         manager.backend = backend
@@ -394,7 +394,7 @@ local function manager_create(name, cfg)
     check_param(name, 'name', 'string')
     if managers[name] ~= nil then
         error(string.format('recovery point manager %q already exists',
-                             name), 2)
+            name), 2)
     end
 
     local manager = setmetatable(table.deepcopy(MANAGER_TEMPLATE), manager_mt)

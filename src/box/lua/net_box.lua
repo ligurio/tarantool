@@ -42,16 +42,16 @@ local REQUEST_OPTION_TYPES = {
     fetch_pos   = "boolean",
     after = function(after)
         if after ~= nil and type(after) ~= "string" and type(after) ~= "table"
-                and not is_tuple(after) then
+            and not is_tuple(after) then
             return false, "string, table, tuple"
         end
         return true
     end,
     buffer = function(buf)
-       if not ffi.istype(ibuf_t, buf) then
-           return false, "struct ibuf"
-       end
-       return true
+        if not ffi.istype(ibuf_t, buf) then
+            return false, "struct ibuf"
+        end
+        return true
     end,
     _thread_id = "number",
 }
@@ -117,19 +117,19 @@ local function parse_connect_params(host_or_uri, ...) -- self? host_or_uri port?
     end
     local uri
     if port == nil and (type(host_or_uri) == 'string' or
-                        type(host_or_uri) == 'number' or
-                        type(host_or_uri) == 'table') then
+            type(host_or_uri) == 'number' or
+            type(host_or_uri) == 'table') then
         if type(host_or_uri) == 'number' then
             uri = tostring(host_or_uri)
         else
             uri = host_or_uri
         end
     elseif (type(host_or_uri) == 'string' or host_or_uri == nil) and
-            (type(port) == 'string' or type(port) == 'number') then
+        (type(port) == 'string' or type(port) == 'number') then
         uri = urilib.format({host = host_or_uri, service = tostring(port)})
     else
         box.error(E_PROC_LUA,
-                  "usage: connect(uri[, opts] | host, port[, opts])")
+            "usage: connect(uri[, opts] | host, port[, opts])")
     end
     return uri, opts
 end
@@ -255,7 +255,7 @@ local function new_sm(uri_or_fd, opts)
             opts.user, opts.password = parsed_uri.login, parsed_uri.password
         end
         if opts.auth_type == nil and parsed_uri.params ~= nil and
-           parsed_uri.params.auth_type ~= nil then
+            parsed_uri.params.auth_type ~= nil then
             opts.auth_type = parsed_uri.params.auth_type[1]
         end
         host, port = parsed_uri.host, parsed_uri.service
@@ -287,11 +287,11 @@ local function new_sm(uri_or_fd, opts)
                     remote._on_connect:run(remote)
                 end
             elseif state == 'error' or state == 'error_reconnect' or
-                   state == 'closed' then
+                state == 'closed' then
                 if was_connected then
                     remote._is_connected = false
                     local ok, trigger_err = pcall(remote._on_disconnect.run,
-                                                  remote._on_disconnect, remote)
+                        remote._on_disconnect, remote)
                     if not ok then
                         log.error(trigger_err)
                     end
@@ -313,12 +313,12 @@ local function new_sm(uri_or_fd, opts)
                 -- Otherwise, current error will be repeated in "verbose" mode
                 local prev_err_code = err.prev and err.prev.code
                 if (err.code ~= last_err_code) or
-                   (err.message ~= last_err_name and
-                    prev_err_code ~= last_prev_err_code) then
+                    (err.message ~= last_err_name and
+                        prev_err_code ~= last_prev_err_code) then
                     log.warn("%s:%s: %s", host or "", port or "", err.message)
                 else
                     log.verbose("%s:%s: %s", host or "", port or "",
-                                err.message)
+                        err.message)
                 end
                 last_err_name, last_err_code, last_prev_err_code =
                     err.message, err.code, prev_err_code
@@ -333,12 +333,12 @@ local function new_sm(uri_or_fd, opts)
             remote.peer_protocol_version = version
             remote.peer_protocol_features = features
             if opts.required_protocol_version and
-               opts.required_protocol_version > version then
+                opts.required_protocol_version > version then
                 box.error({
                     code = E_NO_CONNECTION,
                     reason = string.format(
                         'Protocol version (%d) < required (%d)',
-                         version, opts.required_protocol_version),
+                        version, opts.required_protocol_version),
                 })
             end
             if opts.required_protocol_features then
@@ -348,7 +348,7 @@ local function new_sm(uri_or_fd, opts)
                     box.error({
                         code = E_NO_CONNECTION,
                         reason = 'Missing required protocol features: ' ..
-                                 table.concat(missing, ', '),
+                            table.concat(missing, ', '),
                     })
                 end
             end
@@ -390,7 +390,7 @@ local function new_sm(uri_or_fd, opts)
                                 return idx_wrapper
                             end})
                         local space_wrapper = setmetatable(space,
-                                                           remote._space_mt)
+                            remote._space_mt)
                         remote.space[space_key] = space_wrapper
                         return space_wrapper
                     end})
@@ -415,8 +415,8 @@ local function new_sm(uri_or_fd, opts)
     end
     if opts.console then
         box.error(box.error.ILLEGAL_PARAMS,
-                  "Netbox text protocol support was dropped, " ..
-                  "please use require('console').connect() instead")
+            "Netbox text protocol support was dropped, " ..
+            "please use require('console').connect() instead")
     else
         setmetatable(remote, remote_mt)
         remote._space_mt = space_metatable(remote)
@@ -454,9 +454,9 @@ local function new_sm(uri_or_fd, opts)
     end
     remote._callback = callback
     local transport = internal.new_transport(
-            uri_or_fd, user, password, weak_callback,
-            opts.connect_timeout, opts.reconnect_after,
-            opts.fetch_schema, opts.auth_type)
+        uri_or_fd, user, password, weak_callback,
+        opts.connect_timeout, opts.reconnect_after,
+        opts.fetch_schema, opts.auth_type)
     weak_refs.transport = transport
     remote._transport = transport
     remote._gc_hook = ffi.gc(ffi.new('char[1]'), function()
@@ -514,17 +514,17 @@ end
 
 local function check_call_args(args)
     if args ~= nil and type(args) ~= 'table' and
-       not msgpack.is_object(args) then
+        not msgpack.is_object(args) then
         error("Use remote:call(func_name, {arg1, arg2, ...}, opts) "..
-              "instead of remote:call(func_name, arg1, arg2, ...)")
+            "instead of remote:call(func_name, arg1, arg2, ...)")
     end
 end
 
 local function check_eval_args(args)
     if args ~= nil and type(args) ~= 'table' and
-       not msgpack.is_object(args) then
+        not msgpack.is_object(args) then
         error("Use remote:eval(expression, {arg1, arg2, ...}, opts) "..
-              "instead of remote:eval(expression, arg1, arg2, ...)")
+            "instead of remote:eval(expression, arg1, arg2, ...)")
     end
 end
 
@@ -561,8 +561,8 @@ local function stream_begin(stream, txn_opts, netbox_opts)
         end
     end
     local res = stream:_request('BEGIN', netbox_opts, nil,
-                                stream._stream_id, timeout, txn_isolation,
-                                is_sync)
+        stream._stream_id, timeout, txn_isolation,
+        is_sync)
     if netbox_opts and netbox_opts.is_async then
         return res
     end
@@ -621,7 +621,7 @@ local function stream_commit(stream, txn_opts, opts)
     -- The opts is netbox options. The txn_opts is transaction options.
     if new_txn_opts and new_opts and new_txn_opts ~= txn_opts then
         box.error(box.error.ILLEGAL_PARAMS, "options are either in the " ..
-                  "wrong order or mixed up")
+            "wrong order or mixed up")
     end
 
     local is_sync
@@ -638,7 +638,7 @@ local function stream_commit(stream, txn_opts, opts)
         end
     end
     local res = stream:_request('COMMIT', new_opts, nil, stream._stream_id,
-                                is_sync)
+        is_sync)
     if new_opts and new_opts.is_async then
         return res
     end
@@ -745,7 +745,7 @@ end
 function watcher_methods:unregister()
     if type(self) ~= 'table' then
         box.error(E_PROC_LUA,
-                  'Use watcher:unregister() instead of watcher.unregister()')
+            'Use watcher:unregister() instead of watcher.unregister()')
     end
     local state = self._state
     if not self._state then
@@ -908,9 +908,9 @@ function remote_methods:_request_impl(method, opts, format, stream_id, ...)
                 error('To handle pushes in an async request use future:pairs()')
             end
             return transport:perform_async_request(self, buffer, skip_header,
-                                                   return_raw, table.insert,
-                                                   {}, format, thread_id,
-                                                   stream_id, method, ...)
+                return_raw, table.insert,
+                {}, format, thread_id,
+                stream_id, method, ...)
         end
         if opts.timeout then
             deadline = fiber_clock() + opts.timeout
@@ -930,9 +930,9 @@ function remote_methods:_request_impl(method, opts, format, stream_id, ...)
         timeout = deadline and max(0, deadline - fiber_clock())
     end
     local res, err = transport:perform_request(timeout, buffer, skip_header,
-                                               return_raw, on_push, on_push_ctx,
-                                               format, thread_id, stream_id,
-                                               method, ...)
+        return_raw, on_push, on_push_ctx,
+        format, thread_id, stream_id,
+        method, ...)
     -- Try to wait until a schema is reloaded if needed.
     -- Regardless of reloading result, the main response is
     -- returned, since it does not depend on any schema things.
@@ -981,7 +981,7 @@ function remote_methods:call(func_name, args, opts)
     check_param_table(opts, REQUEST_OPTION_TYPES)
     args = args or {}
     local res = self:_request('CALL', opts, nil, self._stream_id,
-                              tostring(func_name), args)
+        tostring(func_name), args)
     if type(res) ~= 'table' or opts and opts.is_async then
         return res
     end
@@ -1007,7 +1007,7 @@ function remote_methods:execute(query, parameters, sql_opts, netbox_opts)
     end
     check_param_table(netbox_opts, REQUEST_OPTION_TYPES)
     return self:_request('EXECUTE', netbox_opts, nil, self._stream_id,
-                         query, parameters or {}, sql_opts or {})
+        query, parameters or {}, sql_opts or {})
 end
 
 function remote_methods:prepare(query, parameters, sql_opts, netbox_opts) -- luacheck: no unused args
@@ -1026,14 +1026,14 @@ function remote_methods:unprepare(query, parameters, sql_opts, netbox_opts)
     check_remote_arg(self, "unprepare")
     if type(query) ~= "number" then
         box.error(box.error.ILLEGAL_PARAMS,
-                  "query id is expected to be numeric")
+            "query id is expected to be numeric")
     end
     if sql_opts ~= nil then
         box.error(box.error.UNSUPPORTED, "unprepare", "options")
     end
     check_param_table(netbox_opts, REQUEST_OPTION_TYPES)
     return self:_request('UNPREPARE', netbox_opts, nil, self._stream_id,
-                         query, parameters or {}, sql_opts or {})
+        query, parameters or {}, sql_opts or {})
 end
 
 function remote_methods:wait_state(state, timeout)
@@ -1041,10 +1041,10 @@ function remote_methods:wait_state(state, timeout)
     local deadline = fiber_clock() + (timeout or TIMEOUT_INFINITY)
     -- FYI: [] on a string is valid
     repeat until self.state == state or state[self.state] or
-                 self.state == 'closed' or self.state == 'error' or
-                 (not self.opts.reconnect_after and
-                  self.state == 'graceful_shutdown') or
-                 not self._state_cond:wait(max(0, deadline - fiber_clock()))
+        self.state == 'closed' or self.state == 'error' or
+        (not self.opts.reconnect_after and
+            self.state == 'graceful_shutdown') or
+        not self._state_cond:wait(max(0, deadline - fiber_clock()))
     return self.state == state or state[self.state] or false
 end
 
@@ -1180,7 +1180,7 @@ function remote_methods:_install_schema(schema_version, spaces, indices,
     self.schema_version = schema_version
     self.space = sl
     local ok, err = pcall(self._on_schema_reload.run, self._on_schema_reload,
-                          self)
+        self)
     if not ok then
         log.error(err)
     end
@@ -1199,14 +1199,14 @@ space_metatable = function(remote)
         check_space_arg(self, 'insert')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         return remote:_request('INSERT', opts, self._format_cdata,
-                               self._stream_id, self._id_or_name, tuple)
+            self._stream_id, self._id_or_name, tuple)
     end
 
     function methods:replace(tuple, opts)
         check_space_arg(self, 'replace')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         return remote:_request('REPLACE', opts, self._format_cdata,
-                               self._stream_id, self._id_or_name, tuple)
+            self._stream_id, self._id_or_name, tuple)
     end
 
     function methods:select(key, opts)
@@ -1228,9 +1228,9 @@ space_metatable = function(remote)
         check_space_arg(self, 'upsert')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         return nothing_or_data(remote:_request('UPSERT', opts, nil,
-                                               self._stream_id,
-                                               self._id_or_name,
-                                               key, oplist))
+            self._stream_id,
+            self._id_or_name,
+            key, oplist))
     end
 
     function methods:get(key, opts)
@@ -1256,11 +1256,11 @@ index_metatable = function(remote)
         check_index_arg(self, 'select')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         local key_is_nil = (key == nil or
-                            (type(key) == 'table' and #key == 0))
+            (type(key) == 'table' and #key == 0))
         local iterator, offset, limit, after, fetch_pos =
             check_select_opts(opts, key_is_nil)
         if (after ~= nil or fetch_pos)
-                and not remote.peer_protocol_features.pagination then
+            and not remote.peer_protocol_features.pagination then
             return box.error(box.error.UNSUPPORTED, "Remote server",
                 "pagination")
         end
@@ -1268,9 +1268,9 @@ index_metatable = function(remote)
         local res
         local method = fetch_pos and 'SELECT_WITH_POS' or 'SELECT'
         res = (remote:_request(method, opts, self.space._format_cdata,
-                               self._stream_id, self.space._id_or_name,
-                               self._id_or_name, iterator, offset, limit, key,
-                               after, fetch_pos))
+            self._stream_id, self.space._id_or_name,
+            self._id_or_name, iterator, offset, limit, key,
+            after, fetch_pos))
         if type(res) ~= 'table' or not fetch_pos or opts and opts.is_async then
             return res
         end
@@ -1284,11 +1284,11 @@ index_metatable = function(remote)
             error("index:get() doesn't support `buffer` argument")
         end
         return nothing_or_data(remote:_request('GET', opts,
-                                               self.space._format_cdata,
-                                               self._stream_id,
-                                               self.space._id_or_name,
-                                               self._id_or_name, box.index.EQ,
-                                               0, 2, key, nil, false))
+            self.space._format_cdata,
+            self._stream_id,
+            self.space._id_or_name,
+            self._id_or_name, box.index.EQ,
+            0, 2, key, nil, false))
     end
 
     function methods:min(key, opts)
@@ -1298,11 +1298,11 @@ index_metatable = function(remote)
             error("index:min() doesn't support `buffer` argument")
         end
         return nothing_or_data(remote:_request('MIN', opts,
-                                               self.space._format_cdata,
-                                               self._stream_id,
-                                               self.space._id_or_name,
-                                               self._id_or_name, box.index.GE,
-                                               0, 1, key, nil, false))
+            self.space._format_cdata,
+            self._stream_id,
+            self.space._id_or_name,
+            self._id_or_name, box.index.GE,
+            0, 1, key, nil, false))
     end
 
     function methods:max(key, opts)
@@ -1312,11 +1312,11 @@ index_metatable = function(remote)
             error("index:max() doesn't support `buffer` argument")
         end
         return nothing_or_data(remote:_request('MAX', opts,
-                                               self.space._format_cdata,
-                                               self._stream_id,
-                                               self.space._id_or_name,
-                                               self._id_or_name, box.index.LE,
-                                               0, 1, key, nil, false))
+            self.space._format_cdata,
+            self._stream_id,
+            self.space._id_or_name,
+            self._id_or_name, box.index.LE,
+            0, 1, key, nil, false))
     end
 
     function methods:count(key, opts)
@@ -1326,11 +1326,11 @@ index_metatable = function(remote)
             error("index:count() doesn't support `buffer` argument")
         end
         local code = 'box.space[' .. (self.space.name ~= nil and
-                                      '"' .. self.space.name .. '"' or
-                                      self.space.id) ..
-                     '].index[' .. (self.name ~= nil and
-                                    '"' .. self.name .. '"' or self.id) ..
-                     ']:count'
+                '"' .. self.space.name .. '"' or
+                self.space.id) ..
+            '].index[' .. (self.name ~= nil and
+                '"' .. self.name .. '"' or self.id) ..
+            ']:count'
         return remote:_request('COUNT', opts, nil, self._stream_id,
                                code, { key, opts })
     end
@@ -1339,20 +1339,20 @@ index_metatable = function(remote)
         check_index_arg(self, 'delete')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         return nothing_or_data(remote:_request('DELETE', opts,
-                                               self.space._format_cdata,
-                                               self._stream_id,
-                                               self.space._id_or_name,
-                                               self._id_or_name, key))
+            self.space._format_cdata,
+            self._stream_id,
+            self.space._id_or_name,
+            self._id_or_name, key))
     end
 
     function methods:update(key, oplist, opts)
         check_index_arg(self, 'update')
         check_param_table(opts, REQUEST_OPTION_TYPES)
         return nothing_or_data(remote:_request('UPDATE', opts,
-                                               self.space._format_cdata,
-                                               self._stream_id,
-                                               self.space._id_or_name,
-                                               self._id_or_name, key, oplist))
+            self.space._format_cdata,
+            self._stream_id,
+            self.space._id_or_name,
+            self._id_or_name, key, oplist))
     end
 
     return { __index = methods, __metatable = false }

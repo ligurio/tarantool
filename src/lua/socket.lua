@@ -441,8 +441,8 @@ local function getsol(level)
         return internal.SOL_SOCKET
     end
     level = (level:match('IPPROTO_([A-Z]*)') or
-             level:match('SOL_([A-Z]*)') or
-             level):lower()
+        level:match('SOL_([A-Z]*)') or
+        level):lower()
     level = getprotobyname(level)
     if level == nil then
         return nil
@@ -1149,7 +1149,7 @@ local function tcp_server_loop_impl(server, s, addr)
             local errno = s._errno
             if not errno_is_transient[errno] then
                 log.error('accept(%s) failed: %s', tostring(s),
-                          socket_error(s))
+                    socket_error(s))
             end
             if  errno_is_fatal[errno] then
                 break
@@ -1260,7 +1260,7 @@ local function tcp_server_bind(host, port, prepare, timeout)
                 return nil, boxerrno.strerror()
             end
             return s, addr
-       end
+        end
     end
     -- DNS resolved successfully, but addresss family is not supported
     boxerrno(boxerrno.EAFNOSUPPORT)
@@ -1323,7 +1323,7 @@ local function tcp_server(host, port, opts, timeout)
         server.handler = opts
     elseif type(opts) == 'table' then
         if type(opts.handler) ~= 'function' or (opts.prepare ~= nil and
-            type(opts.prepare) ~= 'function') then
+                type(opts.prepare) ~= 'function') then
             tcp_server_usage()
         end
         for k, v in pairs(opts) do

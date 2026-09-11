@@ -174,7 +174,7 @@ local function tuple_iterator_next(it, tuple, pos)
     if pos == nil then
         pos = 0
     elseif type(pos) ~= "number" then
-         error("error: invalid key to 'next'")
+        error("error: invalid key to 'next'")
     end
     local curpos = builtin.box_tuple_position(it)
     local field
@@ -331,7 +331,7 @@ local function tuple_field_by_path(tuple, path)
     -- from the C code.
     local TUPLE_INDEX_BASE = 1
     local field = builtin.box_tuple_field_by_path(tuple, path, strlen,
-                                                  TUPLE_INDEX_BASE)
+        TUPLE_INDEX_BASE)
     -- `NULL` returned?
     if field == nil then
         return

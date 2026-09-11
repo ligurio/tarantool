@@ -6,7 +6,7 @@ local function apply(config)
 
     local configdata = config._configdata
     local idle_timeout = configdata:get('connpool.idle_timeout',
-                                        {use_default = true})
+        {use_default = true})
 
     connpool.set_idle_timeout(idle_timeout)
 

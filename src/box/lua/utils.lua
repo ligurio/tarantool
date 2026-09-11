@@ -80,7 +80,7 @@ local function check_space_arg(space, method, level)
     if type(space) ~= 'table' or (space.id == nil and space.name == nil) then
         local fmt = 'Use space:%s(...) instead of space.%s(...)'
         box.error(box.error.ILLEGAL_PARAMS, string.format(fmt, method, method),
-                  level and level + 1)
+            level and level + 1)
     end
 end
 box.internal.check_space_arg = check_space_arg
@@ -90,7 +90,7 @@ local function check_index_arg(index, method, level)
     if type(index) ~= 'table' or (index.id == nil and index.name == nil) then
         local fmt = 'Use index:%s(...) instead of index.%s(...)'
         box.error(box.error.ILLEGAL_PARAMS, string.format(fmt, method, method),
-                  level and level + 1)
+            level and level + 1)
     end
 end
 box.internal.check_index_arg = check_index_arg
@@ -100,7 +100,7 @@ local function check_primary_index(space, level)
     local pk = space.index[0]
     if pk == nil then
         box.error(box.error.NO_SUCH_INDEX_ID, 0, space.name,
-                  level and level + 1)
+            level and level + 1)
     end
     return pk
 end
@@ -131,7 +131,7 @@ box.index.REVERSE_EXCLUSIVE = box.index.LT
 local function check_iterator_type(opts, key_is_nil, level)
     local opts_type = type(opts)
     if opts ~= nil and opts_type ~= "table" and opts_type ~= "string" and
-            opts_type ~= "number" then
+        opts_type ~= "number" then
         box.error(box.error.ITERATOR_TYPE, opts, level and level + 1)
     end
 
@@ -143,11 +143,11 @@ local function check_iterator_type(opts, key_is_nil, level)
             itype = box.index[string.upper(opts.iterator)]
             if itype == nil then
                 box.error(box.error.ITERATOR_TYPE, opts.iterator,
-                          level and level + 1)
+                    level and level + 1)
             end
         else
             box.error(box.error.ITERATOR_TYPE, tostring(opts.iterator),
-                      level and level + 1)
+                level and level + 1)
         end
     elseif opts_type == "number" then
         itype = opts
@@ -175,7 +175,7 @@ local function check_pairs_opts(opts, key_is_nil, level)
         if opts.after ~= nil then
             after = opts.after
             if after ~= nil and type(after) ~= "string" and
-                    type(after) ~= "table" and not is_tuple(after) then
+                type(after) ~= "table" and not is_tuple(after) then
                 box.error(box.error.ITERATOR_POSITION, level and level + 1)
             end
         end
@@ -188,7 +188,7 @@ local function check_select_opts(opts, key_is_nil, level)
     local offset = 0
     local limit = 4294967295
     local iterator = check_iterator_type(opts, key_is_nil,
-                                         level and level + 1)
+        level and level + 1)
     local after = nil
     local fetch_pos = false
     if opts ~= nil and type(opts) == "table" then
@@ -201,7 +201,7 @@ local function check_select_opts(opts, key_is_nil, level)
         if opts.after ~= nil then
             after = opts.after
             if type(after) ~= "string" and type(after) ~= "table" and
-                    not is_tuple(after) then
+                not is_tuple(after) then
                 box.error(box.error.ITERATOR_POSITION, level and level + 1)
             end
         end
@@ -246,8 +246,8 @@ local function normalize_txn_isolation_level(txn_isolation, level)
     txn_isolation = txn_isolation_level_map[txn_isolation]
     if txn_isolation == nil then
         box.error(box.error.ILLEGAL_PARAMS,
-                  "txn_isolation must be one of box.txn_isolation_level" ..
-                  " (keys or values)", level and level + 1)
+            "txn_isolation must be one of box.txn_isolation_level" ..
+            " (keys or values)", level and level + 1)
     end
     return txn_isolation
 end

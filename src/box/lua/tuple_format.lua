@@ -24,8 +24,8 @@ local function normalize_constraint(constr, error_prefix, level)
         local found = find_func(constr)
         if not found then
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix .. "constraint function " ..
-                      "was not found by name '" .. constr .. "'", level + 1)
+                error_prefix .. "constraint function " ..
+                "was not found by name '" .. constr .. "'", level + 1)
         end
         -- normalize form of constraint.
         return {[constr] = found.id}
@@ -37,16 +37,16 @@ local function normalize_constraint(constr, error_prefix, level)
         for constr_key, constr_func in pairs(constr) do
             if type(constr_func) ~= 'string' then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          error_prefix .. "constraint function " ..
-                          "is expected to be a string, " ..
-                          "but got " .. type(constr_func), level + 1)
+                    error_prefix .. "constraint function " ..
+                    "is expected to be a string, " ..
+                    "but got " .. type(constr_func), level + 1)
             end
             local found = find_func(constr_func)
             if not found then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          error_prefix .. "constraint function " ..
-                          "was not found by name '" .. constr_func .. "'",
-                          level + 1)
+                    error_prefix .. "constraint function " ..
+                    "was not found by name '" .. constr_func .. "'",
+                    level + 1)
             end
             local constr_name = nil
             if type(constr_key) == 'number' then
@@ -58,9 +58,9 @@ local function normalize_constraint(constr, error_prefix, level)
             else
                 -- what are you?
                 box.error(box.error.ILLEGAL_PARAMS,
-                          error_prefix .. "constraint name " ..
-                          "is expected to be a string, " ..
-                          "but got " .. type(constr_key), level + 1)
+                    error_prefix .. "constraint name " ..
+                    "is expected to be a string, " ..
+                    "but got " .. type(constr_key), level + 1)
             end
             -- normalize form of constraint pair.
             result[constr_name] = found.id
@@ -70,8 +70,8 @@ local function normalize_constraint(constr, error_prefix, level)
     elseif constr then
         -- unrecognized form of constraint.
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "constraint must be string or table",
-                  level + 1)
+            error_prefix .. "constraint must be string or table",
+            level + 1)
     end
     return nil
 end
@@ -87,22 +87,22 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
                                          fkey_same_space, level)
     if def.field == nil then
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "foreign key: field must be specified",
-                  level + 1)
+            error_prefix .. "foreign key: field must be specified",
+            level + 1)
     end
     if def.space ~= nil and
-       type(def.space) ~= 'string' and type(def.space) ~= 'number' then
+        type(def.space) ~= 'string' and type(def.space) ~= 'number' then
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "foreign key: space must be string or number",
-                  level + 1)
+            error_prefix .. "foreign key: space must be string or number",
+            level + 1)
     end
     local field = def.field
     if not is_complex then
         if type(field) ~= 'string' and type(field) ~= 'number' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix ..
-                      "foreign key: field must be string or number",
-                      level + 1)
+                error_prefix ..
+                "foreign key: field must be string or number",
+                level + 1)
         end
         if type(field) == 'number' then
             -- convert to zero-based index.
@@ -111,8 +111,8 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
     else
         if type(field) ~= 'table' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix .. "foreign key: field must be a table " ..
-                      "with local field -> foreign field mapping", level + 1)
+                error_prefix .. "foreign key: field must be a table " ..
+                "with local field -> foreign field mapping", level + 1)
         end
         local count = 0
         local converted = {}
@@ -120,8 +120,8 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
             count = count + 1
             if type(k) ~= 'string' and type(k) ~= 'number' then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          error_prefix .. "foreign key: local field must be "
-                          .. "string or number", level + 1)
+                    error_prefix .. "foreign key: local field must be "
+                    .. "string or number", level + 1)
             end
             if type(k) == 'number' then
                 -- convert to zero-based index.
@@ -129,8 +129,8 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
             end
             if type(v) ~= 'string' and type(v) ~= 'number' then
                 box.error(box.error.ILLEGAL_PARAMS,
-                          error_prefix .. "foreign key: foreign field must be "
-                          .. "string or number", level + 1)
+                    error_prefix .. "foreign key: foreign field must be "
+                    .. "string or number", level + 1)
             end
             if type(v) == 'number' then
                 -- convert to zero-based index.
@@ -140,21 +140,21 @@ local function normalize_foreign_key_one(def, error_prefix, is_complex,
         end
         if count < 1 then
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix .. "foreign key: field must be a table " ..
-                      "with local field -> foreign field mapping", level + 1)
+                error_prefix .. "foreign key: field must be a table " ..
+                "with local field -> foreign field mapping", level + 1)
         end
         field = utils.setmap(converted)
     end
     if not find_space(def.space) and not fkey_same_space then
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "foreign key: space " .. tostring(def.space)
-                  .. " was not found", level + 1)
+            error_prefix .. "foreign key: space " .. tostring(def.space)
+            .. " was not found", level + 1)
     end
     for k in pairs(def) do
         if k ~= 'space' and k ~= 'field' then
             box.error(box.error.ILLEGAL_PARAMS, error_prefix ..
-                      "foreign key: unexpected parameter '" ..
-                      tostring(k) .. "'", level + 1)
+                "foreign key: unexpected parameter '" ..
+                tostring(k) .. "'", level + 1)
         end
     end
     if fkey_same_space then
@@ -184,18 +184,18 @@ local function normalize_foreign_key(space_id, space_name, fkey, error_prefix,
     if type(fkey) ~= 'table' then
         -- unrecognized form
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "foreign key must be a table", level + 1)
+            error_prefix .. "foreign key must be a table", level + 1)
     end
     if fkey.field ~= nil and
         (type(fkey.space) ~= 'table' or type(fkey.field) ~= 'table') then
         -- the first, short form.
         local fkey_same_space = (fkey.space == nil or
-                                 fkey.space == space_id or
-                                 fkey.space == space_name)
+            fkey.space == space_id or
+            fkey.space == space_name)
         fkey = normalize_foreign_key_one(fkey, error_prefix, is_complex,
-                                         fkey_same_space, level)
+            fkey_same_space, level)
         local fkey_name = fkey_same_space and (space_name or 'unknown') or
-                          find_space(fkey.space).name
+            find_space(fkey.space).name
         return {[fkey_name] = fkey}
     end
     -- the second, detailed form.
@@ -203,20 +203,20 @@ local function normalize_foreign_key(space_id, space_name, fkey, error_prefix,
     for k,v in pairs(fkey) do
         if type(k) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix .. "foreign key name must be a string",
-                      level + 1)
+                error_prefix .. "foreign key name must be a string",
+                level + 1)
         end
         if type(v) ~= 'table' then
             -- unrecognized form
             box.error(box.error.ILLEGAL_PARAMS,
-                      error_prefix .. "foreign key definition must be a table "
-                      .. "with 'space' and 'field' members", level + 1)
+                error_prefix .. "foreign key definition must be a table "
+                .. "with 'space' and 'field' members", level + 1)
         end
         local fkey_same_space = (v.space == nil or
-                                 v.space == space_id or
-                                 v.space == space_name)
+            v.space == space_id or
+            v.space == space_name)
         v = normalize_foreign_key_one(v, error_prefix, is_complex,
-                                      fkey_same_space, level)
+            fkey_same_space, level)
         result[k] = v
     end
     return result
@@ -226,14 +226,14 @@ end
 local function normalize_default_func(func_name, error_prefix, level)
     if type(func_name) ~= 'string' then
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "field default function name is expected " ..
-                  "to be a string, but got " .. type(func_name), level + 1)
+            error_prefix .. "field default function name is expected " ..
+            "to be a string, but got " .. type(func_name), level + 1)
     end
     local found = find_func(func_name)
     if not found then
         box.error(box.error.ILLEGAL_PARAMS,
-                  error_prefix .. "field default function was not found by " ..
-                  "name '" .. func_name .. "'", level + 1)
+            error_prefix .. "field default function was not found by " ..
+            "name '" .. func_name .. "'", level + 1)
     end
     return found.id
 end
@@ -269,16 +269,16 @@ local function normalize_format(space_id, space_name, format, level)
                     field[k] = coll.id
                 elseif k == 'constraint' then
                     field[k] = normalize_constraint(v, "format[" .. i .. "]: ",
-                                                    level + 1)
+                        level + 1)
                 elseif k == 'foreign_key' then
                     field[k] = normalize_foreign_key(space_id, space_name,
-                                                     v, "format[" .. i .. "]: ",
-                                                     false,
-                                                     level + 1)
+                        v, "format[" .. i .. "]: ",
+                        false,
+                        level + 1)
                 elseif k == 'default_func' then
                     field[k] = normalize_default_func(v,
-                                                      "format[" .. i .. "]: ",
-                                                      level + 1)
+                        "format[" .. i .. "]: ",
+                        level + 1)
                 elseif k == 'compression' and type(given[k]) == 'table' then
                     field[k] = utils.setmap(given[k])
                 else
@@ -288,15 +288,15 @@ local function normalize_format(space_id, space_name, format, level)
         end
         if type(field.name) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      "format[" .. i .. "]: name (string) is expected",
-                      level + 1)
+                "format[" .. i .. "]: name (string) is expected",
+                level + 1)
         end
         if field.type == nil then
             field.type = 'any'
         elseif type(field.type) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      "format[" .. i .. "]: type must be a string",
-                      level + 1)
+                "format[" .. i .. "]: type must be a string",
+                level + 1)
         end
         table.insert(result, field)
     end

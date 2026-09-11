@@ -173,9 +173,9 @@ end
 local function say(self, level, fmt, ...)
     local name = self and self.name
     local module_level = name and ffi.C.say_get_module_log_level(name) or
-                                  ffi.C.say_get_log_level()
+        ffi.C.say_get_log_level()
     if level > log_normalize_level(module_level) and
-       level > ffi.C.log_level_flightrec then
+        level > ffi.C.log_level_flightrec then
         return
     end
     local type_fmt = type(fmt)
@@ -322,7 +322,7 @@ local function log_check_modules(modules)
         end
         local option_name = 'log_modules.' .. name
         box.internal.check_cfg_option_type(option_types.level, option_name,
-                                           level)
+            level)
         log_check_level(level, option_name)
     end
 end
@@ -343,7 +343,7 @@ local function log_check_cfg(cfg)
 
     local cfg_C = log_C_cfg(cfg)
     if ffi.C.say_check_cfg(cfg_C.log, cfg_C.level,
-                           cfg_C.nonblock, cfg_C.format) ~= 0 then
+            cfg_C.nonblock, cfg_C.format) ~= 0 then
         box.error()
     end
 end
@@ -418,7 +418,7 @@ local function log_configure(self, cfg, box_api)
     log_check_cfg(cfg)
     local cfg_C = log_C_cfg(cfg)
     ffi.C.say_logger_init(cfg_C.log, cfg_C.level,
-                          cfg_C.nonblock, cfg_C.format)
+        cfg_C.nonblock, cfg_C.format)
     set_log_modules(cfg.modules)
     log_initialized = true
 
@@ -429,7 +429,7 @@ local function log_configure(self, cfg, box_api)
     box_cfg_update()
 
     log_debug("log.cfg({log=%s, level=%s, nonblock=%s, format=%s})",
-              cfg.log, cfg.level, cfg.nonblock, cfg.format)
+        cfg.log, cfg.level, cfg.nonblock, cfg.format)
 end
 
 local compat_warning_said = false

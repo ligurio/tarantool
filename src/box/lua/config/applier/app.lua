@@ -33,7 +33,7 @@ local function run(config, opts)
         local path = file
         if type(box.cfg) == 'function' then
             local work_dir = configdata:get('process.work_dir',
-                                            {use_default = true})
+                {use_default = true})
             path = utils_file.rebase_file_abspath(work_dir, file)
         end
 
@@ -62,11 +62,11 @@ local function run(config, opts)
         end
 
         if metadata['early_load']
-        and app_state.early_loaded ~= nil
-        and app_state.early_loaded ~= file then
+            and app_state.early_loaded ~= nil
+            and app_state.early_loaded ~= file then
             log.error(('App %q with the "early_load" tag was added ' ..
-                       'to the config, it cannot be loaded before the ' ..
-                       'first box.cfg call'):format(file))
+                'to the config, it cannot be loaded before the ' ..
+                'first box.cfg call'):format(file))
         end
 
         if opts.early_load_only and not metadata['early_load'] then
@@ -106,12 +106,12 @@ local function run(config, opts)
         end
 
         if metadata['early_load']
-        and app_state.early_loaded ~= nil
-        and app_state.early_loaded ~= module
-        and package.loaded[module] == nil then
+            and app_state.early_loaded ~= nil
+            and app_state.early_loaded ~= module
+            and package.loaded[module] == nil then
             log.error(('App %q with the "early_load" tag was added ' ..
-                       'to the config, it cannot be loaded before the ' ..
-                       'first box.cfg call'):format(module))
+                'to the config, it cannot be loaded before the ' ..
+                'first box.cfg call'):format(module))
         end
 
         if opts.early_load_only and not metadata['early_load'] then

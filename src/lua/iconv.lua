@@ -43,7 +43,7 @@ local function iconv_convert(iconv, data)
         buf_ptr[0]  = buf:reserve(output_len)
         buf_left[0] = buf:unused()
         local res = ffi.C.tnt_iconv(iconv, data_ptr, data_left,
-                                buf_ptr, buf_left)
+            buf_ptr, buf_left)
         if res == ffi.cast('size_t', -1) then
             local err = errno()
             if err ~= E2BIG then

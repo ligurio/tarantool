@@ -15,9 +15,9 @@ local function format_text(s)
         if paragraph:startswith('- ') then
             -- Strip newlines in each list item.
             return '- ' .. for_each_list_item(paragraph:sub(3),
-                                              function(list_item)
-                return textutils.toline(list_item)
-            end)
+                function(list_item)
+                    return textutils.toline(list_item)
+                end)
         else
             return textutils.toline(paragraph)
         end

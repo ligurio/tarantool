@@ -274,7 +274,7 @@ function pool_methods.connect_to_multiple(self, instances, opts)
         end
 
         return is_instance_connected(instance_name) or
-               conn.state == 'error' or conn.state == 'closed'
+            conn.state == 'error' or conn.state == 'closed'
     end
 
     local delay = WATCHER_DELAY
@@ -306,13 +306,13 @@ function pool_methods.connect_to_multiple(self, instances, opts)
         if conn == nil then
             self:connect(instance_name, {wait_connected = false})
             table.insert(candidate_instances, instance_name)
-        -- If the connection is already ok it is likely it should
-        -- be returned as is.
+            -- If the connection is already ok it is likely it should
+            -- be returned as is.
         elseif is_connection_valid(conn,
-            {fetch_schema = (conn.opts or {}).fetch_schema}) then
+                {fetch_schema = (conn.opts or {}).fetch_schema}) then
             table.insert(candidate_instances, instance_name)
-        -- The remaining connections are the failed ones that has
-        -- been checked rather recently. Skip them.
+            -- The remaining connections are the failed ones that has
+            -- been checked rather recently. Skip them.
         end
     end
 
@@ -471,12 +471,12 @@ local function is_candidate_match_static(names, opts)
     assert(opts ~= nil and type(opts) == 'table')
     local get_opts = {instance = names.instance_name}
     return is_group_match(opts.groups, names.group_name) and
-           is_replicaset_match(opts.replicasets, names.replicaset_name) and
-           is_instance_match(opts.instances, names.instance_name) and
-           is_roles_match(opts.roles, config:get('roles', get_opts)) and
-           is_roles_match(opts.sharding_roles,
-                          config:get('sharding.roles', get_opts)) and
-           is_labels_match(opts.labels, config:get('labels', get_opts))
+        is_replicaset_match(opts.replicasets, names.replicaset_name) and
+        is_instance_match(opts.instances, names.instance_name) and
+        is_roles_match(opts.roles, config:get('roles', get_opts)) and
+        is_roles_match(opts.sharding_roles,
+            config:get('sharding.roles', get_opts)) and
+        is_labels_match(opts.labels, config:get('labels', get_opts))
 end
 
 local function is_mode_match(mode, instance_name)
@@ -535,22 +535,22 @@ local function filter(opts)
 
     if opts.skip_connection_check and opts.mode ~= nil then
         local msg = 'Filtering by mode "%s" requires the connection ' ..
-                    'check but it\'s been disabled by the ' ..
-                    '"skip_connection_check" option'
+            'check but it\'s been disabled by the ' ..
+            '"skip_connection_check" option'
         error(msg:format(opts.mode), 0)
     end
 
     if opts.sharding_roles ~= nil then
         for _, sharding_role in ipairs(opts.sharding_roles) do
             if sharding_role == 'rebalancer' then
-               error('Filtering by the \"rebalancer\" role is not supported',
-                     0)
+                error('Filtering by the \"rebalancer\" role is not supported',
+                    0)
             elseif sharding_role ~= 'storage' and
-               sharding_role ~= 'router' then
+                sharding_role ~= 'router' then
                local msg = 'Unknown sharding role \"%s\" in '..
                            'connpool.filter() call. Expected one of the '..
-                           '\"storage\", \"router\"'
-               error(msg:format(sharding_role), 0)
+                    '\"storage\", \"router\"'
+                error(msg:format(sharding_role), 0)
             end
         end
     end
@@ -727,9 +727,9 @@ local function call(func_name, args, opts)
     })
     opts = opts or {}
     if opts.mode ~= nil and opts.mode ~= 'ro' and opts.mode ~= 'rw' and
-       opts.mode ~= 'prefer_ro' and opts.mode ~= 'prefer_rw' then
+        opts.mode ~= 'prefer_ro' and opts.mode ~= 'prefer_rw' then
         local msg = 'Expected nil, "ro", "rw", "prefer_ro" or "prefer_rw", ' ..
-                    'got "%s"'
+            'got "%s"'
         error(msg:format(opts.mode), 0)
     end
 

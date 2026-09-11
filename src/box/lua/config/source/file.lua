@@ -111,7 +111,7 @@ function methods.sync(self, config_module, _iconfig)
         -- Prevent recursion.
         if processed_paths[config_path] then
             log.warn('skipping already processed config file: %q',
-                     config_path)
+                config_path)
             goto continue
         end
         processed_paths[config_path] = true

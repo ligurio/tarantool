@@ -208,7 +208,7 @@ local namespace_mt = {
 local function namespace_selfcheck(self, method_name)
     if type(self) ~= 'table' or getmetatable(self) ~= namespace_mt then
         local fmt_str = 'Use alerts_namespace:%s(<...>) ' ..
-                        'instead of alerts_namespace.%s(<...>)'
+            'instead of alerts_namespace.%s(<...>)'
         error(fmt_str:format(method_name, method_name), 0)
     end
 end
@@ -220,7 +220,7 @@ end
 local function process_alert(namespace, alert)
     assert(type(alert) == 'table', 'alert must be a table')
     assert(alert.type == nil or alert.type == 'warn',
-           'alert.type must be nil or "warn"')
+        'alert.type must be nil or "warn"')
 
     local a = table.copy(alert)
     a.type = 'warn'

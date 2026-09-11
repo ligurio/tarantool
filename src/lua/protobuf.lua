@@ -222,10 +222,10 @@ local function message(message_name, message_def)
                 field_id, field_name, MIN_FIELD_ID, MAX_FIELD_ID))
         end
         if field_id >= RESERVED_FIELD_ID_MIN and
-           field_id <= RESERVED_FIELD_ID_MAX then
-           error(('Id %d in field %q is in reserved ' ..
-               'id range [%d, %d]'):format(field_id, field_name,
-               RESERVED_FIELD_ID_MIN, RESERVED_FIELD_ID_MAX))
+            field_id <= RESERVED_FIELD_ID_MAX then
+            error(('Id %d in field %q is in reserved ' ..
+                'id range [%d, %d]'):format(field_id, field_name,
+                RESERVED_FIELD_ID_MIN, RESERVED_FIELD_ID_MAX))
         end
         local field_def = {
             type = field_type,
@@ -271,7 +271,7 @@ local function enum(enum_name, enum_def)
     end
     if value_by_id[0] == nil then
         error(('%q definition does not contain a field with id = 0'):
-            format(enum_name))
+        format(enum_name))
     end
     return {
         type = 'enum',
@@ -641,8 +641,8 @@ encode = function(protocol, message_name, data)
         if value == box.NULL then goto continue end
         if field_by_name[field_name] == nil and
             field_name ~= '_unknown_fields' then
-                error(('Wrong field name %q for %q message'):
-                    format(field_name, message_name))
+            error(('Wrong field name %q for %q message'):
+            format(field_name, message_name))
         end
         if field_name == '_unknown_fields' then
             table.insert(buf, table.concat(value))

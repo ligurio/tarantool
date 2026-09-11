@@ -59,14 +59,14 @@ local function get_common_subpath(path1, path2)
             goto finish
         end
     end
-::finish::
+    ::finish::
     return result == '/' and '/' or result .. '/'
 end
 
 -- Strip a common part of cwd and path from the path.
 local function strip_cwd_from_path(cwd, path)
     if not cwd or cwd:sub(1, 1) ~= '/' or
-       not path or path:sub(1, 1) ~= '/' then
+        not path or path:sub(1, 1) ~= '/' then
         return path
     end
     local common = get_common_subpath(cwd, path)

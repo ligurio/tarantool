@@ -82,7 +82,7 @@ local function get_snapshot_names(snap_path)
 
         if body.space_id == box.schema.SCHEMA_ID then
             if body.tuple[1] == 'replicaset_uuid' or
-               body.tuple[1] == 'cluster' then
+                body.tuple[1] == 'cluster' then
                 replicaset_uuid = body.tuple[2]
             elseif body.tuple[1] == 'replicaset_name' then
                 replicaset_name = body.tuple[2]

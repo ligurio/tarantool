@@ -83,7 +83,7 @@ local function check_read_view_arg(rv, method, level)
     if type(rv) ~= 'table' then
         local fmt = 'Use read_view:%s(...) instead of read_view.%s(...)'
         box.error(box.error.ILLEGAL_PARAMS,
-                  string.format(fmt, method, method), level + 1)
+            string.format(fmt, method, method), level + 1)
     end
 end
 
@@ -172,8 +172,8 @@ local read_view_mt = {
         -- auto-completed in console. Replace property callbacks with scalars
         -- so that they are auto-completed as data members, not as methods.
         return fun.tomap(fun.chain(fun.map(function(k) return k, true end,
-                                           fun.iter(read_view_properties)),
-                                   fun.iter(read_view_methods)))
+                fun.iter(read_view_properties)),
+            fun.iter(read_view_methods)))
     end,
 }
 
@@ -256,7 +256,7 @@ local function read_view_close(crv, warn)
         -- threads.call() yields while we can't yield in this function
         -- because it may be called by the garbage collector.
         fiber.new(threads.call, 'tx', 'box.internal.read_view.release',
-                  {id, thread_ref_path()})
+            {id, thread_ref_path()})
     end
 end
 
@@ -285,7 +285,7 @@ function box.read_view.open(opts)
     check_param_table(opts, READ_VIEW_OPTIONS_TEMPLATE, 2)
     if opts.id ~= nil and opts.name ~= nil then
         box.error(box.error.ILLEGAL_PARAMS, "options parameter 'name' " ..
-                  "should not be used with 'id'", 2)
+            "should not be used with 'id'", 2)
     end
     local rv
     if opts.id ~= nil then
@@ -298,8 +298,8 @@ function box.read_view.open(opts)
         -- Ask the main thread to pin the read view with the given id
         -- and create a local handle for it.
         local ret = utils.call_at(2, threads.call, 'tx',
-                                  'box.internal.read_view.acquire',
-                                  {opts.id, thread_ref_path()})
+            'box.internal.read_view.acquire',
+            {opts.id, thread_ref_path()})
         -- We should never get here when called from the main thread because
         -- the read view registry maintained by the main thread is supposed to
         -- store all usable read views.
@@ -310,14 +310,14 @@ function box.read_view.open(opts)
         if not ok then
             -- Don't forget to unpin the read view on error.
             threads.call('tx', 'box.internal.read_view.release',
-                         {opts.id, thread_ref_path()})
+                {opts.id, thread_ref_path()})
             box.error(ret, 2)
         end
         rv = ret
     else
         if not fiber._internal.cord_is_main then
             box.error(box.error.UNSUPPORTED, 'Application thread',
-                      'creating a new read view', 2)
+                'creating a new read view', 2)
         end
         rv = internal.open(opts.name or 'unknown')
     end
@@ -623,8 +623,8 @@ local function iterator_pos_set(index, pos, ibuf)
         ibuf.rpos = ibuf.wpos
         local tuple, tuple_end = tuple_encode(ibuf, pos)
         return builtin.box_index_read_view_tuple_position(
-                index._cspace, index.id, tuple, tuple_end,
-                iterator_pos, iterator_pos_end) == 0
+            index._cspace, index.id, tuple, tuple_end,
+            iterator_pos, iterator_pos_end) == 0
     end
 end
 
@@ -646,7 +646,7 @@ function read_view_index_methods_ffi:get(key)
     local ibuf = cord_ibuf_take()
     local raw_key, raw_key_end = tuple_encode(ibuf, key)
     local ok = builtin.box_index_read_view_get(
-            self._cspace, self.id, raw_key, raw_key_end, ptuple) == 0
+        self._cspace, self.id, raw_key, raw_key_end, ptuple) == 0
     cord_ibuf_put(ibuf)
     if not ok then
         box.error(box.error.last(), 2)
@@ -680,7 +680,7 @@ function read_view_index_methods_ffi:count(key, opts)
     local key_is_nil = raw_key + 1 >= raw_key_end
     local itype = check_iterator_type(opts, key_is_nil, 2)
     local count = builtin.box_index_read_view_count(self._cspace, self.id,
-                                                    itype, raw_key, raw_key_end)
+        itype, raw_key, raw_key_end)
     cord_ibuf_put(ibuf)
     if count < 0 then
         box.error(box.error.last(), 2)
@@ -707,7 +707,7 @@ function read_view_index_methods_luac:select(key, opts)
     local iterator, offset, limit, after, fetch_pos =
         check_select_opts(opts, key_is_nil, 2)
     return internal.index_select(self._cspace, self.id, iterator,
-                                 offset, limit, key, after, fetch_pos)
+        offset, limit, key, after, fetch_pos)
 end
 
 function read_view_index_methods_ffi:select(key, opts)
@@ -722,9 +722,9 @@ function read_view_index_methods_ffi:select(key, opts)
     local ok = iterator_pos_set(self, after, ibuf)
     if ok then
         ok = builtin.box_index_read_view_select(
-                self._cspace, self.id, iterator, offset, limit,
-                raw_key, raw_key_end, iterator_pos, iterator_pos_end,
-                fetch_pos, port) == 0
+            self._cspace, self.id, iterator, offset, limit,
+            raw_key, raw_key_end, iterator_pos, iterator_pos_end,
+            fetch_pos, port) == 0
     end
     local pos
     if ok and fetch_pos and iterator_pos[0] ~= nil then
@@ -761,7 +761,7 @@ function read_view_index_methods_luac:pairs(key, opts)
     local key_is_nil = #key == 0
     local iterator, after, offset = check_pairs_opts(opts, key_is_nil, 2)
     local it = internal.index_iterator(self._cspace, self.id, iterator,
-                                       key, after, offset)
+        key, after, offset)
     return iterator_next_luac, {
         -- Keep references to the index and the search key to make sure
         -- they won't go away while the iterator is in use.
@@ -800,8 +800,8 @@ function read_view_index_methods_ffi:pairs(key, opts)
         raw_key_end = raw_key + #key_buf
         cdata = ffi.new('struct index_read_view_iterator')
         ok = builtin.box_index_read_view_create_iterator_with_offset(
-                self._cspace, self.id, iterator, raw_key, raw_key_end,
-                iterator_pos[0], iterator_pos_end[0], offset, cdata) == 0
+            self._cspace, self.id, iterator, raw_key, raw_key_end,
+            iterator_pos[0], iterator_pos_end[0], offset, cdata) == 0
     end
     cord_ibuf_put(ibuf)
     builtin.box_region_truncate(region_svp)
@@ -821,7 +821,7 @@ function read_view_index_methods_common:quantile(level, begin_key, end_key)
     check_index_read_view_is_open(self)
     if level == nil then
         box.error(box.error.ILLEGAL_PARAMS,
-                  'Usage: index:quantile(level[, begin_key, end_key])', 2)
+            'Usage: index:quantile(level[, begin_key, end_key])', 2)
     end
     if type(level) ~= 'number' then
         box.error(box.error.ILLEGAL_PARAMS, 'level must be a number', 2)
@@ -840,8 +840,8 @@ function read_view_index_methods_common:quantile(level, begin_key, end_key)
     local quantile_key_end = ffi.new('const char *[1]')
     local region_svp = builtin.box_region_used()
     local ok = builtin.box_index_read_view_quantile(
-            self._cspace, self.id, level, begin_key, begin_key_end,
-            end_key, end_key_end, quantile_key, quantile_key_end) == 0
+        self._cspace, self.id, level, begin_key, begin_key_end,
+        end_key, end_key_end, quantile_key, quantile_key_end) == 0
     cord_ibuf_put(ibuf)
     if not ok then
         box.error(box.error.last(), 2)
@@ -866,14 +866,14 @@ function read_view_index_methods_common:tuple_pos(tuple)
     local ibuf = cord_ibuf_take()
     local data, data_end = tuple_encode(ibuf, tuple)
     local ok = builtin.box_index_read_view_tuple_position(
-            self._cspace, self.id, data, data_end,
-            iterator_pos, iterator_pos_end) == 0
+        self._cspace, self.id, data, data_end,
+        iterator_pos, iterator_pos_end) == 0
     cord_ibuf_put(ibuf)
     if not ok then
         box.error(box.error.last(), 2)
     end
     local ret = ffi.string(iterator_pos[0],
-                           iterator_pos_end[0] - iterator_pos[0])
+        iterator_pos_end[0] - iterator_pos[0])
     builtin.box_region_truncate(region_svp)
     return ret
 end

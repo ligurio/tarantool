@@ -28,7 +28,7 @@ local box_backup_info = function()
     local recovery_points = {}
     local begin_vclock
     assert(info.type == 'incremental' or
-           info.type == 'full', 'unexpected backup type')
+        info.type == 'full', 'unexpected backup type')
     if info.type == 'incremental' then
         begin_vclock = info.prev_vclock
     elseif info.type == 'full' then
@@ -39,7 +39,7 @@ local box_backup_info = function()
         local begin_lsn = begin_vclock[tuple.replica_id] or 0
         local end_lsn = info.vclock[tuple.replica_id] or 0
         if tuple.lsn > begin_lsn and
-           tuple.lsn <= end_lsn then
+            tuple.lsn <= end_lsn then
             table.insert(recovery_points, {
                 timestamp = tonumber(tuple.timestamp) / 1e9,
                 replica_id = tuple.replica_id,

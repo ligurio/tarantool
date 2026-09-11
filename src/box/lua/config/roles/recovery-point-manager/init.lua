@@ -46,12 +46,12 @@ local config_schema = schema.new('recovery-point-manager', schema.record({
 }, {
     validate = function(data, w)
         local managers = data.managers ~= nil and
-                         data.managers or {default = {}}
+            data.managers or {default = {}}
         for name, manager in pairs(managers) do
             manager = manager ~= nil and manager or {}
             if manager.backend == nil and data.backend == nil then
                 w.error(('backend is not set for the %q recovery point ' ..
-                         'manager'):format(name))
+                    'manager'):format(name))
             end
         end
     end,
@@ -96,7 +96,7 @@ local function effective_managers(cfg)
         res[name] = {
             backend_type = backend_type,
             backend_cfg = backend_type ~= nil and
-                          backends_cfg[backend_type] or {},
+                backends_cfg[backend_type] or {},
             create_interval = create.by ~= nil and create.by.interval or nil,
             timeout = create.timeout,
         }
@@ -116,7 +116,7 @@ local function backend_module(name, backend_type)
     utils.check_param(backend, backend_type, 'table')
     utils.check_param(backend.config, backend_type .. '.config', 'table')
     utils.check_param(backend.config.validate,
-                      backend_type .. ' config.validate', 'function')
+        backend_type .. ' config.validate', 'function')
     return backend
 end
 

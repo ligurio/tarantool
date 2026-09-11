@@ -110,7 +110,7 @@ local function gen_croot_searcher(searcher)
         -- error message in this case. Just propagate it to the
         -- <require> frame...
         if not data then
-           return loader
+            return loader
         end
         -- XXX: ... Otherwise, there is a croot module found.
         -- Yield the C module loader with the found croot module.
@@ -134,7 +134,7 @@ local searchers = debug.getregistry()._TARANTOOL_PACKAGE_SEARCHERS
 
 rawset(searchers, 'preload', function(name)
     assert(type(package.preload) == 'table',
-           "'package.preload' must be a table")
+        "'package.preload' must be a table")
     local loader = package.preload[name]
     if loader ~= nil then
         return yield_builtin_loader(loader, ':preload:')
@@ -199,7 +199,7 @@ rawset(searchers, 8, searchers['croot.cwd'])
 local function gen_legacy_loader(searchers, index)
     assert(type(searchers) == 'table', '<searchers> must be defined')
     assert(type(searchers[index]) == 'function',
-           'searchers[index] must be a function')
+        'searchers[index] must be a function')
 
     return function(name)
         if not name then
@@ -210,13 +210,13 @@ local function gen_legacy_loader(searchers, index)
         -- error message in this case. Just propagate it to the
         -- <require> frame...
         if not data then
-           return loader
+            return loader
         end
         -- XXX: ... Otherwise, this is a valid module loader.
         -- Load the given <data> and return the result.
         local loaded, err = loader(data, name)
         local message = ("error loading module '%s' from file '%s':\n\t%s")
-                        :format(name, data, err)
+            :format(name, data, err)
         if loaded then
             return loaded
         else

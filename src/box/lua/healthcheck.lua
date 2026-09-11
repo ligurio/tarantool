@@ -55,7 +55,7 @@ local function alert_message(kind, name, check)
     local reason = check.reason or check.status
 
     return ('%s health check %q failed: %s'):format(health_check.alert_prefix,
-                                                    name, reason)
+        name, reason)
 end
 
 local function set_alert(kind, name, message, code)
@@ -110,7 +110,7 @@ local function unset_alerts_by_prefix(kind, prefix)
     local alerts_to_unset = {}
     for name, _ in pairs(health_checks[kind].alerts) do
         if name == prefix or name:sub(1, #subchecks_prefix) ==
-           subchecks_prefix then
+            subchecks_prefix then
             table.insert(alerts_to_unset, name)
         end
     end
@@ -130,7 +130,7 @@ local function sync_alerts(kind, results, ok_status)
             failed[name] = true
             if check.alert_code ~= nil then
                 set_alert(kind, name, alert_message(kind, name, check),
-                          check.alert_code)
+                    check.alert_code)
             end
         end
     end
@@ -253,8 +253,8 @@ local function check_fail_status(check, name, ok_status, fail_status,
                                  use_degraded)
     local status = fail_status
     if use_degraded and
-       (check.statuses[name] == ok_status or check.statuses[name] ==
-        'degraded') then
+        (check.statuses[name] == ok_status or check.statuses[name] ==
+            'degraded') then
         status = 'degraded'
     end
     check.statuses[name] = status
@@ -265,7 +265,7 @@ local function cleanup_check_statuses(check, prefix, active)
     local subchecks_prefix = prefix .. '.'
     for name, _ in pairs(check.statuses) do
         if (name == prefix or name:sub(1, #subchecks_prefix) ==
-            subchecks_prefix) and not active[name] then
+                subchecks_prefix) and not active[name] then
             check.statuses[name] = nil
         end
     end
@@ -280,17 +280,17 @@ local function validate_check_result_item(subname, item, ok_status,
         return ('health check result %q must be a table'):format(subname)
     end
     if item.status ~= ok_status and item.status ~= fail_status and
-       (not use_degraded or item.status ~= 'degraded') then
+        (not use_degraded or item.status ~= 'degraded') then
         return ('health check result %q must have status %q or %q'):
-               format(subname, ok_status, fail_status)
+        format(subname, ok_status, fail_status)
     end
     if item.reason ~= nil and type(item.reason) ~= 'string' then
         return ('health check result %q reason must be a string'):
-               format(subname)
+        format(subname)
     end
     if item.alert_code ~= nil and type(item.alert_code) ~= 'string' then
         return ('health check result %q alert_code must be a string'):
-               format(subname)
+        format(subname)
     end
     return nil
 end
@@ -300,7 +300,7 @@ local function evaluate_check_result_item(check, kind, fullname, item,
                                           use_degraded, reason)
     if reason ~= nil then
         local status = check_fail_status(check, fullname, ok_status,
-                                         fail_status, use_degraded)
+            fail_status, use_degraded)
         return {
             status = status,
             reason = reason,
@@ -312,7 +312,7 @@ local function evaluate_check_result_item(check, kind, fullname, item,
         status = item.status,
         reason = item.reason,
         alert_code = item.status ~= ok_status and
-                     check_alert_code(check, kind, fullname, item) or nil,
+            check_alert_code(check, kind, fullname, item) or nil,
     }
 end
 
@@ -320,7 +320,7 @@ local function evaluate(check, kind, name, ok_status, fail_status, use_degraded)
     local fn = check.fn
     local function fail(reason)
         local status = check_fail_status(check, name, ok_status, fail_status,
-                                         use_degraded)
+            use_degraded)
         return {
             status = status,
             reason = reason,
@@ -365,12 +365,12 @@ local function evaluate(check, kind, name, ok_status, fail_status, use_degraded)
             end
             active[fullname] = true
             local err = validate_check_result_item(subname, item, ok_status,
-                                                   fail_status, use_degraded)
+                fail_status, use_degraded)
             results[fullname] = evaluate_check_result_item(check, kind,
-                                                           fullname, item,
-                                                           ok_status,
-                                                           fail_status,
-                                                           use_degraded, err)
+                fullname, item,
+                ok_status,
+                fail_status,
+                use_degraded, err)
         end
         cleanup_check_statuses(check, name, active)
         return results
@@ -385,7 +385,7 @@ local function evaluate_registry(kind, ok_status, fail_status, skip)
     for name, check in pairs(checks[kind]) do
         if skip == nil or not skip[name] then
             local check_res = evaluate(check, kind, name, ok_status,
-                                       fail_status, use_degraded)
+                fail_status, use_degraded)
             if check_res.status ~= nil then
                 res[name] = check_res
             else
@@ -417,7 +417,7 @@ end
 
 local function readiness()
     local registry_checks = evaluate_registry('readiness', 'ready',
-                                              'not_ready')
+        'not_ready')
     sync_alerts('readiness', registry_checks, 'ready')
 
     local res = {
@@ -474,11 +474,11 @@ function health._sync_alerts(opts)
     local ok, err = pcall(function()
         evaluate_health_checks(function()
             local liveness_checks = evaluate_registry('liveness', 'ok',
-                                                     'failed')
+                'failed')
             sync_alerts('liveness', liveness_checks, 'ok')
 
             local readiness_checks = evaluate_registry('readiness', 'ready',
-                                                       'not_ready', opts.skip)
+                'not_ready', opts.skip)
             sync_alerts('readiness', readiness_checks, 'ready')
         end)
     end)

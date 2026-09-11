@@ -42,7 +42,7 @@ end
 
 local function varbinary_eq(a, b)
     if not (type(a) == 'string' or ffi.istype(varbinary_t, a)) or
-            not (type(b) == 'string' or ffi.istype(varbinary_t, b)) then
+        not (type(b) == 'string' or ffi.istype(varbinary_t, b)) then
         return false
     end
     local size_a = #a

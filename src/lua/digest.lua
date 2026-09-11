@@ -101,7 +101,7 @@ local PMurHash_methods = {
     update = function(self, str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: murhash:update(string)', 2)
+                'Usage: murhash:update(string)', 2)
         end
         builtin.PMurHash32_Process(self.seed, self.value, str, string.len(str))
         self.total_length = self.total_length + string.len(str)
@@ -144,7 +144,7 @@ setmetatable(PMurHash, {
     __call = function(self, str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.murhash(string)', 2)
+                'Usage: digest.murhash(string)', 2)
         end
         return builtin.PMurHash32(PMurHash.default_seed, str, string.len(str))
     end
@@ -188,7 +188,7 @@ setmetatable(CRC32, {
 local pbkdf2 = function(pass, salt, iters, digest_len)
     if type(pass) ~= 'string' or type(salt) ~= 'string' then
         box.error(box.error.ILLEGAL_PARAMS,
-                  'Usage: digest.pbkdf2(pass, salt[,iters][,digest_len])', 2)
+            'Usage: digest.pbkdf2(pass, salt[,iters][,digest_len])', 2)
     end
     if iters and type(iters) ~= 'number' then
         box.error(box.error.ILLEGAL_PARAMS, 'iters must be a number', 2)
@@ -207,9 +207,9 @@ end
 local m = {
     base64_encode = function(bin, options)
         if type(bin) ~= 'string' or
-           options ~= nil and type(options) ~= 'table' then
+            options ~= nil and type(options) ~= 'table' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.base64_encode(string[, table])', 2)
+                'Usage: digest.base64_encode(string[, table])', 2)
         end
         local mask = 0
         if options ~= nil then
@@ -236,7 +236,7 @@ local m = {
     base64_decode = function(str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.base64_decode(string)', 2)
+                'Usage: digest.base64_decode(string)', 2)
         end
         local slen = #str
         local blen = builtin.base64_decode_bufsize(slen);
@@ -253,7 +253,7 @@ local m = {
     crc32_update = function(crc, str)
         if type(str) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.crc32_update(string)', 2)
+                'Usage: digest.crc32_update(string)', 2)
         end
         return builtin.crc32_calc(tonumber(crc), str, string.len(str))
     end,
@@ -283,7 +283,7 @@ local m = {
     pbkdf2_hex = function(pass, salt, iters, digest_len)
         if type(pass) ~= 'string' or type(salt) ~= 'string' then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'Usage: digest.pbkdf2_hex(pass, salt)', 2)
+                'Usage: digest.pbkdf2_hex(pass, salt)', 2)
         end
         return string.hex(pbkdf2(pass, salt, iters, digest_len))
     end

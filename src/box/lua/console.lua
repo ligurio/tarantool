@@ -88,7 +88,7 @@ local HISTORY_FILE_NAME = '.tarantool_history'
 
 output_handlers["yaml"] = function(status, _opts, ...)
     local err, ok, res
-     -- Using pcall, because serializer can raise an exception
+    -- Using pcall, because serializer can raise an exception
     if status then
         ok, res = pcall(internal.format_yaml, ...)
     else
@@ -461,7 +461,7 @@ local function eval_error_handler(err)
     -- Find place of xpcall.
     while info ~= nil do
         if info.short_src == wrapped_trace.file and
-           info.currentline == wrapped_trace.line then
+            info.currentline == wrapped_trace.line then
             break
         end
         level = level + 1
@@ -595,7 +595,7 @@ local function local_eval(storage, line)
     -- per module basis.
     --
     if tarantool.build.test_build and not res[1] and
-       tarantool._internal.trace_check_is_required(res[2].info.short_src) then
+        tarantool._internal.trace_check_is_required(res[2].info.short_src) then
         local err = res[2].err
         if not box.error.is(err) then
             return format(false, {err, 'Warning, box error expected'})
@@ -683,7 +683,7 @@ local text_connection_mt = {
                             -- side option.
                             self.local_eos = local_eos
                             local server_cmd_opts = table.concat({fmt, opts},
-                                                                 ',')
+                                ',')
                             return ('\\set output %s'):format(server_cmd_opts)
                         end
                     end
@@ -694,8 +694,8 @@ local text_connection_mt = {
 
                 local continuation = items[3]
                 if continuation == 'on' or continuation == 'off' then
-                   self.continuation_on = continuation == 'on'
-               end
+                    self.continuation_on = continuation == 'on'
+                end
             end
             return text
         end,
@@ -1080,7 +1080,7 @@ local function get_history_file_path()
     -- $HOME/.local/state/tarantool/ directory already exists.
     if home_dir then
         local home_state_dir = fio.pathjoin(home_dir, '.local', 'state',
-                                            'tarantool')
+            'tarantool')
         if fio.path.is_dir(home_state_dir) then
             return fio.pathjoin(home_state_dir, HISTORY_FILE_NAME)
         end
@@ -1096,7 +1096,7 @@ local function get_history_file_path()
 
     if home_dir then
         local home_state_dir = fio.pathjoin(home_dir, '.local', 'state',
-                                            'tarantool')
+            'tarantool')
         if fio.mktree(home_state_dir) then
             return fio.pathjoin(home_state_dir, HISTORY_FILE_NAME)
         end
@@ -1128,7 +1128,7 @@ end
 local function connect_lua_console(url, timeout, print_f)
     local deadline = fiber.clock() + (timeout or DEFAULT_CONNECT_TIMEOUT)
     local s, err = socket.tcp_connect(url.host, url.service,
-                                      deadline - fiber.clock())
+        deadline - fiber.clock())
     if not s then
         return nil, err
     end
@@ -1139,12 +1139,12 @@ local function connect_lua_console(url, timeout, print_f)
         return nil, err
     end
     if greeting:len() ~= 128 or
-       greeting:sub(64, 64) ~= '\n' or greeting:sub(128, 128) ~= '\n' or
-       not greeting:match("Tarantool%s+%d+%.%d+%.%d+%s+%(Lua console%)") then
+        greeting:sub(64, 64) ~= '\n' or greeting:sub(128, 128) ~= '\n' or
+        not greeting:match("Tarantool%s+%d+%.%d+%.%d+%s+%(Lua console%)") then
         s:close()
         return nil, 'Invalid greeting'
-   end
-   return wrap_text_socket(s, url, print_f)
+    end
+    return wrap_text_socket(s, url, print_f)
 end
 
 --
@@ -1175,7 +1175,7 @@ function M.connect(uri, opts)
         remote = nil
         if err == 'Unsupported protocol: Lua console' then
             remote, err = connect_lua_console(u, opts.timeout,
-                                              function(msg) self:print(msg) end)
+                function(msg) self:print(msg) end)
         end
         if not remote then
             log.verbose(err)

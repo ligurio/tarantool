@@ -250,7 +250,7 @@ scalars.number = {
         end
 
         local msg = ('Unable to decode a number value from environment ' ..
-                     'variable %q, got %q'):format(env_var_name, raw_value)
+            'variable %q, got %q'):format(env_var_name, raw_value)
 
         -- tonumber() returns nil on parse failure without treating it as an
         -- internal parser error, so err can be nil here.
@@ -277,7 +277,7 @@ scalars.integer = {
     type = 'integer',
     validate_noexc = function(data, schema)
         if is_annotated(schema, 'byte_size') or
-           is_annotated(schema, 'duration') then
+            is_annotated(schema, 'duration') then
             local parser = is_annotated(schema, 'byte_size') and
                 units.parse_byte_size or units.parse_duration
             local parsed, err = parser(data)
@@ -318,7 +318,7 @@ scalars.integer = {
 
         if res ~= nil then
             if is_annotated(schema, 'duration') and
-                    res - math.floor(res) ~= 0 then
+                res - math.floor(res) ~= 0 then
                 err = ('Expected number without a fractional part, got %s')
                     :format(res)
             else
@@ -327,7 +327,7 @@ scalars.integer = {
         end
 
         local msg = ('Unable to decode an integer value from environment ' ..
-                     'variable %q, got %q'):format(env_var_name, raw_value)
+            'variable %q, got %q'):format(env_var_name, raw_value)
 
         -- tonumber64() returns nil on parse failure without treating it as an
         -- internal parser error, so err can be nil here.
@@ -1335,7 +1335,7 @@ local function set_impl(schema, data, rhs, ctx)
                     -- should rebuild it during variant switch.
                     subctx = table.deepcopy(ctx)
                     can_reuse_data = pcall(validate_impl, variant, data,
-                                           subctx)
+                        subctx)
                 end
                 break
             end
@@ -1352,7 +1352,7 @@ local function set_impl(schema, data, rhs, ctx)
         -- was run with nil and returned a fresh table. Copy it into
         -- the original table.
         if data_to_set == nil and type(data) == 'table' and
-           type(res) == 'table' then
+            type(res) == 'table' then
             for k, _ in pairs(data) do
                 data[k] = nil
             end
@@ -2551,7 +2551,7 @@ local function validate_schema_node_union(schema, ctx)
     walkthrough_assert(ctx, next(schema.variants) ~= nil,
         'Union variants must not be empty')
     if schema.discriminator ~= nil and
-       type(schema.discriminator) ~= 'function' then
+        type(schema.discriminator) ~= 'function' then
         walkthrough_error(ctx, 'Union discriminator must be a function, ' ..
             'got %q', type(schema.discriminator))
     end
@@ -2576,7 +2576,7 @@ local function validate_schema_node_unit_annotations(schema, ctx)
     end
 
     if schema.duration and schema.type ~= 'number' and
-            schema.type ~= 'integer' then
+        schema.type ~= 'integer' then
         walkthrough_error(ctx, '"duration" requires a numeric scalar, got %s',
             schema.type)
     end
@@ -2655,9 +2655,9 @@ local function set_schema_annotations(schema, annotations)
 
         assert(description ~= nil or schema.description ~= nil,
             string.format('Missing description for field %q. ' ..
-            'Make sure that `descriptions.lua` contains a ' ..
-            'description for this field.', field_path))
-            schema.description = description or schema.description
+                'Make sure that `descriptions.lua` contains a ' ..
+                'description for this field.', field_path))
+        schema.description = description or schema.description
     end
 
     -- Set annotations for the given schema node based

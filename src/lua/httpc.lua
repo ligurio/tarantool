@@ -274,8 +274,8 @@ local function encode_body(body, content_type, encoders)
     if body == nil then
         raw_body = ''
     elseif body_type == 'cdata' or
-           body_type == 'userdata' or
-           body_type == 'table' then
+        body_type == 'userdata' or
+        body_type == 'table' then
         mime_type = extract_mime_type(content_type)
         mime_type = string_lower(mime_type)
         local encoder = encoders[mime_type]
@@ -289,8 +289,8 @@ local function encode_body(body, content_type, encoders)
         end
         raw_body = res
     elseif body_type == 'number' or
-           body_type == 'string' or
-           body_type == 'boolean' then
+        body_type == 'string' or
+        body_type == 'boolean' then
         raw_body = tostring(body)
     else
         error(('Unsupported body type: %s'):format(body_type))
@@ -336,8 +336,8 @@ local function encode_url_params(params, http_method)
     local uri = require("uri")
     local uri_escape_opts = uri.FORM_URLENCODED
     if http_method == "GET" or
-       http_method == "HEAD" or
-       http_method == "DELETE" then
+        http_method == "HEAD" or
+        http_method == "DELETE" then
         uri_escape_opts = uri.QUERY_PART
     end
 
@@ -566,8 +566,8 @@ curl_mt = {
             local url_with_params = url
             if encoded_params then
                 if method == "GET" or
-                   method == "HEAD" or
-                   method == "DELETE" then
+                    method == "HEAD" or
+                    method == "DELETE" then
                     url_with_params = ("%s?%s"):format(url, encoded_params)
                 elseif body then
                     error('use either body or http params')
@@ -577,15 +577,15 @@ curl_mt = {
             end
 
             if method == 'PATCH' or
-               method == 'POST' or
-               method == 'PUT' then
+                method == 'POST' or
+                method == 'PUT' then
                 local content_type = get_icase(opts.headers, 'content-type')
                 if content_type == nil then
                     content_type = default_content_type
                     local body_type = type(body)
                     if body_type == 'cdata' or
-                       body_type == 'userdata' or
-                       body_type == 'table' then
+                        body_type == 'userdata' or
+                        body_type == 'table' then
                         opts.headers['content-type'] = default_content_type
                     end
                 end
@@ -753,7 +753,7 @@ local function http_default_wrap(fname)
 end
 
 for _, name in ipairs({ 'get', 'delete', 'trace', 'options', 'head',
-                     'connect', 'post', 'put', 'patch', 'request'}) do
+    'connect', 'post', 'put', 'patch', 'request'}) do
     this_module[name] = http_default_wrap(name)
 end
 this_module.curl = http_default.curl

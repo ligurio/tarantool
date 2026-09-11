@@ -40,7 +40,7 @@ local duration_units, duration_unit_names_str = make_units(duration_unit_defs)
 function units.parse_byte_size(value)
     if type(value) ~= 'number' and type(value) ~= 'string' then
         return nil, ('Expected byte size as number or string with optional ' ..
-                     'byte size suffix, got %s'):format(type(value))
+            'byte size suffix, got %s'):format(type(value))
     end
 
     local number, unit = value, nil
@@ -87,7 +87,7 @@ end
 function units.parse_duration(value)
     if type(value) ~= 'number' and type(value) ~= 'string' then
         return nil, ('Expected duration as number or string with optional ' ..
-                     'duration suffix, got %s'):format(type(value))
+            'duration suffix, got %s'):format(type(value))
     end
 
     local number, unit = value, nil

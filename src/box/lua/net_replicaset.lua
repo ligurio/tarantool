@@ -30,13 +30,13 @@ local function check_options(tbl, tmpl, name)
         if not string.find(v, type(tbl[k])) then
             local fmt = 'option \'%s\' of %s is \'%s\' while must be \'%s\''
             box.error(box.error.ILLEGAL_PARAMS,
-                      string.format(fmt, k, name, type(tbl[k]), v))
+                string.format(fmt, k, name, type(tbl[k]), v))
         end
     end
     for k in pairs(tbl) do
         if tmpl[k] == nil then
             box.error(box.error.ILLEGAL_PARAMS,
-                      'unexpected option ' .. k .. ' in ' .. name, 2)
+                'unexpected option ' .. k .. ' in ' .. name, 2)
         end
     end
 end
@@ -98,10 +98,10 @@ function replicaset_methods:call_leader(func, args, opts)
         return self.leader_instance.conn:call(func, args, call_opts)
     elseif self.status_count.rw == 0 then
         rs_error(box.error.REPLICASET_NO_WRITABLE,
-                 self.replicaset_name)
+            self.replicaset_name)
     else
         rs_error(box.error.REPLICASET_MORE_THAN_ONE_WRITABLE,
-                 self.replicaset_name)
+            self.replicaset_name)
     end
 end
 
@@ -210,7 +210,7 @@ function replicaset_methods:info()
     local info = {
         replicaset = self.replicaset_name,
         leader = self.leader_instance and
-                 self.leader_instance.instance_name or nil,
+            self.leader_instance.instance_name or nil,
         instances = {},
         alerts = {},
     }
@@ -298,7 +298,7 @@ local function connect_by_cfg(cfg)
     end
     for instance_name, instance_cfg in pairs(cfg.instances) do
         check_options(instance_cfg, connect_cfg_instance_template,
-                    'cfg.instances.' .. instance_name)
+            'cfg.instances.' .. instance_name)
     end
 
     local replicaset = {
@@ -320,7 +320,7 @@ local function connect_by_cfg(cfg)
             wait_connected = false,
             fetch_schema = false,
             reconnect_after = instance_cfg.reconnect_timeout or
-                              cfg.reconnect_timeout,
+                cfg.reconnect_timeout,
         }
         local conn = net_box.connect(instance_cfg.endpoint, connect_cfg)
         local instance = {
@@ -346,13 +346,13 @@ local function connect_by_cfg(cfg)
             local status = value.is_ro and 'ro' or 'rw'
             if weak_ref.replicaset and weak_ref.instance then
                 on_instance_status_change(weak_ref.replicaset,
-                                          weak_ref.instance, status)
+                    weak_ref.instance, status)
             end
         end)
         conn:on_disconnect(function()
             if weak_ref.replicaset and weak_ref.instance then
                 on_instance_status_change(weak_ref.replicaset,
-                                          weak_ref.instance, 'unknown')
+                    weak_ref.instance, 'unknown')
             end
         end)
     end
@@ -416,7 +416,7 @@ end
 local function connect_common(cfg_or_name, ...)
     if type(cfg_or_name) ~= 'string' and type(cfg_or_name) ~= 'table' then
         box.error(box.error.ILLEGAL_PARAMS, 'can connect by config (table) ' ..
-                  'or name (string) but got ' .. type(cfg_or_name))
+            'or name (string) but got ' .. type(cfg_or_name))
     end
     if type(cfg_or_name) == 'table' then
         return connect_by_cfg(cfg_or_name)

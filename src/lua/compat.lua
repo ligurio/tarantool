@@ -257,14 +257,14 @@ local options = {
         obsolete = nil,
         brief = FIBER_CHANNEL_GRACEFUL_CLOSE_BRIEF,
         action = tweak_action('fiber_channel_close_mode',
-                              'forceful', 'graceful'),
+            'forceful', 'graceful'),
     },
     datetime_setfn_timestamp_type_check = {
         default = 'old',
         obsolete = nil,
         brief = DATETIME_SETFN_TIMESTAMP_TYPE_CHECK_BRIEF,
         action = tweak_action('datetime_setfn_timestamp_type_check',
-                              false, true),
+            false, true),
     },
     sql_priv = {
         default = 'new',
@@ -339,13 +339,13 @@ local options = {
         action = tweak_action('box_error_serialize_verbose', false, true),
     },
     box_consider_system_spaces_synchronous = {
-      default = 'old',
-      obsolete = nil,
-      brief = BOX_CONSIDER_SYSTEM_SPACES_SYNCHRONOUS,
-      action = function(is_new)
+        default = 'old',
+        obsolete = nil,
+        brief = BOX_CONSIDER_SYSTEM_SPACES_SYNCHRONOUS,
+        action = function(is_new)
             box_consider_system_spaces_synchronous_tweak_action(is_new)
             ffi.C.system_spaces_update_is_sync_state_from_compat()
-      end
+        end
     },
     wal_cleanup_delay_deprecation = {
         default = 'old',
@@ -413,14 +413,14 @@ local function serialize_compat()
     for _, name in pairs(options_order) do
         local option = options[name]
         if option.selected and option.current == NEW and
-                not option.obsolete then
+            not option.obsolete then
             table.insert(result, {[name] = 'new'})
         end
     end
     for _, name in pairs(options_order) do
         local option = options[name]
         if option.selected and option.current == OLD and
-                not option.obsolete then
+            not option.obsolete then
             table.insert(result, {[name] = 'old'})
         end
     end
@@ -461,12 +461,12 @@ local function verify_option(name, option)
     end
     if option.default ~= 'new' and option.default ~= 'old' then
         local msg = "Invalid option table for %s, bad default" ..
-                    " ('new'/'old' is expected)"
+            " ('new'/'old' is expected)"
         error(msg:format(name))
     end
     if not option.obsolete and option.action == nil then
         local msg = "Invalid option table for %s, bad action" ..
-                    " (function is expected)"
+            " (function is expected)"
         error(msg:format(name))
     end
     if option.obsolete and option.default == 'old' then
@@ -548,8 +548,8 @@ function compat.dump(mode)
         local comment
         if options[key].obsolete then
             if action == ACT_NEW or action == ACT_OLD or
-                    action == ACT_CURRENT or
-                    (action == ACT_NIL and options[key].selected) then
+                action == ACT_CURRENT or
+                (action == ACT_NIL and options[key].selected) then
                 val = "'new'"
             else
                 val = "'default'"
@@ -558,7 +558,7 @@ function compat.dump(mode)
         else
             if action == ACT_CURRENT then
                 if options[key].selected and options[key].current == NEW or
-                        options[key].default == 'new' then
+                    options[key].default == 'new' then
                     val = "'new'"
                 else
                     val = "'old'"
@@ -567,7 +567,7 @@ function compat.dump(mode)
                     not options[key].selected) then
                 val = "'default'"
             elseif action == ACT_NEW or
-                    (action == ACT_NIL and options[key].current == NEW) then
+                (action == ACT_NIL and options[key].current == NEW) then
                 val = "'new'"
             else
                 val = "'old'"
@@ -576,7 +576,7 @@ function compat.dump(mode)
         -- Can't use '\t' due to gh-7681.
         local form = '%s\n    %s%s = %s,'
         result = form:format(result, key,
-                             string.rep(' ', max_key_len - #key), val)
+            string.rep(' ', max_key_len - #key), val)
         if comment then
             if (val ~= "'default'") then
                 -- For alignment.
@@ -603,7 +603,7 @@ end
 function compat.add_option(option_def)
     if type(option_def) ~= 'table' then
         error("usage: compat.add_option({name = '...', default = 'new'/'old'" ..
-              ", brief = '...', action = func, run_action_now = true/false})")
+            ", brief = '...', action = func, run_action_now = true/false})")
     end
     local name = option_def.name
     verify_option(name, option_def)
@@ -616,7 +616,7 @@ function compat.add_option(option_def)
             selected = false
         }
         table.insert(options_order, name)
-    -- If hot reload but option is set to 'default', update `current`.
+        -- If hot reload but option is set to 'default', update `current`.
     elseif not options[name].selected then
         options[name].current = current
     end

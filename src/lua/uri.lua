@@ -295,8 +295,8 @@ local function escape(buf, opts)
     -- The worst case is when all characters are encoded.
     local dst = ffi.new("char[?]", #buf * 3)
     local dst_size = builtin.uri_escape(buf, #buf, dst,
-                                        options.unreserved,
-                                        options.plus)
+        options.unreserved,
+        options.plus)
     return ffi.string(dst, dst_size)
 end
 
@@ -348,7 +348,7 @@ local function params(opts, escape_opts)
     local res = {}
     for key, value in pairs(opts) do
         if type(key) ~= "string" and
-           type(key) ~= "number" then
+            type(key) ~= "number" then
             error("uri.params: keys must have a type 'string' or 'number'")
         end
         encode_kv(key, value, res, escape_opts)

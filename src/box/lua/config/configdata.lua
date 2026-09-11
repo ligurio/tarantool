@@ -103,7 +103,7 @@ function methods._instance_uri(self, uri_type, opts, log_opts)
         instance_uri_opts.params = opts.params
     end
     return instance_config:instance_uri(choose_iconfig(self, opts), uri_type,
-                                        instance_uri_opts)
+        instance_uri_opts)
 end
 
 function methods._enhance_uri_ssl_params(self, uri)
@@ -131,7 +131,7 @@ function methods._instance_sharding(self, opts)
     end
     local zone = self:get('sharding.zone', opts)
     local uri = self:_instance_uri('sharding', opts,
-                                   {log_prefix = "sharding configuration: "})
+        {log_prefix = "sharding configuration: "})
     if uri == nil then
         local err = 'No suitable URI provided for instance %q'
         error(err:format(opts.instance), 0)
@@ -246,7 +246,7 @@ function methods.sharding(self)
     end
     if #rebalancers > 1 then
         local err = "The rebalancer role must be present in no more than " ..
-                    "one replicaset. Replicasets with the role: %s"
+            "one replicaset. Replicasets with the role: %s"
         error(err:format(table.concat(rebalancers, ", ")), 0)
     end
     local cfg = {
@@ -399,7 +399,7 @@ end
 local function find_peer_name_by_uuid(peers, instance_uuid)
     for name, peer in pairs(peers) do
         local uuid = instance_config:get(peer.iconfig_def,
-                                         'database.instance_uuid')
+            'database.instance_uuid')
         if uuid == instance_uuid then
             return name
         end
@@ -524,34 +524,34 @@ local function validate_names(saved_names, config_names, iconfig, opts)
     assert(config_names.instance_name ~= nil)
 
     if config_names.replicaset_uuid ~= nil and
-       config_names.replicaset_uuid ~= saved_names.replicaset_uuid then
+        config_names.replicaset_uuid ~= saved_names.replicaset_uuid then
         error(string.format('Replicaset UUID mismatch. Snapshot: %s, ' ..
-                            'config: %s.', saved_names.replicaset_uuid,
-                            config_names.replicaset_uuid), 0)
+            'config: %s.', saved_names.replicaset_uuid,
+            config_names.replicaset_uuid), 0)
     end
 
     if not skip_names then
         if saved_names.replicaset_name ~= nil and
-           saved_names.replicaset_name ~= config_names.replicaset_name then
+            saved_names.replicaset_name ~= config_names.replicaset_name then
             error(string.format('Replicaset name mismatch. Snapshot: %s, ' ..
-                                'config: %s.', saved_names.replicaset_name,
-                                config_names.replicaset_name), 0)
+                'config: %s.', saved_names.replicaset_name,
+                config_names.replicaset_name), 0)
         end
     end
 
     if config_names.instance_uuid ~= nil and
-       config_names.instance_uuid ~= saved_names.instance_uuid then
+        config_names.instance_uuid ~= saved_names.instance_uuid then
         error(string.format('Instance UUID mismatch. Snapshot: %s, ' ..
-                            'config: %s.', saved_names.instance_uuid,
-                            config_names.instance_uuid), 0)
+            'config: %s.', saved_names.instance_uuid,
+            config_names.instance_uuid), 0)
     end
 
     if not skip_names then
         if saved_names.instance_name ~= nil and
-           saved_names.instance_name ~= config_names.instance_name then
+            saved_names.instance_name ~= config_names.instance_name then
             error(string.format('Instance name mismatch. Snapshot: %s, ' ..
-                                'config: %s.', saved_names.instance_name,
-                                config_names.instance_name), 0)
+                'config: %s.', saved_names.instance_name,
+                config_names.instance_name), 0)
         end
     end
 
@@ -559,21 +559,21 @@ local function validate_names(saved_names, config_names, iconfig, opts)
     -- inside the snapshot file. Ignore this failure, if replica is
     -- configured as anonymous, anon replicas cannot have names.
     if not instance_config:get(iconfig, 'replication.anon') and
-       not skip_names then
+        not skip_names then
         if saved_names.instance_name == nil and
-           config_names.instance_uuid == nil then
+            config_names.instance_uuid == nil then
             error(string.format('Instance name for %s is not set in snapshot' ..
-                                ' and UUID is missing in the config. Found ' ..
-                                '%s in snapshot.', config_names.instance_name,
-                                saved_names.instance_uuid), 0)
+                ' and UUID is missing in the config. Found ' ..
+                '%s in snapshot.', config_names.instance_name,
+                saved_names.instance_uuid), 0)
         end
         if saved_names.replicaset_name == nil and
-           config_names.replicaset_uuid == nil then
+            config_names.replicaset_uuid == nil then
             error(string.format('Replicaset name for %s is not set in ' ..
-                                'snapshot and  UUID is missing in the ' ..
-                                'config. Found %s in snapshot.',
-                                config_names.replicaset_name,
-                                saved_names.replicaset_uuid), 0)
+                'snapshot and  UUID is missing in the ' ..
+                'config. Found %s in snapshot.',
+                config_names.replicaset_name,
+                saved_names.replicaset_uuid), 0)
         end
     end
 end
@@ -714,24 +714,24 @@ local function validate_failover_config(instances, failover_config)
     local function verify_instance_in_replicaset(instance_name, replicaset_name)
         if instances[instance_name] == nil then
             error(('instance %s from replicaset %s specified in the '..
-                   'failover.replicasets section doesn\'t exist')
-                  :format(instance_name, replicaset_name), 0)
+                    'failover.replicasets section doesn\'t exist')
+                :format(instance_name, replicaset_name), 0)
         end
 
         local instance_replicaset = instances[instance_name].replicaset_name
         if instance_replicaset ~= replicaset_name then
             error(('instance %s from replicaset %s is specified in ' ..
-                   'the wrong replicaset %s in the failover.replicasets ' ..
-                   'configuration section')
-                  :format(instance_name, instance_replicaset,
-                          replicaset_name), 0)
+                    'the wrong replicaset %s in the failover.replicasets ' ..
+                    'configuration section')
+                :format(instance_name, instance_replicaset,
+                    replicaset_name), 0)
         end
     end
 
     for replicaset_name, replicaset in pairs(failover_config.replicasets) do
         if replicasets[replicaset_name] == nil then
             error(('replicaset %s specified in the failover configuration '..
-                   'doesn\'t exist'):format(replicaset_name), 0)
+                'doesn\'t exist'):format(replicaset_name), 0)
         end
 
         -- Validate the priority section of the specific replicasets.
@@ -889,16 +889,16 @@ end
 local function validate_misplacing(cconfig)
     for group_name, group_cfg in pairs(cconfig.groups) do
         if group_cfg.replicasets == nil or
-                next(group_cfg.replicasets) == nil then
+            next(group_cfg.replicasets) == nil then
             error(('group %q should include at ' ..
-                   'least one replicaset.'):format(group_name), 0)
+                'least one replicaset.'):format(group_name), 0)
         end
 
         for replicaset_name, replicaset_cfg in pairs(group_cfg.replicasets) do
             if replicaset_cfg.instances == nil or
-                    next(replicaset_cfg.instances) == nil then
+                next(replicaset_cfg.instances) == nil then
                 error(('replicaset %q should include at ' ..
-                       'least one instance.'):format(replicaset_name), 0)
+                    'least one instance.'):format(replicaset_name), 0)
             end
         end
     end
@@ -985,8 +985,8 @@ local function validate_replicaset_names_are_unique(cconfig)
                 assert(group_name ~= dup_group_name)
 
                 error(('found replicasets with the same name %q in the ' ..
-                       'groups %q and %q.')
-                      :format(replicaset_name, dup_group_name, group_name), 0)
+                        'groups %q and %q.')
+                    :format(replicaset_name, dup_group_name, group_name), 0)
             end
 
             replicaset2group[replicaset_name] = group_name
@@ -1020,9 +1020,9 @@ local function validate_instance_names_are_unique(cconfig)
                     assert(replicaset_name ~= dup_replicaset_name)
 
                     error(('found instances with the same name %q in ' ..
-                           'the replicasets %q and %q in the group %q.')
-                          :format(instance_name, dup_replicaset_name,
-                                  replicaset_name, group_name), 0)
+                            'the replicasets %q and %q in the group %q.')
+                        :format(instance_name, dup_replicaset_name,
+                            replicaset_name, group_name), 0)
                 end
 
                 -- Duplicating instance name is found within
@@ -1032,11 +1032,11 @@ local function validate_instance_names_are_unique(cconfig)
                     assert(replicaset_name ~= dup_replicaset_name)
 
                     error(('found instances with the same name %q in ' ..
-                           'the replicaset %q in the group %q and in the ' ..
-                           'replicaset %q in the group %q.')
-                           :format(instance_name, dup_replicaset_name,
-                                   dup_group_name, replicaset_name,
-                                   group_name), 0)
+                            'the replicaset %q in the group %q and in the ' ..
+                            'replicaset %q in the group %q.')
+                        :format(instance_name, dup_replicaset_name,
+                            dup_group_name, replicaset_name,
+                            group_name), 0)
                 end
 
                 assert(dup_replicaset_name == nil)
@@ -1115,8 +1115,8 @@ local function new(iconfig, cconfig, instance_name)
         if bootstrap_leader ~= nil then
             error(('The "bootstrap_leader" option cannot be set for '..
                    'replicaset %q because "bootstrap_strategy" for instance '..
-                   '%q is not "config"'):format(found.replicaset_name,
-                                                instance_name), 0)
+                '%q is not "config"'):format(found.replicaset_name,
+                instance_name), 0)
         end
     elseif bootstrap_leader == nil then
         error(('The "bootstrap_leader" option cannot be empty for replicaset '..
@@ -1126,8 +1126,8 @@ local function new(iconfig, cconfig, instance_name)
         if peers[bootstrap_leader] == nil then
             error(('"bootstrap_leader" = %q option is set for replicaset %q '..
                    'of group %q, but instance %q is not found in this '..
-                   'replicaset'):format(bootstrap_leader, found.replicaset_name,
-                                        found.group_name, bootstrap_leader), 0)
+                'replicaset'):format(bootstrap_leader, found.replicaset_name,
+                found.group_name, bootstrap_leader), 0)
         end
     end
 

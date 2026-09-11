@@ -146,7 +146,7 @@ function methods.sync(self, _config_module, _iconfig)
             -- separately in the box.cfg and do not have the
             -- box_cfg annotation.
             local is_listen = #w.path == 2 and w.path[1] == 'iproto' and
-                              w.path[2] == 'listen'
+                w.path[2] == 'listen'
             if w.schema.box_cfg ~= nil then
                 local value = box_cfg_env_var(w.schema.box_cfg)
                 if value ~= nil then

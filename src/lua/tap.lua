@@ -144,7 +144,7 @@ local function is(test, got, expected, message, extra)
     extra.got = got
     extra.expected = expected
     local rc = (test.strict == false or type(got) == type(expected)) and
-               got == expected
+        got == expected
     return ok(test, rc, message, extra)
 end
 
@@ -153,7 +153,7 @@ local function isnt(test, got, unexpected, message, extra)
     extra.got = got
     extra.unexpected = unexpected
     local rc = (test.strict == true and type(got) ~= type(unexpected)) or
-               got ~= unexpected
+        got ~= unexpected
     return ok(test, rc, message, extra)
 end
 

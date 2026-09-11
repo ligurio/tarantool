@@ -154,7 +154,7 @@ local function privileges_from_box(name)
     for _, tuple in pairs(box.space._priv:select({grantee.id})) do
         local opts = tuple[PRIV_OPTS_FIELD_ID]
         local privileges = opts ~= nil and opts.origins ~= nil and
-              opts.origins[CONFIG_ORIGIN]
+            opts.origins[CONFIG_ORIGIN]
         if privileges then
             local obj_type = tuple.object_type
             local obj_name = obj_name_by_type_and_id(obj_type, tuple.object_id)
@@ -253,7 +253,7 @@ local function privileges_subtract(target, current)
             local lacking_privs = {}
             for priv, target_val in pairs(privileges) do
                 if target_val and (current[obj_type][obj_name] == nil or
-                                   not current[obj_type][obj_name][priv]) then
+                        not current[obj_type][obj_name][priv]) then
                     table.insert(lacking_privs, priv)
                 end
             end
@@ -272,7 +272,7 @@ end
 
 local function user_origins_from_tuple(tuple)
     if tuple[USER_OPTS_FIELD_ID] == nil or
-       tuple[USER_OPTS_FIELD_ID].origins == nil then
+        tuple[USER_OPTS_FIELD_ID].origins == nil then
         return {[DEFAULT_ORIGIN] = true}
     end
     return tuple[USER_OPTS_FIELD_ID].origins
@@ -359,7 +359,7 @@ local function get_credentials(config)
 
     -- Add a semi-default role 'sharding'.
     credentials.roles['sharding'] = credentials.roles['sharding'] or
-                                    sharding_role(configdata)
+        sharding_role(configdata)
 
     return credentials
 end
@@ -499,24 +499,24 @@ local privileges_action_f = function(grant_or_revoke, role_or_user, name, privs,
     -- Try to apply the action immediately. If the object doesn't exist,
     -- the sync will be applied inside the trigger on object creation/rename.
     local ok, err = pcall(box.schema[role_or_user][grant_or_revoke],
-                          name, privs, obj_type, obj_name,
-                          {_origin = CONFIG_ORIGIN})
+        name, privs, obj_type, obj_name,
+        {_origin = CONFIG_ORIGIN})
 
     if ok then
         local action = ('box.schema.%s.%s(%q, %q, %q, %q)')
             :format(role_or_user, grant_or_revoke, name, privs,
-                    obj_type, obj_name)
+                obj_type, obj_name)
         log.verbose('credentials.apply: ' .. action)
         record_txn_action(action)
         return
     end
     if err.code ~= box.error.NO_SUCH_SPACE and
-            err.code ~= box.error.NO_SUCH_ROLE and
-            err.code ~= box.error.NO_SUCH_FUNCTION and
-            err.code ~= box.error.NO_SUCH_SEQUENCE then
+        err.code ~= box.error.NO_SUCH_ROLE and
+        err.code ~= box.error.NO_SUCH_FUNCTION and
+        err.code ~= box.error.NO_SUCH_SEQUENCE then
         err = ('credentials.apply: box.schema.%s.%s(%q, %q, %q, %q) failed: %s')
-              :format(role_or_user, grant_or_revoke, name, privs, obj_type,
-                      obj_name, err)
+            :format(role_or_user, grant_or_revoke, name, privs, obj_type,
+                obj_name, err)
         config._aboard:set({type = 'error', message = err})
     end
 end
@@ -529,7 +529,7 @@ local function sync_privileges(credentials, obj_to_sync)
 
     if obj_to_sync then
         log.verbose('credentials.apply: syncing privileges for %s %q',
-                    obj_to_sync.type, obj_to_sync.name)
+            obj_to_sync.type, obj_to_sync.name)
     end
 
     -- Prepare to drop missed privilege alerts.
@@ -557,7 +557,7 @@ local function sync_privileges(credentials, obj_to_sync)
         assert(role_or_user == 'user' or role_or_user == 'role')
         if not obj_to_sync then
             log.verbose('credentials.apply: syncing privileges for %s %q',
-                        role_or_user, name)
+                role_or_user, name)
         end
 
         local box_privileges = privileges_from_box(name)
@@ -568,9 +568,9 @@ local function sync_privileges(credentials, obj_to_sync)
         for _, to_grant in ipairs(grants) do
             -- Note that grants are filtered per object, if required.
             if obj_to_sync == nil or (obj_to_sync.type == to_grant.obj_type and
-                                     obj_to_sync.name == to_grant.obj_name) then
+                    obj_to_sync.name == to_grant.obj_name) then
                 privileges_action_f('grant', role_or_user, name, to_grant.privs,
-                                    to_grant.obj_type, to_grant.obj_name)
+                    to_grant.obj_type, to_grant.obj_name)
             end
         end
 
@@ -579,10 +579,10 @@ local function sync_privileges(credentials, obj_to_sync)
         for _, to_revoke in ipairs(revokes) do
             -- Note that revokes are filtered per object, if required.
             if obj_to_sync == nil or (obj_to_sync.type == to_revoke.obj_type and
-                                    obj_to_sync.name == to_revoke.obj_name) then
+                    obj_to_sync.name == to_revoke.obj_name) then
                 privileges_action_f('revoke', role_or_user, name,
-                                    to_revoke.privs, to_revoke.obj_type,
-                                    to_revoke.obj_name)
+                    to_revoke.privs, to_revoke.obj_type,
+                    to_revoke.obj_name)
             end
         end
 
@@ -591,7 +591,7 @@ local function sync_privileges(credentials, obj_to_sync)
         -- configuration.
         box_privileges = privileges_from_box(name)
         local missed_grants = privileges_subtract(config_privileges,
-                                                  box_privileges)
+            box_privileges)
 
         -- The most frequent scenario is when a privilege
         -- couldn't be granted, because the object (space/
@@ -626,7 +626,7 @@ local function sync_privileges(credentials, obj_to_sync)
                 'or the privilege write has failed (separate alert reported)'
             local privs = table.concat(grant.privs, ',')
             alert.message = msg:format(role_or_user, 'grant', name, privs,
-                                       grant.obj_type, grant.obj_name)
+                grant.obj_type, grant.obj_name)
             config._aboard:set(alert)
         end
     end
@@ -742,7 +742,7 @@ local function set_password(user_name, password)
         if next(auth_def) == nil then
             -- No password is currently set, there is nothing to do.
             log.verbose('credentials.apply: user %q already has no password',
-                        user_name)
+                user_name)
             return
         end
 
@@ -767,7 +767,7 @@ local function set_password(user_name, password)
 
     if user_name == 'guest' then
         local message = 'credentials.apply: setting a password for ' ..
-                        'the guest user is not allowed'
+            'the guest user is not allowed'
         config._aboard:set({type = 'error', message = message})
     end
 
@@ -811,17 +811,17 @@ local function set_password(user_name, password)
         -- box.cfg.auth_type is already set.
         if box.cfg.auth_type == auth_type then
             log.verbose('credentials.apply: a password is already set ' ..
-                        'for user %q', user_name)
+                'for user %q', user_name)
         else
             log.verbose('credentials.apply: a password for user %q has ' ..
-                        'different auth_type, resetting it', user_name)
+                'different auth_type, resetting it', user_name)
             box.schema.user.passwd(user_name, password)
             record_txn_action(('box.schema.user.passwd(%q)')
                 :format(user_name))
         end
     else
         log.verbose('credentials.apply: set a password for user %q',
-                    user_name)
+            user_name)
         box.schema.user.passwd(user_name, password)
         record_txn_action(('box.schema.user.passwd(%q)')
             :format(user_name))
@@ -853,7 +853,7 @@ local function drop_users_not_in_config(user_map)
         if tuple.type == 'user' and not is_system_user_or_role(tuple) then
             local origins = user_origins_from_tuple(tuple)
             if origins[CONFIG_ORIGIN] and
-               (user_map or {})[tuple.name] == nil then
+                (user_map or {})[tuple.name] == nil then
                 table.insert(to_drop, tuple.name)
             end
         end
@@ -871,7 +871,7 @@ local function drop_roles_not_in_config(role_map)
         if tuple.type == 'role' and not is_system_user_or_role(tuple) then
             local origins = user_origins_from_tuple(tuple)
             if origins[CONFIG_ORIGIN] and
-               (role_map or {})[tuple.name] == nil then
+                (role_map or {})[tuple.name] == nil then
                 table.insert(to_drop, tuple.name)
             end
         end
@@ -975,7 +975,7 @@ local function credentials_atomic(func, ...)
 
     if func_called and #actions_applied > 0 then
         local msg = 'credentials.apply: failed to commit credentials ' ..
-                    'transaction with pending operation(s): %s'
+            'transaction with pending operation(s): %s'
         local actions = get_txn_actions_str()
         local e = box.error.new(box.error.PROC_LUA, msg:format(actions))
         e:set_prev(err)
@@ -1049,7 +1049,7 @@ local function sync_credentials_worker()
             message = 'credentials: the database schema has an old version ' ..
                       'and users/roles/privileges cannot be applied. '..
                       'Consider executing box.schema.upgrade() to perform an '..
-                      'upgrade.'
+                'upgrade.'
         }, {key = not_upgraded_alert_key})
 
         schema_is_upgraded_cond:wait()
@@ -1073,9 +1073,9 @@ local function sync_credentials_worker()
         if obj_to_sync.type == 'BLOCKING_FULL_SYNC' then
             wait_sync:put(err or 'Done')
 
-        -- There are two possible cases when `err` is not nil:
-        -- * `ok == false` -- an extra error log message should be issued.
-        -- * `ok == true` -- the error has already been reported as an alert.
+            -- There are two possible cases when `err` is not nil:
+            -- * `ok == false` -- an extra error log message should be issued.
+            -- * `ok == true` -- the error has already been reported as an alert.
         elseif not ok and err then
             log.error(err)
         end
@@ -1136,7 +1136,7 @@ local function apply(config_module)
 
     -- Note that only one fiber exists at a time.
     if sync_credentials_fiber == nil or
-            sync_credentials_fiber:status() == 'dead' then
+        sync_credentials_fiber:status() == 'dead' then
         sync_credentials_fiber = fiber.new(sync_credentials_worker)
     end
 

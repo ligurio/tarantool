@@ -139,10 +139,10 @@ local INT_MAX = 2147483647
 local INT_MIN = -2147483648
 -- -5879610-06-22
 local MIN_DATE_TEXT = ('%d-%02d-%02d'):format(MIN_DATE_YEAR, MIN_DATE_MONTH,
-                                              MIN_DATE_DAY)
+    MIN_DATE_DAY)
 -- 5879611-07-11
 local MAX_DATE_TEXT = ('%d-%02d-%02d'):format(MAX_DATE_YEAR, MAX_DATE_MONTH,
-                                              MAX_DATE_DAY)
+    MAX_DATE_DAY)
 local MIN_DT_DAY_VALUE = INT_MIN
 local MAX_DT_DAY_VALUE = INT_MAX
 local MIN_EPOCH_SECS_VALUE = MIN_DT_DAY_VALUE * SECS_PER_DAY - SECS_EPOCH_OFFSET
@@ -200,49 +200,49 @@ end
 local function check_date(o, message)
     if not is_datetime(o) then
         return error(("%s: expected datetime, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_date_interval(o, message)
     if not is_datetime(o) and not is_interval(o) then
         return error(("%s: expected datetime or interval, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_interval(o, message)
     if not is_interval(o) then
         return error(("%s: expected interval, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_interval_table(o, message)
     if not is_table(o) and not is_interval(o) then
         return error(("%s: expected interval or table, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_date_interval_table(o, message)
     if not is_table(o) and not is_datetime(o) and not is_interval(o) then
         return error(("%s: expected datetime, interval or table, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_table(o, message)
     if not is_table(o) then
         return error(("%s: expected table, but received %s"):
-                     format(message, type(o)), 2)
+        format(message, type(o)), 2)
     end
 end
 
 local function check_str(s, message)
     if type(s) ~= 'string' then
         return error(("%s: expected string, but received %s"):
-                     format(message, type(s)), 2)
+        format(message, type(s)), 2)
     end
 end
 
@@ -253,14 +253,14 @@ local function check_integer(v, message, error_level_up)
     end
     if type(v) ~= 'number' or v % 1 ~= 0 then
         error(('%s: integer value expected, but received %s'):
-              format(message, type(v)), 4 + error_level_up)
+        format(message, type(v)), 4 + error_level_up)
     end
 end
 
 local function check_str_or_nil(s, message)
     if s ~= nil and type(s) ~= 'string' then
         return error(("%s: expected string, but received %s"):
-                     format(message, type(s)), 2)
+        format(message, type(s)), 2)
     end
 end
 
@@ -271,17 +271,17 @@ local function check_range(v, from, to, txt, extra, error_level_up)
     error_level_up = error_level_up or 0
     if type(v) ~= 'number' then
         error(('numeric value expected, but received %s'):
-              format(type(v)), 3 + error_level_up)
+        format(type(v)), 3 + error_level_up)
     end
     if extra == v or (v >= from and v <= to) then
         return
     end
     if extra == nil then
         error(('value %d of %s is out of allowed range [%d, %d]'):
-              format(v, txt, from, to), 3 + error_level_up)
+        format(v, txt, from, to), 3 + error_level_up)
     else
         error(('value %d of %s is out of allowed range [%d, %d..%d]'):
-              format(v, txt, extra, from, to), 3 + error_level_up)
+        format(v, txt, extra, from, to), 3 + error_level_up)
     end
 end
 
@@ -292,7 +292,7 @@ local function dt_from_ymd(y, M, d)
         local day_in_month = builtin.tnt_dt_days_in_month(y, M)
         if d > day_in_month then
             error(('invalid number of days %d in month %d for %d'):
-                  format(d, M, y), 4)
+            format(d, M, y), 4)
         end
     end
 
@@ -315,13 +315,13 @@ local function checked_max_value(v, max, txt, def)
     end
     if type(v) ~= 'number' then
         error(('numeric value expected, but received %s'):
-              format(type(v)), 2)
+        format(type(v)), 2)
     end
     if v >= -max and v <= max then
         return v
     end
     error(('value %s of %s is out of allowed range [%s, %s]'):
-            format(v, txt, -max, max), 4)
+    format(v, txt, -max, max), 4)
 end
 
 local function bool2int(b)
@@ -340,12 +340,12 @@ local adjust_xlat = {
 local function interval_init(year, month, week, day, hour, min, sec, nsec,
                              adjust)
     return ffi.new(interval_t, sec, min, hour, day, week, month, year, nsec,
-                   adjust)
+        adjust)
 end
 
 local function interval_new_copy(obj)
     return interval_init(obj.year, obj.month, obj.week, obj.day, obj.hour,
-                         obj.min, obj.sec, obj.nsec, obj.adjust)
+        obj.min, obj.sec, obj.nsec, obj.adjust)
 end
 
 local function interval_decode_args(obj)
@@ -372,15 +372,15 @@ local function interval_decode_args(obj)
     local usec = checked_max_value(obj.usec, MAX_USEC_RANGE, 'usec')
     local msec = checked_max_value(obj.msec, MAX_MSEC_RANGE, 'msec')
     local count_usec = bool2int(nsec ~= nil) + bool2int(usec ~= nil) +
-                       bool2int(msec ~= nil)
+        bool2int(msec ~= nil)
     if count_usec > 1 then
         error('only one of nsec, usec or msecs may be defined '..
-                'simultaneously', 3)
+            'simultaneously', 3)
     end
     nsec = (msec or 0) * 1e6 + (usec or 0) * 1e3 + (nsec or 0)
 
     return interval_init(year, month, weeks, days, hours, minutes, secs, nsec,
-                         adjust)
+        adjust)
 end
 
 local function interval_new(obj)
@@ -476,7 +476,7 @@ local function parse_tzname(base_epoch, tzname)
     local ptzindex = date_int16_stash_take()
     local ptzoffset = date_int16_stash_take()
     local len = builtin.tnt_datetime_parse_tz(tzname, #tzname, base_epoch,
-                                              ptzoffset, ptzindex)
+        ptzoffset, ptzindex)
     if len > 0 then
         local tzoffset, tzindex = ptzoffset[0], ptzindex[0]
         date_int16_stash_put(ptzoffset)
@@ -513,7 +513,7 @@ local function datetime_new_dt(dt, secs, nanosecs, offset, tzindex)
     offset = offset or 0
     tzindex = tzindex or 0
     return datetime_new_raw(epoch_from_dt(dt) + secs - offset * 60, nanosecs,
-                            offset, tzindex)
+        offset, tzindex)
 end
 
 local function extract_obj_ymd(obj)
@@ -561,11 +561,11 @@ end
 local function extract_obj_nsec(obj)
     local nsec, usec, msec = obj.nsec, obj.usec, obj.msec
     local count_usec = bool2int(nsec ~= nil) + bool2int(usec ~= nil) +
-                       bool2int(msec ~= nil)
+        bool2int(msec ~= nil)
     if count_usec > 0 then
         if count_usec > 1 then
             error('only one of nsec, usec or msecs may be defined '..
-                  'simultaneously', 3)
+                'simultaneously', 3)
         end
         if usec ~= nil then
             check_range(usec, 0, 1e6, 'usec', nil, 1)
@@ -620,7 +620,7 @@ local function extract_obj_epoch_and_update_nsec(obj, ymd, hms, nsec, from_set)
         nsec = fraction * 1e9
     elseif fraction ~= 0 then
         error('only integer values allowed in timestamp '..
-                'if nsec, usec, or msecs provided', 3)
+            'if nsec, usec, or msecs provided', 3)
     end
 
     return epoch, nsec
@@ -635,7 +635,7 @@ local function get_timezone(offset, msg, error_level_up)
         return parse_tzoffset(offset, error_level_up)
     else
         error(('%s: string or number expected, but received %s'):
-              format(msg, offset), 3 + error_level_up)
+        format(msg, offset), 3 + error_level_up)
     end
 end
 
@@ -646,7 +646,7 @@ local function extract_obj_tzoffset_tzindex(obj, base_epoch)
     local obj_tzoffset = obj.tzoffset
     local tzname = obj.tz
     if tzname ~= nil then
-         tzoffset, tzindex = parse_tzname(base_epoch, tzname)
+        tzoffset, tzindex = parse_tzname(base_epoch, tzname)
     elseif obj_tzoffset ~= nil then
         tzindex = 0
         tzoffset = get_timezone(obj_tzoffset, 'tzoffset', 1)
@@ -764,10 +764,10 @@ local function datetime_increment_by(self, direction, ival)
     local operation = direction >= 0 and 'addition' or 'subtraction'
     if rc < 0 then
         error(('%s makes date less than minimum allowed %s'):
-                format(operation, MIN_DATE_TEXT), 3)
+        format(operation, MIN_DATE_TEXT), 3)
     else -- rc > 0
         error(('%s makes date greater than maximum allowed %s'):
-                format(operation, MAX_DATE_TEXT), 3)
+        format(operation, MAX_DATE_TEXT), 3)
     end
 end
 
@@ -794,7 +794,7 @@ local function check_rc(rc, operation, obj)
     local txt, max = unpack(check_ranges[index])
     local v = obj[txt]
     error(('%s moves value %s of %s out of allowed range [%s, %s]'):
-            format(operation, v, txt, -max, max), 3)
+    format(operation, v, txt, -max, max), 3)
 end
 
 -- subtract operation when left is date, and right is date
@@ -830,7 +830,7 @@ end
 
 local function error_incompatible(name)
     error(("datetime:%s() - incompatible type of arguments"):
-          format(name), 3)
+    format(name), 3)
 end
 
 --[[
@@ -851,11 +851,11 @@ local function datetime_interval_sub(lhs, rhs)
     -- left is date, right is interval
     if not left_is_interval and right_is_interval then
         return datetime_increment_by(datetime_new_copy(lhs), -1,
-                                     interval_decode_args(rhs))
-    -- left is date, right is date
+            interval_decode_args(rhs))
+        -- left is date, right is date
     elseif not left_is_interval and not right_is_interval then
         return datetime_datetime_sub(lhs, rhs)
-    -- both left and right are intervals
+        -- both left and right are intervals
     elseif left_is_interval and right_is_interval then
         return interval_interval_sub(lhs, rhs)
     else
@@ -884,7 +884,7 @@ local function datetime_interval_add(lhs, rhs)
     if not left_is_interval and right_is_interval then
         local obj = datetime_new_copy(lhs)
         return datetime_increment_by(obj, 1, interval_decode_args(rhs))
-    -- both left and right are intervals
+        -- both left and right are intervals
     elseif left_is_interval and right_is_interval then
         return interval_interval_add(lhs, rhs)
     else
@@ -1204,7 +1204,7 @@ ffi.metatype(datetime_t, {
 local function interval_totable(self)
     if not is_interval(self) then
         return error(("interval.totable(): expected interval, but received "..
-                     type(self)), 2)
+            type(self)), 2)
     end
     local adjust = {'excess', 'none', 'last'}
     return {
@@ -1266,7 +1266,7 @@ local interval_index_functions = {
 local function interval_index(self, key)
     local handler_field = interval_index_fields[key]
     return handler_field ~= nil and handler_field(self) or
-           interval_index_functions[key]
+        interval_index_functions[key]
 end
 
 ffi.metatype(interval_t, {

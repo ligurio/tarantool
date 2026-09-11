@@ -253,8 +253,8 @@ local function error_concat(lhs, rhs)
     elseif ffi.istype('struct error', rhs) then
         return lhs .. tostring(rhs)
     else
-       box.error(box.error.ILLEGAL_PARAMS,
-                 'error_mt.__concat(): neither of args is an error', 2)
+        box.error(box.error.ILLEGAL_PARAMS,
+            'error_mt.__concat(): neither of args is an error', 2)
     end
 end
 

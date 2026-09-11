@@ -97,7 +97,7 @@ local function set_searchroot(iconfig, vars)
     end)
     if work_dir:find('{{', 1, true) then
         log.verbose('the module search root is not set: unable to ' ..
-                    'resolve process.work_dir %q', work_dir)
+            'resolve process.work_dir %q', work_dir)
         return
     end
     -- A relative process.work_dir is interpreted against the
@@ -233,10 +233,10 @@ local function metrics_filter(self)
 
     local default_include, selector_include =
         split_metric_groups_and_selectors(self:get('metrics.include'), 'all',
-                                          'none', 'all')
+            'none', 'all')
     local default_exclude, selector_exclude =
         split_metric_groups_and_selectors(self:get('metrics.exclude'), {}, {},
-                                          {})
+            {})
 
     metrics_filter_cache = {
         configdata = configdata,
@@ -664,13 +664,13 @@ function methods._startup(self, instance_name, config_file)
     if not ok then
         if self._configdata ~= nil then
             local ok, iconfig = pcall(self._configdata.masked_iconfig,
-                                      self._configdata)
+                self._configdata)
             if ok then
                 log.debug('Instance configuration at startup failure:\n%s',
-                          yaml.encode(iconfig))
+                    yaml.encode(iconfig))
             else
                 log.debug('Unable to prepare instance configuration for ' ..
-                          'startup failure report: %s', iconfig)
+                    'startup failure report: %s', iconfig)
             end
         end
         log.error(err)
@@ -710,8 +710,8 @@ function methods.get(self, path, opts)
     end
     if opts.instance ~= nil and opts.env == true then
         error('config:get: "instance" and "env = true" options can\'t be ' ..
-              'used together, because it is unknown which TT_* environment ' ..
-              'variables were passed to another instance', 0)
+            'used together, because it is unknown which TT_* environment ' ..
+            'variables were passed to another instance', 0)
     end
 
     -- At this point, either:
@@ -738,9 +738,9 @@ function methods._reload_noexc(self, opts)
         return false, 'config:reload(): no instance config available yet'
     end
     if self._status == 'startup_in_progress' or
-       self._status == 'reload_in_progress' then
+        self._status == 'reload_in_progress' then
         return false, 'config:reload(): instance configuration is already in '..
-                      'progress'
+            'progress'
     end
     self._status = 'reload_in_progress'
     broadcast(self)
@@ -796,7 +796,7 @@ function methods.info(self, version)
     version = version == nil and 'v1' or version
     local health = package.loaded['internal.healthcheck']
     if type(health) == 'table' and
-       type(health._sync_alerts) == 'function' then
+        type(health._sync_alerts) == 'function' then
         pcall(health._sync_alerts, {skip = {config = true}})
     end
     local info = {}
@@ -838,12 +838,12 @@ function methods.wait_status(self, statuses, timeout)
 
     if timeout ~= nil and type(timeout) ~= 'number' then
         error(('Expected timeout to be a non-negative number or nil, ' ..
-              'got %s'):format(type(timeout)), 0)
+            'got %s'):format(type(timeout)), 0)
     end
 
     if timeout ~= nil and timeout < 0 then
         error('Expected timeout to be a non-negative number or nil, ' ..
-              'got negative number', 0)
+            'got negative number', 0)
     end
 
     local actual_status = self._status
