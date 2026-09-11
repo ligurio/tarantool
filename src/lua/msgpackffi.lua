@@ -447,7 +447,7 @@ if strict_alignment then
         if num <= DBL_INT_MAX then
             return tonumber(num) -- return as 'number'
         end
-        return num -- return as 'cdata'
+        return num               -- return as 'cdata'
     end
 else
     decode_u64 = function(data)
@@ -457,7 +457,7 @@ else
         if num <= DBL_INT_MAX then
             return tonumber(num) -- return as 'number'
         end
-        return num -- return as 'cdata'
+        return num               -- return as 'cdata'
     end
 end
 
@@ -513,7 +513,7 @@ if strict_alignment then
         if num >= -DBL_INT_MAX and num <= DBL_INT_MAX then
             return tonumber(num) -- return as 'number'
         end
-        return num -- return as 'cdata'
+        return num               -- return as 'cdata'
     end
 else
     decode_i64 = function(data)
@@ -523,7 +523,7 @@ else
         if num >= -DBL_INT_MAX and num <= DBL_INT_MAX then
             return tonumber(num) -- return as 'number'
         end
-        return num -- return as 'cdata'
+        return num               -- return as 'cdata'
     end
 end
 
@@ -671,7 +671,7 @@ decode_r = function(data)
     local c = data[0][0]
     data[0] = data[0] + 1
     if c <= 0x7f then
-        return tonumber(c) -- fixint
+        return tonumber(c)                          -- fixint
     elseif c >= 0xa0 and c <= 0xbf then
         return decode_str(data, bit.band(c, 0x1f))  -- fixstr
     elseif c >= 0x90 and c <= 0x9f then

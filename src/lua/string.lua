@@ -278,7 +278,7 @@ local function string_endswith(inp, tail, _start, _end)
     -- check for degenerate case (interval lesser than input)
     if tail_len == 0 then
         return true
-    elseif _end - _start + 1 < tail_len or _start > _end  then
+    elseif _end - _start + 1 < tail_len or _start > _end then
         return false
     end
     _start = _end - tail_len
