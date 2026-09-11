@@ -200,29 +200,30 @@ local default_cfg = {
     replication_synchro_quorum         = "N / 2 + 1",
     replication_synchro_timeout        = 5,
     replication_synchro_queue_max_size = 16 * 1024 * 1024,
-    replication_linearizable_quorum = "N - Q + 1",
-    replication_connect_timeout = 30,
-    replication_connect_quorum = nil, -- connect all
-    replication_skip_conflict = false,
-    replication_anon      = false,
-    replication_anon_ttl  = 60 * 60,
-    replication_threads   = 1,
-    bootstrap_strategy    = "auto",
-    bootstrap_leader      = nil,
-    feedback_enabled      = ifdef_feedback(true),
-    feedback_crashinfo    = ifdef_feedback(true),
-    feedback_host         = ifdef_feedback("https://feedback.tarantool.io"),
-    feedback_interval     = ifdef_feedback(3600),
-    feedback_send_metrics = ifdef_feedback(true),
-    feedback_metrics_collect_interval = ifdef_feedback(60),
-    feedback_metrics_limit = ifdef_feedback(1024 * 1024),
-    net_msg_max           = 768,
-    sql_cache_size        = 5 * 1024 * 1024,
-    txn_timeout           = 365 * 100 * 86400,
-    txn_synchro_timeout   = 5,
-    txn_isolation         = "best-effort",
-    memtx_sort_threads    = nil,
-    memtx_use_sort_data   = false,
+    replication_linearizable_quorum    = "N - Q + 1",
+    replication_connect_timeout        = 30,
+    replication_connect_quorum         = nil, -- connect all
+    replication_skip_conflict          = false,
+    replication_anon                   = false,
+    replication_anon_ttl               = 60 * 60,
+    replication_threads                = 1,
+    bootstrap_strategy                 = "auto",
+    bootstrap_leader                   = nil,
+    feedback_enabled                   = ifdef_feedback(true),
+    feedback_crashinfo                 = ifdef_feedback(true),
+    feedback_host                      = ifdef_feedback(
+        "https://feedback.tarantool.io"),
+    feedback_interval                  = ifdef_feedback(3600),
+    feedback_send_metrics              = ifdef_feedback(true),
+    feedback_metrics_collect_interval  = ifdef_feedback(60),
+    feedback_metrics_limit             = ifdef_feedback(1024 * 1024),
+    net_msg_max                        = 768,
+    sql_cache_size                     = 5 * 1024 * 1024,
+    txn_timeout                        = 365 * 100 * 86400,
+    txn_synchro_timeout                = 5,
+    txn_isolation                      = "best-effort",
+    memtx_sort_threads                 = nil,
+    memtx_use_sort_data                = false,
 
     metrics                            = {
         include = 'all',
@@ -618,27 +619,28 @@ end
 -- load_cfg() may report an error, but box will be configured in
 -- fact.
 local dynamic_cfg = {
-    replication             = private.cfg_set_replication,
-    io_collect_interval     = private.cfg_set_io_collect_interval,
-    readahead               = private.cfg_set_readahead,
-    too_long_threshold      = private.cfg_set_too_long_threshold,
-    snap_io_rate_limit      = private.cfg_set_snap_io_rate_limit,
-    read_only               = private.cfg_set_read_only,
-    memtx_memory            = private.cfg_set_memtx_memory,
-    memtx_use_sort_data     = private.cfg_set_memtx_use_sort_data,
-    memtx_max_tuple_size    = private.cfg_set_memtx_max_tuple_size,
-    vinyl_memory            = private.cfg_set_vinyl_memory,
-    vinyl_max_tuple_size    = private.cfg_set_vinyl_max_tuple_size,
-    vinyl_cache             = private.cfg_set_vinyl_cache,
-    vinyl_timeout           = private.cfg_set_vinyl_timeout,
-    vinyl_defer_deletes     = nop,
-    quiver_memory           = private.cfg_set_quiver_memory,
-    quiver_run_size         = private.cfg_set_quiver_run_size,
-    checkpoint_count        = private.cfg_set_checkpoint_count,
-    checkpoint_interval     = private.cfg_set_checkpoint_interval,
-    checkpoint_wal_threshold = private.cfg_set_checkpoint_wal_threshold,
-    wal_queue_max_size      = private.cfg_set_wal_queue_max_size,
-    worker_pool_threads     = private.cfg_set_worker_pool_threads,
+    replication                        = private.cfg_set_replication,
+    io_collect_interval                = private.cfg_set_io_collect_interval,
+    readahead                          = private.cfg_set_readahead,
+    too_long_threshold                 = private.cfg_set_too_long_threshold,
+    snap_io_rate_limit                 = private.cfg_set_snap_io_rate_limit,
+    read_only                          = private.cfg_set_read_only,
+    memtx_memory                       = private.cfg_set_memtx_memory,
+    memtx_use_sort_data                = private.cfg_set_memtx_use_sort_data,
+    memtx_max_tuple_size               = private.cfg_set_memtx_max_tuple_size,
+    vinyl_memory                       = private.cfg_set_vinyl_memory,
+    vinyl_max_tuple_size               = private.cfg_set_vinyl_max_tuple_size,
+    vinyl_cache                        = private.cfg_set_vinyl_cache,
+    vinyl_timeout                      = private.cfg_set_vinyl_timeout,
+    vinyl_defer_deletes                = nop,
+    quiver_memory                      = private.cfg_set_quiver_memory,
+    quiver_run_size                    = private.cfg_set_quiver_run_size,
+    checkpoint_count                   = private.cfg_set_checkpoint_count,
+    checkpoint_interval                = private.cfg_set_checkpoint_interval,
+    checkpoint_wal_threshold           = private
+        .cfg_set_checkpoint_wal_threshold,
+    wal_queue_max_size                 = private.cfg_set_wal_queue_max_size,
+    worker_pool_threads                = private.cfg_set_worker_pool_threads,
     -- do nothing, affects new replicas, which query this value on start
     wal_dir_rescan_delay               = nop,
     wal_cleanup_delay                  = function()
@@ -660,44 +662,50 @@ local dynamic_cfg = {
     replication_timeout                = private.cfg_set_replication_timeout,
     replication_reconnect_timeout      =
         private.cfg_set_replication_reconnect_timeout,
-    replication_connect_timeout = private.cfg_set_replication_connect_timeout,
-    replication_connect_quorum = private.cfg_set_replication_connect_quorum,
-    replication_sync_lag    = private.cfg_set_replication_sync_lag,
-    replication_sync_timeout = private.cfg_set_replication_sync_timeout,
-    replication_synchro_quorum = private.cfg_set_replication_synchro_quorum,
-    replication_synchro_timeout = private.cfg_set_replication_synchro_timeout,
+    replication_connect_timeout        = private
+        .cfg_set_replication_connect_timeout,
+    replication_connect_quorum         = private
+        .cfg_set_replication_connect_quorum,
+    replication_sync_lag               = private.cfg_set_replication_sync_lag,
+    replication_sync_timeout           = private
+        .cfg_set_replication_sync_timeout,
+    replication_synchro_quorum         = private
+        .cfg_set_replication_synchro_quorum,
+    replication_synchro_timeout        = private
+        .cfg_set_replication_synchro_timeout,
     replication_synchro_queue_max_size =
         private.cfg_set_replication_synchro_queue_max_size,
     replication_linearizable_quorum    =
         private.cfg_set_replication_linearizable_quorum,
-    replication_skip_conflict = private.cfg_set_replication_skip_conflict,
-    replication_anon        = private.cfg_set_replication_anon,
-    replication_anon_ttl    = private.cfg_set_replication_anon_ttl,
-    bootstrap_strategy      = private.cfg_set_bootstrap_strategy,
-    bootstrap_leader        = private.cfg_set_bootstrap_leader,
-    instance_uuid           = check_instance_uuid,
-    instance_name           = private.cfg_set_instance_name,
-    replicaset_uuid         = check_replicaset_uuid,
-    replicaset_name         = private.cfg_set_replicaset_name,
-    cluster_name            = private.cfg_set_cluster_name,
-    net_msg_max             = private.cfg_set_net_msg_max,
-    sql_cache_size          = private.cfg_set_sql_cache_size,
-    txn_timeout             = private.cfg_set_txn_timeout,
-    txn_synchro_timeout     = private.cfg_set_txn_synchro_timeout,
-    txn_isolation           = private.cfg_set_txn_isolation,
-    auth_type               = private.cfg_set_auth_type,
-    auth_delay              = private.cfg_set_security,
-    auth_retries            = private.cfg_set_security,
-    disable_guest           = private.cfg_set_security,
-    secure_erasing          = private.cfg_set_security,
-    password_lifetime_days  = private.cfg_set_security,
-    password_min_length     = ifdef_security(nop),
-    password_enforce_uppercase = ifdef_security(nop),
-    password_enforce_lowercase = ifdef_security(nop),
-    password_enforce_digits = ifdef_security(nop),
-    password_enforce_specialchars = ifdef_security(nop),
-    password_history_length = ifdef_security(nop),
-    wal_ext                 = private.cfg_set_wal_ext,
+    replication_skip_conflict          = private
+        .cfg_set_replication_skip_conflict,
+    replication_anon                   = private.cfg_set_replication_anon,
+    replication_anon_ttl               = private.cfg_set_replication_anon_ttl,
+    bootstrap_strategy                 = private.cfg_set_bootstrap_strategy,
+    bootstrap_leader                   = private.cfg_set_bootstrap_leader,
+    instance_uuid                      = check_instance_uuid,
+    instance_name                      = private.cfg_set_instance_name,
+    replicaset_uuid                    = check_replicaset_uuid,
+    replicaset_name                    = private.cfg_set_replicaset_name,
+    cluster_name                       = private.cfg_set_cluster_name,
+    net_msg_max                        = private.cfg_set_net_msg_max,
+    sql_cache_size                     = private.cfg_set_sql_cache_size,
+    txn_timeout                        = private.cfg_set_txn_timeout,
+    txn_synchro_timeout                = private.cfg_set_txn_synchro_timeout,
+    txn_isolation                      = private.cfg_set_txn_isolation,
+    auth_type                          = private.cfg_set_auth_type,
+    auth_delay                         = private.cfg_set_security,
+    auth_retries                       = private.cfg_set_security,
+    disable_guest                      = private.cfg_set_security,
+    secure_erasing                     = private.cfg_set_security,
+    password_lifetime_days             = private.cfg_set_security,
+    password_min_length                = ifdef_security(nop),
+    password_enforce_uppercase         = ifdef_security(nop),
+    password_enforce_lowercase         = ifdef_security(nop),
+    password_enforce_digits            = ifdef_security(nop),
+    password_enforce_specialchars      = ifdef_security(nop),
+    password_history_length            = ifdef_security(nop),
+    wal_ext                            = private.cfg_set_wal_ext,
 
     metrics                            = function()
         require('metrics').cfg(box.cfg.metrics)
@@ -914,19 +922,24 @@ local translate_cfg = {
     logger = {'log'},
     logger_nonblock = {'log_nonblock'},
     panic_on_snap_error = {'force_recovery', function(old)
-        return nil, not old end
+        return nil, not old
+    end
     },
     panic_on_wal_error = {'force_recovery', function(old)
-        return nil, not old end
+        return nil, not old
+    end
     },
     replication_source = {'replication'},
     rows_per_wal = {'wal_max_size', function(old, new)
         return old, new
     end},
     election_fencing_enabled = {'election_fencing_mode', function(old, new)
-        if new ~= nil then return nil, new
-        elseif old == false then return nil, 'off'
-        elseif old == true then return nil, 'soft'
+        if new ~= nil then
+            return nil, new
+        elseif old == false then
+            return nil, 'off'
+        elseif old == true then
+            return nil, 'soft'
         end
     end},
     replication_connect_quorum = {'bootstrap_strategy', function(old, new)

@@ -62,8 +62,10 @@ local function peer_uris(configdata)
         local isolated = instance_config:get(iconfig_def, 'isolated')
         if not is_anon and not isolated then
             local uri = instance_config:instance_uri(iconfig_def, 'peer',
-                {log_prefix = "replicaset dataflow configuration: ",
-                 self_iconfig = configdata._iconfig_def})
+                {
+                    log_prefix = "replicaset dataflow configuration: ",
+                    self_iconfig = configdata._iconfig_def
+                })
             if uri == nil then
                 log.info('%s: instance %q has no iproto.advertise.peer or ' ..
                     'iproto.listen URI suitable to create a client socket',

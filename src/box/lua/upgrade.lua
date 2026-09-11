@@ -1150,8 +1150,7 @@ local function create_func_index()
     _index:insert{_func_index.id, 0, 'primary', 'tree', {unique = true},
         {{0, 'unsigned'}, {1, 'unsigned'}}}
     _index:insert{_func_index.id, 1, 'fid', 'tree', {unique = false},
-                  {{2, 'unsigned'}}}
-
+        {{2, 'unsigned'}}}
 end
 
 local function upgrade_to_2_2_1()
@@ -1592,22 +1591,37 @@ local trig_oldest_version = nil
 -- * then usual upgrade_to_X_X_X() handlers may be fired to turn schema into the
 --   latest one.
 local recovery_triggers = {
-    {version = mkversion.new(1, 7, 1), tbl = {
-        _user   = user_trig_1_7_1,
-    }},
-    {version = mkversion.new(1, 7, 2), tbl = {
-        _index = index_trig_1_7_2,
-    }},
-    {version = mkversion.new(1, 7, 5), tbl = {
-        _space = space_trig_1_7_5,
-        _user  = user_trig_1_7_5,
-    }},
-    {version = mkversion.new(1, 7, 6), tbl = {
-        _space = space_trig_1_7_6,
-    }},
-    {version = mkversion.new(1, 7, 7), tbl = {
-        _priv   = priv_trig_1_7_7,
-    }},
+    {
+        version = mkversion.new(1, 7, 1),
+        tbl = {
+            _user = user_trig_1_7_1,
+        }
+    },
+    {
+        version = mkversion.new(1, 7, 2),
+        tbl = {
+            _index = index_trig_1_7_2,
+        }
+    },
+    {
+        version = mkversion.new(1, 7, 5),
+        tbl = {
+            _space = space_trig_1_7_5,
+            _user  = user_trig_1_7_5,
+        }
+    },
+    {
+        version = mkversion.new(1, 7, 6),
+        tbl = {
+            _space = space_trig_1_7_6,
+        }
+    },
+    {
+        version = mkversion.new(1, 7, 7),
+        tbl = {
+            _priv = priv_trig_1_7_7,
+        }
+    },
 }
 
 -- Once newer schema version is recovered (say, from an xlog following the old

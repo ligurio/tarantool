@@ -98,10 +98,12 @@ fiber._internal.set_system = fiber_set_system
 fiber._internal.set_managed_shutdown = fiber_set_managed_shutdown
 fiber._internal.cord_is_main = ffi.C.cord_is_main()
 
-setmetatable(fiber, {__serialize = function(self)
-    local res = table.copy(self)
-    res._internal = nil
-    return setmetatable(res, {})
-end})
+setmetatable(fiber, {
+    __serialize = function(self)
+        local res = table.copy(self)
+        res._internal = nil
+        return setmetatable(res, {})
+    end
+})
 
 return fiber

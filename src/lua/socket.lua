@@ -271,7 +271,8 @@ local function socket_syswrite(self, arg1, arg2)
     elseif type(arg1) == 'string' then
         return syswrite(self, arg1, #arg1)
     else
-        error('Usage: socket:syswrite(data) or socket:syswrite(const char *, size)')
+        error(
+            'Usage: socket:syswrite(data) or socket:syswrite(const char *, size)')
     end
 end
 
@@ -778,7 +779,6 @@ local function socket_write(self, octets, timeout)
         elseif not errno_is_transient[self._errno] then
             return nil
         end
-
     until not socket_writable(self, deadline - fiber.clock())
     return nil
 end
@@ -1044,7 +1044,6 @@ local function getaddrinfo(host, port, timeout, opts)
                 return nil, boxerrno.strerror()
             end
         end
-
     end
     return internal.getaddrinfo(host, port, timeout, ga_opts)
 end
@@ -1126,7 +1125,8 @@ local function tcp_connect(host, port, timeout)
 end
 
 local function tcp_server_handler(server, sc, from)
-    fiber.name(format("%s/%s:%s", server.name, from.host, from.port), {truncate = true})
+    fiber.name(format("%s/%s:%s", server.name, from.host, from.port),
+        {truncate = true})
     local status, message = pcall(server.handler, sc, from)
     sc:shutdown()
     sc:close()
@@ -1138,7 +1138,8 @@ end
 local function tcp_server_loop_impl(server, s, addr)
     addr = addr or socket_name(s) or {host = '?', port = '?'}
 
-    fiber.name(format("%s/%s:%s", server.name, addr.host, addr.port), {truncate = true})
+    fiber.name(format("%s/%s:%s", server.name, addr.host, addr.port),
+        {truncate = true})
     log.info("started")
     while socket_readable(s) do
         if socket_is_closed(s) then
@@ -1231,8 +1232,13 @@ local function tcp_server_bind(host, port, prepare, timeout)
     timeout = timeout and tonumber(timeout) or TIMEOUT_INFINITY
     local dns, err
     if host == 'unix/' then
-        dns = {{host = host, port = port, family = 'AF_UNIX', protocol = 0,
-            type = 'SOCK_STREAM' }}
+        dns = {{
+            host = host,
+            port = port,
+            family = 'AF_UNIX',
+            protocol = 0,
+            type = 'SOCK_STREAM'
+        }}
     else
         dns, err = getaddrinfo(host, port, timeout, {
             protocol = 'tcp',

@@ -346,9 +346,11 @@ for class, digest in pairs(digests) do
 end
 
 digest_api = setmetatable(digest_api,
-    {__index = function(self, digest)
-        return error('Digest method "' .. digest .. '" is not supported')
-    end })
+    {
+        __index = function(self, digest)
+            return error('Digest method "' .. digest .. '" is not supported')
+        end
+    })
 
 local hmac_api = {}
 for class, digest in pairs(hmacs) do
@@ -375,9 +377,11 @@ for class, digest in pairs(hmacs) do
 end
 
 hmac_api = setmetatable(hmac_api,
-    {__index = function(self, digest)
-        return error('HMAC method "' .. digest .. '" is not supported')
-    end })
+    {
+        __index = function(self, digest)
+            return error('HMAC method "' .. digest .. '" is not supported')
+        end
+    })
 
 local crypto_algos = {
     none = ffi.C.CRYPTO_ALGO_NONE,

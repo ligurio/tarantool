@@ -289,7 +289,6 @@ fio.dirname = function(path)
 end
 
 fio.umask = function(umask)
-
     if umask == nil then
         local old = ffi.C.umask(0)
         ffi.C.umask(old)
@@ -299,7 +298,6 @@ fio.umask = function(umask)
     umask = tonumber(umask)
 
     return ffi.C.umask(tonumber(umask))
-
 end
 
 fio.chdir = function(path)

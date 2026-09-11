@@ -283,8 +283,9 @@ local function swim_check_const_char(value, size, func_name, param_name)
         end
         size = 0
     else
-        return error(func_name..': '..param_name..' should be either string '..
-                     'or cdata')
+        return error(func_name .. ': ' ..
+            param_name .. ' should be either string ' ..
+            'or cdata')
     end
     return value, size
 end
@@ -879,8 +880,11 @@ local swim_mt = {
 }
 
 local swim_cfg_options = {
-    uri = true, heartbeat_rate = true, ack_timeout = true,
-    gc_mode = true, uuid = true
+    uri = true,
+    heartbeat_rate = true,
+    ack_timeout = true,
+    gc_mode = true,
+    uuid = true
 }
 
 --

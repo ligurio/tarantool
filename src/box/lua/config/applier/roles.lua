@@ -240,9 +240,8 @@ local function preload(config)
         for _, role_name in ipairs(early_load_roles) do
             if not roles_state.early_loaded_roles[role_name] then
                 log.error(('Role %q with the "early_load" tag was added ' ..
-                           'to the config, it cannot be loaded before the ' ..
-                           'first box.cfg call'):format(role_name))
-
+                    'to the config, it cannot be loaded before the ' ..
+                    'first box.cfg call'):format(role_name))
             end
         end
     end

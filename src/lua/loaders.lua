@@ -126,7 +126,6 @@ local function yield_builtin_loader(loader, sentinel)
         end
         return ('%s loader is used to load %s module'):format(sentinel, data)
     end, sentinel
-
 end
 
 -- Lua table with "package searchers".
@@ -357,8 +356,10 @@ if script ~= nil and script ~= '-' then
 
     rawset(searchers, 'path.app.dot', gen_file_searcher(load_lua, path.app.dot))
     rawset(searchers, 'cpath.app.dot', gen_file_searcher(load_lib, cpath.app.dot))
-    rawset(searchers, 'path.app.rocks', gen_file_searcher(load_lua, path.app.rocks))
-    rawset(searchers, 'cpath.app.rocks', gen_file_searcher(load_lib, cpath.app.rocks))
+    rawset(searchers, 'path.app.rocks',
+        gen_file_searcher(load_lua, path.app.rocks))
+    rawset(searchers, 'cpath.app.rocks',
+        gen_file_searcher(load_lib, cpath.app.rocks))
 
     -- Mix the script directory searchers into corresponding
     -- searchroot based searchers. It allows to avoid changing

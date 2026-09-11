@@ -90,7 +90,7 @@ local function error_trace(err)
         return {}
     end
     return {
-        { file = ffi.string(err._file), line = tonumber(err._line) };
+        {file = ffi.string(err._file), line = tonumber(err._line)},
     }
 end
 
@@ -129,11 +129,11 @@ local function error_set_prev(err, prev)
 end
 
 local error_fields = {
-    ["type"]        = error_type;
-    ["message"]     = error_message;
-    ["trace"]       = error_trace;
-    ["errno"]       = error_errno;
-    ["prev"]        = error_prev;
+    ["type"]      = error_type,
+    ["message"]   = error_message,
+    ["trace"]     = error_trace,
+    ["errno"]     = error_errno,
+    ["prev"]      = error_prev,
     ["base_type"] = error_base_type
 }
 

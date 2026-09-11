@@ -180,7 +180,8 @@ local function parse_output(value)
         return 'Specify output format: lua or yaml.'
     end
     if (opts or local_eos) and fmt ~= 'lua' then
-        return ("Invalid language %s, opts are available only in lua."):format(fmt)
+        return ("Invalid language %s, opts are available only in lua."):format(
+            fmt)
     end
     return nil, fmt, opts, local_eos
 end
@@ -691,7 +692,6 @@ local text_connection_mt = {
             end
             if operators[items[1]] == set_param and
                 param_handlers[items[2]] == set_continuation then
-
                 local continuation = items[3]
                 if continuation == 'on' or continuation == 'off' then
                     self.continuation_on = continuation == 'on'
@@ -1263,8 +1263,10 @@ function M.listen(uri)
         host = u.host
         port = u.service or 3313
     end
-    local s = socket.tcp_server(host, port, { handler = client_handler,
-        name = 'console'})
+    local s = socket.tcp_server(host, port, {
+        handler = client_handler,
+        name = 'console'
+    })
     if not s then
         error(string.format('failed to create server %s:%s: %s',
             host, port, errno.strerror()))

@@ -16,15 +16,15 @@ local function what()
     return d and d.what or "C"
 end
 
-mt.__newindex = function (t, n, v)
-  if not mt.__declared[n] then
-    local w = what()
-    if w ~= "main" and w ~= "C" then
-      error("assign to undeclared variable '"..n.."'", 2)
+mt.__newindex = function(t, n, v)
+    if not mt.__declared[n] then
+        local w = what()
+        if w ~= "main" and w ~= "C" then
+            error("assign to undeclared variable '" .. n .. "'", 2)
+        end
+        mt.__declared[n] = true
     end
-    mt.__declared[n] = true
-  end
-  rawset(t, n, v)
+    rawset(t, n, v)
 end
 
 mt.__index = function(t, n)

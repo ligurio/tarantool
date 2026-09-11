@@ -387,7 +387,6 @@ local target_object_map = {
 -- Iterate through requests and sync when the according flag is set.
 local function on_commit_trigger(iterator)
     for _, old_obj, new_obj, space_id in iterator() do
-
         local obj_type
         if space_id == box.schema.SPACE_ID then
             obj_type = 'space'
@@ -826,7 +825,6 @@ local function set_password(user_name, password)
         record_txn_action(('box.schema.user.passwd(%q)')
             :format(user_name))
     end
-
 end
 
 local function create_users(user_map)
@@ -987,7 +985,6 @@ end
 local function sync_object(obj_to_sync)
     if obj_to_sync.type == 'BLOCKING_FULL_SYNC' or
         obj_to_sync.type == 'BACKGROUND_FULL_SYNC' then
-
         if box.info.ro then
             log.verbose('credentials: the database is in the read-only ' ..
                 'mode. Waiting for the read-write mode to set up the ' ..
@@ -1020,7 +1017,6 @@ local function sync_object(obj_to_sync)
 
             sync_privileges(credentials)
         end)
-
     else
         local credentials = get_credentials(config)
 

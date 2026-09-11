@@ -217,9 +217,11 @@ local function manager_info(manager)
         -- iteration) or a public :info() call. Surface the failure as an alert.
         local ok, backend_info = pcall(backend_instance.info, backend_instance)
         if not ok then
-            table.insert(alerts, {message = string.format(
-                'recovery point manager %q: backend info() failed: %s',
-                manager.name, backend_info)})
+            table.insert(alerts, {
+                message = string.format(
+                    'recovery point manager %q: backend info() failed: %s',
+                    manager.name, backend_info)
+            })
         elseif backend_info ~= nil then
             if backend_info.alerts ~= nil then
                 for _, alert in ipairs(backend_info.alerts) do

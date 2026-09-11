@@ -227,18 +227,24 @@ function replicaset_methods:info()
     end
     -- Connectivity: some, or all, instances are unreachable.
     if count.unknown > 0 then
-        table.insert(info.alerts, {message = string.format(
-            'replicaset %q: %d instance(s) unreachable', rs_name,
-            count.unknown)})
+        table.insert(info.alerts, {
+            message = string.format(
+                'replicaset %q: %d instance(s) unreachable', rs_name,
+                count.unknown)
+        })
     end
     -- Leadership: too many writable leaders, or none known.
     if count.rw > 1 then
-        table.insert(info.alerts, {message = string.format(
-            'replicaset %q has more than one writable leader (%d)', rs_name,
-            count.rw)})
+        table.insert(info.alerts, {
+            message = string.format(
+                'replicaset %q has more than one writable leader (%d)', rs_name,
+                count.rw)
+        })
     elseif count.rw == 0 then
-        table.insert(info.alerts, {message = string.format(
-            'replicaset %q has no writable leader', rs_name)})
+        table.insert(info.alerts, {
+            message = string.format(
+                'replicaset %q has no writable leader', rs_name)
+        })
     end
     return info
 end

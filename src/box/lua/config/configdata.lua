@@ -1119,9 +1119,10 @@ local function new(iconfig, cconfig, instance_name)
                 instance_name), 0)
         end
     elseif bootstrap_leader == nil then
-        error(('The "bootstrap_leader" option cannot be empty for replicaset '..
-               '%q because "bootstrap_strategy" for instance %q is '..
-               '"config"'):format(found.replicaset_name, instance_name), 0)
+        error(
+            ('The "bootstrap_leader" option cannot be empty for replicaset ' ..
+                '%q because "bootstrap_strategy" for instance %q is ' ..
+                '"config"'):format(found.replicaset_name, instance_name), 0)
     else
         if peers[bootstrap_leader] == nil then
             error(('"bootstrap_leader" = %q option is set for replicaset %q ' ..

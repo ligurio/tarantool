@@ -225,7 +225,7 @@ local function test(parent, name, fun, ...)
         failed  = 0,
         planned = 0,
         trace   = parent == nil and true or parent.trace,
-        strict = parent ~= nil and parent.strict or false;
+        strict  = parent ~= nil and parent.strict or false,
     }, test_mt)
     if fun ~= nil then
         test:diag('%s', test.name)
@@ -249,8 +249,10 @@ local function check(test)
     test.checked = true
     if test.planned ~= test.total then
         if test.parent ~= nil then
-            ok(test.parent, false, "bad plan", { planned = test.planned;
-                run = test.total})
+            ok(test.parent, false, "bad plan", {
+                planned = test.planned,
+                run = test.total
+            })
         else
             diag(test, string.format("bad plan: planned %d run %d",
                 test.planned, test.total))
@@ -274,26 +276,26 @@ end
 
 test_mt = {
     __index = {
-        test      = test;
-        plan      = plan;
-        check     = check;
-        diag      = diag;
-        ok        = ok;
-        fail      = fail;
-        skip      = skip;
-        is        = is;
-        isnt      = isnt;
-        isnil     = isnil;
-        isnumber  = isnumber;
-        isstring  = isstring;
-        istable   = istable;
-        isboolean = isboolean;
+        test       = test,
+        plan       = plan,
+        check      = check,
+        diag       = diag,
+        ok         = ok,
+        fail       = fail,
+        skip       = skip,
+        is         = is,
+        isnt       = isnt,
+        isnil      = isnil,
+        isnumber   = isnumber,
+        isstring   = isstring,
+        istable    = istable,
+        isboolean  = isboolean,
         isfunction = isfunction,
-        isudata   = isudata;
-        iscdata   = iscdata;
-        is_deeply = is_deeply;
-        like      = like;
-        unlike    = unlike;
+        isudata    = isudata,
+        iscdata    = iscdata,
+        is_deeply  = is_deeply,
+        like       = like,
+        unlike     = unlike,
     }
 }
 

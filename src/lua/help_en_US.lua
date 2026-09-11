@@ -594,5 +594,5 @@ Request #20 is:
 When you’re finished, don’t type <tutorial("next")!>, just wander off
 and have a nice day.
 ]],
-    }; --[[ tutorial ]]--
+    }, --[[ tutorial ]] --
 }

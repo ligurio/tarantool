@@ -582,7 +582,11 @@ local ext_decoder = {
     -- MP_UNKNOWN_EXTENSION
     [0] = function(data, len) error("unsupported extension type") end, -- luacheck: no unused args
     -- MP_DECIMAL
-    [1] = function(data, len) local num = ffi.new("decimal_t") builtin.decimal_unpack(data, len, num) return num end,
+    [1] = function(data, len)
+        local num = ffi.new("decimal_t")
+        builtin.decimal_unpack(data, len, num)
+        return num
+    end,
     -- MP_UUID
     [2] = function(data, len)
         local uuid = ffi.new("struct tt_uuid")

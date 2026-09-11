@@ -48,13 +48,19 @@ local default_content_type = 'application/json'
 local encoders = {
     ['application/json'] = function(body, _content_type) return json.encode(body) end,
     ['application/yaml'] = function(body, _content_type) return yaml.encode(body) end,
-    ['application/msgpack'] = function(body, _content_type) return msgpack.encode(body) end,
+    ['application/msgpack'] = function(body, _content_type)
+        return msgpack
+            .encode(body)
+    end,
 }
 
 local decoders = {
     ['application/json'] = function(body, _content_type) return json.decode(body) end,
     ['application/yaml'] = function(body, _content_type) return yaml.decode(body) end,
-    ['application/msgpack'] = function(body, _content_type) return msgpack.decode(body) end,
+    ['application/msgpack'] = function(body, _content_type)
+        return msgpack
+            .decode(body)
+    end,
 }
 
 -- Extract all fields from a table except ones that start from
@@ -85,7 +91,6 @@ end
 --
 
 local http_new = function(opts)
-
     opts = opts or {}
 
     opts.max_connections = opts.max_connections or -1
@@ -280,7 +285,8 @@ local function encode_body(body, content_type, encoders)
         mime_type = string_lower(mime_type)
         local encoder = encoders[mime_type]
         if encoder == nil then
-            local msg = 'Unable to encode body: encode function is not found (%s)'
+            local msg =
+            'Unable to encode body: encode function is not found (%s)'
             error(msg:format(content_type))
         end
         local ok, res = pcall(encoder, body, content_type)
@@ -320,7 +326,8 @@ local function decode_body(response)
         error(msg:format(content_type))
     end
     if type(decoder) ~= 'function' then
-        local msg = 'Unable to decode body: decode function is not a function (%s)'
+        local msg =
+        'Unable to decode body: decode function is not a function (%s)'
         error(msg:format(content_type))
     end
     local ok, res = pcall(decoder, response.body, content_type)
@@ -407,7 +414,8 @@ local function io_read(self, opts, timeout)
             check = check_delimiter
         end
     else
-        error('Usage: io:read(delimiter|chunk|{delimiter = x, chunk = x}, timeout)')
+        error(
+            'Usage: io:read(delimiter|chunk|{delimiter = x, chunk = x}, timeout)')
     end
 
     if chunk < 0 then
@@ -591,7 +599,8 @@ curl_mt = {
                 end
                 body = encode_body(body, content_type, self.encoders)
             end
-            local resp = self.curl:request(method, url_with_params, body, opts or {})
+            local resp = self.curl:request(method, url_with_params, body,
+                opts or {})
 
             if resp and resp.headers then
                 if resp.headers['set-cookie'] ~= nil then

@@ -2939,17 +2939,23 @@ box.schema.func = {}
 box.schema.func.create = function(name, opts)
     utils.box_check_configured(2)
     opts = opts or {}
-    check_param_table(opts, { setuid = 'boolean',
-                              if_not_exists = 'boolean',
-                              language = 'string', body = 'string',
-                              is_deterministic = 'boolean',
-                              is_sandboxed = 'boolean',
-                              is_multikey = 'boolean', aggregate = 'string',
-                              takes_raw_args = 'boolean',
-                              comment = 'string',
-                              param_list = 'table', returns = 'string',
-                              exports = 'table', opts = 'table',
-                              trigger = 'string, table'}, 2)
+    check_param_table(opts, {
+        setuid = 'boolean',
+        if_not_exists = 'boolean',
+        language = 'string',
+        body = 'string',
+        is_deterministic = 'boolean',
+        is_sandboxed = 'boolean',
+        is_multikey = 'boolean',
+        aggregate = 'string',
+        takes_raw_args = 'boolean',
+        comment = 'string',
+        param_list = 'table',
+        returns = 'string',
+        exports = 'table',
+        opts = 'table',
+        trigger = 'string, table'
+    }, 2)
     local _func = box.space[box.schema.FUNC_ID]
     local _vfunc = box.space[box.schema.VFUNC_ID]
     local func = _vfunc.index.name:get{name}
@@ -2964,14 +2970,25 @@ box.schema.func.create = function(name, opts)
         opts.trigger = {opts.trigger}
     end
     local datetime = os.date("%Y-%m-%d %H:%M:%S")
-    opts = update_param_table(opts, { setuid = false, language = 'lua',
-                    body = '', routine_type = 'function', returns = 'any',
-                    param_list = {}, aggregate = 'none', sql_data_access = 'none',
-                    is_deterministic = false, is_sandboxed = false,
-                    is_null_call = true, exports = {'LUA'},
-                    opts = utils.setmap{}, comment = '',
-                    created = datetime, last_altered = datetime,
-                    trigger = {}})
+    opts = update_param_table(opts, {
+        setuid = false,
+        language = 'lua',
+        body = '',
+        routine_type = 'function',
+        returns = 'any',
+        param_list = {},
+        aggregate = 'none',
+        sql_data_access = 'none',
+        is_deterministic = false,
+        is_sandboxed = false,
+        is_null_call = true,
+        exports = {'LUA'},
+        opts = utils.setmap{},
+        comment = '',
+        created = datetime,
+        last_altered = datetime,
+        trigger = {}
+    })
     opts.language = string.upper(opts.language)
     opts.setuid = opts.setuid and 1 or 0
     if opts.is_multikey then
@@ -3224,8 +3241,11 @@ box.schema.user.create = atomic_wrapper(function(name, opts)
     utils.box_check_configured(2)
     local uid = user_or_role_resolve(name)
     opts = opts or {}
-    local template = {password = 'string', if_not_exists = 'boolean',
-                      _origin = 'string'}
+    local template = {
+        password = 'string',
+        if_not_exists = 'boolean',
+        _origin = 'string'
+    }
     check_param_table(opts, template, 2)
     local origin = opts._origin or DEFAULT_ORIGIN
     local _user = box.space[box.schema.USER_ID]

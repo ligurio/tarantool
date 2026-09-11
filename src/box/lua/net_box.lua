@@ -109,8 +109,12 @@ local function on_push_sync_default() end
 local function parse_connect_params(host_or_uri, ...) -- self? host_or_uri port? opts?
     local port, opts = ...
     if host_or_uri == this_module then host_or_uri, port, opts = ... end
-    if type(port) == 'table' then opts = port; port = nil end
-    if opts == nil then opts = {} else
+    if type(port) == 'table' then
+        opts = port; port = nil
+    end
+    if opts == nil then
+        opts = {}
+    else
         local copy = {}
         for k, v in pairs(opts) do copy[k] = v end
         opts = copy
@@ -167,7 +171,8 @@ end
 
 local remote_methods = {}
 local remote_mt = {
-    __index = remote_methods, __serialize = remote_serialize,
+    __index = remote_methods,
+    __serialize = remote_serialize,
     __metatable = false
 }
 
@@ -366,8 +371,10 @@ local function new_sm(uri_or_fd, opts)
                         else
                             return nil
                         end
-                        local space = {[id_or_name] = space_key,
-                                       _id_or_name = space_key}
+                        local space = {
+                            [id_or_name] = space_key,
+                            _id_or_name = space_key
+                        }
                         space.index = setmetatable({}, {
                             __index = function(_, idx_key)
                                 local id_or_name
@@ -388,12 +395,14 @@ local function new_sm(uri_or_fd, opts)
                                 }, remote._index_mt)
                                 space.index[idx_key] = idx_wrapper
                                 return idx_wrapper
-                            end})
+                            end
+                        })
                         local space_wrapper = setmetatable(space,
                             remote._space_mt)
                         remote.space[space_key] = space_wrapper
                         return space_wrapper
-                    end})
+                    end
+                })
             end
         elseif what == 'did_fetch_schema' then
             remote:_install_schema(...)
@@ -1379,83 +1388,81 @@ end
 
 -- net.box.self is available in the main thread only
 if fiber._internal.cord_is_main then
-
-local function rollback()
-    if rawget(box, 'rollback') ~= nil then
-        -- roll back local transaction on error
-        box.rollback()
-    end
-end
-
-local function handle_eval_result(status, ...)
-    if not status then
-        rollback()
-        return box.error(E_PROC_LUA, (...))
-    end
-    local results = {...}
-    for i = 1, select('#', ...) do
-        if type(results[i]) == 'cdata' then
-            results[i] = msgpack.decode(msgpack.encode(results[i]))
+    local function rollback()
+        if rawget(box, 'rollback') ~= nil then
+            -- roll back local transaction on error
+            box.rollback()
         end
     end
-    return unpack(results)
-end
 
-this_module.self = {
-    ping = function() return true end,
-    reload_schema = function() end,
-    close = function() end,
-    timeout = function(self) return self end,
-    wait_connected = function(self) return true end,
-    is_connected = function(self) return true end,
-    call = function(__box, proc_name, args)
-        check_remote_arg(__box, 'call')
-        check_call_args(args)
-        args = args or {}
-        proc_name = tostring(proc_name)
-        if box.ctl.is_recovery_finished() then
-            local f = box.func[proc_name]
-            if f ~= nil then
-                return handle_eval_result(pcall(f.call, f, args))
-            end
-        end
-        local status, proc, obj = pcall(box.internal.call_loadproc, proc_name)
+    local function handle_eval_result(status, ...)
         if not status then
             rollback()
-            return error(proc) -- re-throw
+            return box.error(E_PROC_LUA, (...))
         end
-        if obj ~= nil then
-            return handle_eval_result(pcall(proc, obj, unpack(args)))
-        else
+        local results = {...}
+        for i = 1, select('#', ...) do
+            if type(results[i]) == 'cdata' then
+                results[i] = msgpack.decode(msgpack.encode(results[i]))
+            end
+        end
+        return unpack(results)
+    end
+
+    this_module.self = {
+        ping = function() return true end,
+        reload_schema = function() end,
+        close = function() end,
+        timeout = function(self) return self end,
+        wait_connected = function(self) return true end,
+        is_connected = function(self) return true end,
+        call = function(__box, proc_name, args)
+            check_remote_arg(__box, 'call')
+            check_call_args(args)
+            args = args or {}
+            proc_name = tostring(proc_name)
+            if box.ctl.is_recovery_finished() then
+                local f = box.func[proc_name]
+                if f ~= nil then
+                    return handle_eval_result(pcall(f.call, f, args))
+                end
+            end
+            local status, proc, obj = pcall(box.internal.call_loadproc, proc_name)
+            if not status then
+                rollback()
+                return error(proc) -- re-throw
+            end
+            if obj ~= nil then
+                return handle_eval_result(pcall(proc, obj, unpack(args)))
+            else
+                return handle_eval_result(pcall(proc, unpack(args)))
+            end
+        end,
+        eval = function(__box, expr, args)
+            check_remote_arg(__box, 'eval')
+            check_eval_args(args)
+            args = args or {}
+            local proc, errmsg = loadstring(expr)
+            if not proc then
+                proc, errmsg = loadstring("return " .. expr)
+            end
+            if not proc then
+                rollback()
+                return box.error(box.error.PROC_LUA, errmsg)
+            end
             return handle_eval_result(pcall(proc, unpack(args)))
         end
-    end,
-    eval = function(__box, expr, args)
-        check_remote_arg(__box, 'eval')
-        check_eval_args(args)
-        args = args or {}
-        local proc, errmsg = loadstring(expr)
-        if not proc then
-            proc, errmsg = loadstring("return "..expr)
-        end
-        if not proc then
-            rollback()
-            return box.error(box.error.PROC_LUA, errmsg)
-        end
-        return handle_eval_result(pcall(proc, unpack(args)))
-    end
-}
+    }
 
-setmetatable(this_module.self, {
-    __index = function(self, key)
-        if key == 'space' then
-            -- proxy self.space to box.space
-            return require('box').space
+    setmetatable(this_module.self, {
+        __index = function(self, key)
+            if key == 'space' then
+                -- proxy self.space to box.space
+                return require('box').space
+            end
+            return nil
         end
-        return nil
-    end
-})
-
+    })
 end -- cord_is_main
 
 return this_module

@@ -204,13 +204,13 @@ local uuid_mt = {
 ffi.metatype(uuid_t, uuid_mt)
 
 return setmetatable({
-    NULL        = builtin.uuid_nil;
-    new         = uuid_new;
-    fromstr     = uuid_fromstr;
-    frombin     = uuid_frombin;
-    bin         = uuid_new_bin;   -- optimized shortcut for new():bin()
-    str         = uuid_new_str;   -- optimized shortcut for new():str()
-    is_uuid     = is_uuid;
+    NULL    = builtin.uuid_nil,
+    new     = uuid_new,
+    fromstr = uuid_fromstr,
+    frombin = uuid_frombin,
+    bin     = uuid_new_bin, -- optimized shortcut for new():bin()
+    str     = uuid_new_str, -- optimized shortcut for new():str()
+    is_uuid = is_uuid,
 }, {
     __call = uuid_new, -- shortcut for new()
 })

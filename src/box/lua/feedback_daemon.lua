@@ -437,7 +437,6 @@ local function guard_loop(self)
     fiber.name(string.format("guard of %s", PREFIX), {truncate = true})
 
     while true do
-
         if get_fiber_id(self.fiber) == 0 then
             self.fiber = fiber.create(feedback_loop, self)
             log.verbose("%s restarted", PREFIX)

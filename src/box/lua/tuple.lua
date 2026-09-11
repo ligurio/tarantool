@@ -341,21 +341,21 @@ local function tuple_field_by_path(tuple, path)
 end
 
 local methods = {
-    ["next"]        = tuple_next;
-    ["ipairs"]      = tuple_ipairs;
-    ["pairs"]       = tuple_ipairs; -- just alias for ipairs()
-    ["slice"]       = internal.tuple.slice;
-    ["transform"]   = internal.tuple.transform;
-    ["find"]        = tuple_find;
-    ["findall"]     = tuple_findall;
-    ["unpack"]      = tuple_unpack;
-    ["totable"]     = tuple_totable;
-    ["update"]      = tuple_update;
-    ["upsert"]      = tuple_upsert;
-    ["bsize"]       = tuple_bsize;
-    ["format"]      = box.tuple.format;
-    ["tomap"]       = internal.tuple.tuple_to_map;
-    ["info"]        = internal.tuple.info;
+    ["next"]      = tuple_next,
+    ["ipairs"]    = tuple_ipairs,
+    ["pairs"]     = tuple_ipairs, -- just alias for ipairs()
+    ["slice"]     = internal.tuple.slice,
+    ["transform"] = internal.tuple.transform,
+    ["find"]      = tuple_find,
+    ["findall"]   = tuple_findall,
+    ["unpack"]    = tuple_unpack,
+    ["totable"]   = tuple_totable,
+    ["update"]    = tuple_update,
+    ["upsert"]    = tuple_upsert,
+    ["bsize"]     = tuple_bsize,
+    ["format"]    = box.tuple.format,
+    ["tomap"]     = internal.tuple.tuple_to_map,
+    ["info"]      = internal.tuple.info,
 }
 
 -- Aliases for tuple:methods().

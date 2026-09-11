@@ -195,13 +195,13 @@ local ulid_mt = {
 ffi.metatype(ulid_t, ulid_mt)
 
 return setmetatable({
-    NULL        = builtin.ulid_nil;
-    new         = ulid_new;
-    fromstr     = ulid_fromstr;
-    frombin     = ulid_frombin;
-    bin         = ulid_new_bin;   -- shortcut for new():bin()
-    str         = ulid_new_str;   -- shortcut for new():str()
-    is_ulid     = is_ulid;
+    NULL    = builtin.ulid_nil,
+    new     = ulid_new,
+    fromstr = ulid_fromstr,
+    frombin = ulid_frombin,
+    bin     = ulid_new_bin, -- shortcut for new():bin()
+    str     = ulid_new_str, -- shortcut for new():str()
+    is_ulid = is_ulid,
 }, {
     __call = ulid_new, -- shortcut for new()
 })

@@ -6,7 +6,6 @@ local session = box.session
 
 setmetatable(session, {
     __index = function(tbl, idx)
-
         if idx ~= 'storage' then
             return
         end
